@@ -385,12 +385,64 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
 .kit li{font-size:.54em;color:#d5dcef;padding:.45em 0;border-top:1px solid var(--line)}
 .project{margin-top:24px;font-size:.58em;color:#d5dcef;background:var(--card2);border:1px solid #a78bfa77;border-radius:20px;padding:18px 24px;box-shadow:0 0 34px -12px #8b5cf699}
 /* cierre */
-.reveal .slides section.end{padding-top:250px}
+.reveal .slides section.end{padding-top:130px}
 .end h2{font-size:2.3em;max-width:1300px}
 .reveal .slides section.qa{padding-top:240px;text-align:center}.qa .who{justify-content:center}
 .qa h1{font-size:5em;margin:.05em 0 .2em}
 .refs{columns:2;column-gap:56px}
 .refs li{font-size:.46em;line-height:1.45;color:var(--muted);margin:.3em 0;break-inside:avoid}
+/* ── v11: nuevas diapositivas ── */
+.task .ans.now{border-color:#34d39999;background:#34d3991a;margin-top:40px}
+.task .ans.now:before{content:"🤖 2026 · "}
+.task .ans.now b{color:var(--ok)}
+.task .now-stamp{right:auto;left:22px;transform:rotate(5deg)}
+.task:has(.now.visible) .stamp.ko{opacity:.35!important}
+.today{margin-top:24px}.today .card{display:flex;flex-direction:column;min-height:330px}
+.today .yr{margin-top:auto;padding-top:.8em;font:600 .38em var(--mono);color:var(--muted)}
+.crossed{list-style:none;margin:0;padding:0}
+.crossed li{display:flex;justify-content:space-between;align-items:baseline;gap:20px;font-size:.62em;color:var(--fg);padding:.42em 0;border-bottom:1px solid var(--line)}
+.crossed li b{font:700 .8em var(--mono);color:var(--bad)}
+.bq{margin:22px 0 0;font-size:.6em;color:var(--fg)!important}
+.dl.th{background:none;border:1px dashed #22d3ee66;color:var(--muted)!important;font-style:italic;margin-right:60px}
+.dl.th b{color:var(--machine)}
+.think5{margin-top:18px;gap:36px}.think5 .card p{font-size:.52em}
+.spell{display:flex;gap:8px;margin:18px 0 8px}
+.spell span{font:700 .85em var(--mono);width:52px;height:64px;display:grid;place-items:center;border-radius:12px;background:#ffffff0a;border:1px solid var(--line2);transition:all .3s}
+.spell span.on{border-color:var(--machine);box-shadow:0 0 18px -4px var(--machine);transform:translateY(-6px)}
+.spell span.r.on{color:var(--bg);background:var(--grad);border-color:transparent;box-shadow:0 0 30px -2px #c084fc}
+.reveal .count{font:600 .6em var(--sans);color:var(--fg)}.count b{font:800 1.6em var(--mono);color:var(--human)}
+.code{font:500 .62em/1.6 var(--mono);background:#000;border:1px solid #22d3ee55;border-radius:16px;padding:20px 24px;margin:18px 0 0;color:#e2e8f0;box-shadow:none;width:auto}
+.code .out{display:inline-block;font-size:1.8em;color:var(--ok)}
+.visible .code .out{animation:popin .6s 1s cubic-bezier(.3,1.8,.5,1) both}
+@keyframes popin{from{transform:scale(0);opacity:0}}
+.reveal .train{grid-template-columns:repeat(4,1fr);gap:18px}.train .card p{font-size:.5em}.train .bub{font-size:.46em}
+.human4{margin-top:30px}.human4 .card h3{font-size:.9em}
+.takeq{list-style:none;margin:30px 0 0;padding:0}
+.takeq li{display:flex;align-items:center;gap:30px;font:400 .82em/1.3 var(--sans);color:var(--fg);padding:.55em 0;border-bottom:1px solid var(--line)}
+.takeq b{font:800 1.2em var(--mono);color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text;min-width:2.2em}
+.deck-url{margin-top:36px!important;font-size:.56em;color:var(--muted)!important}.deck-url b{color:var(--machine);font-family:var(--mono)}
+/* ── v11: movimiento ── */
+#net{opacity:.28}
+.divider-on #net{opacity:.7}
+.divider .num{background:linear-gradient(90deg,#22d3ee,#c084fc,#22d3ee,#c084fc);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 40px #8b5cf688);animation:sweep 5s linear infinite}
+@keyframes sweep{to{background-position:-150% 0}}
+.reveal .g{background-size:200% 100%;animation:sweep2 6s ease-in-out infinite alternate}
+@keyframes sweep2{to{background-position:100% 0}}
+@property --a{syntax:'<angle>';inherits:false;initial-value:0deg}
+.card{position:relative}
+.card.machine{--c:#22d3ee}.card.human{--c:#c084fc}
+.card.machine:before,.card.human:before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:2px;background:conic-gradient(from var(--a),transparent 0 65%,var(--c) 85%,transparent);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 5s linear infinite;pointer-events:none}
+@keyframes spin{to{--a:360deg}}
+.pt{animation:float 5s ease-in-out infinite alternate}
+.pt:nth-child(3n){animation-duration:6.5s}.pt:nth-child(2n){animation-delay:-2s}
+@keyframes float{to{transform:translate(-50%,calc(-50% - 10px))}}
+.attn .pulse{stroke:#fff;stroke-dasharray:6 94;filter:drop-shadow(0 0 6px #fff);animation:flow 2.2s linear infinite}
+@keyframes flow{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+.gen b.fragment:not(.visible){display:none}
+.gen:after{content:"";display:inline-block;width:3px;height:1.1em;background:var(--human);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+/* móvil: el público abre el enlace en el teléfono */
+@media(max-width:700px){.parts,.chapter,.dock .legend,.brand{display:none}.dock{bottom:10px;left:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation:none!important}}
 </style>
 </head><body>
@@ -427,29 +479,31 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
 
 <section data-part="0" data-chapter="Un juego">
   <p class="kicker">Empecemos con un juego</p>
-  <h2>Tres encargos a una IA. <span class="g">¿Cuál falló?</span></h2>
+  <h2>Tres encargos a una IA, <span class="g">en 2024</span>. ¿Cuál falló?</h2>
   <div class="grid3" style="margin-top:30px">
     <div class="task"><div class="ask">Resume la <i>Crítica de la razón pura</i> en tres frases.</div><div class="ans">Kant se pregunta qué podemos conocer. Propone que la mente ordena la experiencia…</div><span class="stamp ok fragment pop">✓ BIEN</span></div>
     <div class="task"><div class="ask">Escribe un soneto sobre la ironía.</div><div class="ans">Dice lo contrario de lo que nombra, / y en ese doble fondo nos sonríe…</div><span class="stamp ok fragment pop">✓ BIEN</span></div>
-    <div class="task"><div class="ask">¿Cuántas erres tiene la palabra <i>strawberry</i>?</div><div class="ans">La palabra «strawberry» tiene dos erres.</div><span class="stamp ko fragment pop">✗ SON TRES</span></div>
+    <div class="task"><div class="ask">¿Cuántas erres tiene la palabra <i>strawberry</i>?</div><div class="ans">La palabra «strawberry» tiene dos erres.</div><span class="stamp ko fragment pop">✗ SON TRES</span>
+      <div class="ans now fragment fade-up">s‑t‑<b>r</b>‑a‑w‑b‑e‑<b>r</b>‑<b>r</b>‑y → tiene <b>tres</b> erres.</div><span class="stamp ok now-stamp fragment pop">✓ HOY</span></div>
   </div>
-  <aside class="notes">Pide al público que vote antes de revelar. Caso real: en 2024 muchos modelos avanzados respondían que «strawberry» tiene dos erres. Lo que nos parece difícil le resultó fácil; lo que haría un niño, no.</aside>
+  <aside class="notes">Pide al público que vote antes de revelar. Caso real: en 2024 muchos modelos avanzados respondían que «strawberry» tiene dos erres; se hizo viral. Lo que nos parece difícil le resultó fácil; lo que haría un niño, no. Última pulsación: hoy los modelos aciertan, deletreando antes de contar. En dos años, un fallo «imposible de arreglar» se arregló.</aside>
 </section>
 
 <section data-part="0" data-chapter="El misterio">
   <p class="kicker">El misterio de la charla</p>
   <div class="mystery" data-fx="scramble" data-chars="abcdefghijklmnopqrstuvwxyz">strawberry</div>
-  <h2 style="text-align:center">¿Cómo puede escribir un soneto<br>y <span class="g" data-rn="underline">no saber contar letras</span>?</h2>
+  <h2 style="text-align:center">¿Por qué fallaba algo <span class="g" data-rn="underline">tan fácil</span>…<br>y por qué ya no falla?</h2>
   <p class="lead fragment fade-up" style="text-align:center;margin:1em auto 0">Para responderlo hay que entender qué hace, y qué no, una máquina con nuestro lenguaje.<br><span class="h">Lo resolveremos en la parte 03.</span></p>
-  <aside class="notes">Deja el misterio abierto: es el hilo que mantiene la atención. En la parte 03 verán que el modelo no ve letras, sino fragmentos con número.</aside>
+  <p class="fragment fade-up" style="text-align:center;margin-top:1.2em"><span class="debate">Pregunta</span> <span class="lead">Si cada año falla menos, <span class="h">¿qué nos queda a nosotros?</span></span></p>
+  <aside class="notes">Deja el misterio abierto: es el hilo que mantiene la atención. En la parte 03 verán que el modelo no ve letras, sino fragmentos con número, y que hoy acierta porque aprendió a «pensar en voz alta» y a usar herramientas. La segunda pregunta es la de toda la charla: no la respondas aún.</aside>
 </section>
 
 <section data-part="0" data-chapter="El mapa de la charla">
   <p class="kicker">El mapa de la charla</p>
-  <p class="quote">Una pregunta guía: <span class="g">¿qué hace una máquina con nuestro lenguaje, y qué sigue siendo nuestro?</span></p>
+  <p class="quote">Una pregunta guía: <span class="g">¿qué hace una máquina con nuestro lenguaje, y qué sigue siendo humano?</span></p>
   <div class="road">
-    <div class="fragment fade-up"><b>Reflexión sobre la IA</b><span>Qué es, qué ha cambiado y cuatro miedos</span><q>¿Qué sigue siendo nuestro?</q></div>
-    <div class="fragment fade-up"><b>Evolución</b><span>Un manual en cuatro capítulos</span><q>¿Cómo hemos llegado aquí?</q></div>
+    <div class="fragment fade-up"><b>Reflexión sobre la IA</b><span>Qué es, qué ha cambiado, qué es lo humano y cuatro miedos</span><q>¿Qué sigue siendo humano?</q></div>
+    <div class="fragment fade-up"><b>Evolución</b><span>Un manual en cuatro capítulos y un epílogo</span><q>¿Cómo hemos llegado aquí?</q></div>
     <div class="fragment fade-up"><b>Cómo funciona</b><span>Cómo responde y cómo aprendió</span><q>¿Qué hace por dentro?</q></div>
     <div class="fragment fade-up"><b>Perfiles</b><span>Trabajos y tareas para quien sabe de lenguaje</span><q>¿Y yo qué pinto aquí?</q></div>
   </div>
@@ -461,7 +515,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
   <p class="num g" data-fx="scramble" data-chars="0123456789">01</p>
   <h2>Reflexión sobre la IA</h2>
   <p class="guide">¿Qué es, qué ha cambiado y por qué nos da miedo?</p>
-  <div class="pills"><span class="pill">¿Qué es?</span><span class="pill">¿Qué ha cambiado?</span><span class="pill">¿Qué nos asusta?</span></div>
+  <div class="pills"><span class="pill">¿Qué es?</span><span class="pill">¿Qué ha cambiado?</span><span class="pill">¿Qué es lo humano?</span><span class="pill">¿Qué nos asusta?</span></div>
 </section>
 
 <section data-part="1" data-chapter="¿Qué es?">
@@ -490,7 +544,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
   <div class="meter"><div class="knob"></div></div>
   <div class="meter-l"><span class="h">La persona se adapta a la máquina</span><span class="m">La máquina se adapta a la persona</span></div>
   <span class="fragment marker e1"></span><span class="fragment marker e2"></span><span class="fragment marker e3"></span><span class="fragment marker e4"></span><span class="fragment marker e5"></span>
-  <aside class="notes">Pulsa para avanzar por las cinco épocas. El indicador inferior muestra quién hace el esfuerzo de adaptarse. Remate oral: «Antes aprendíamos el idioma de la máquina; ahora la máquina intenta aprender el nuestro». Andrej Karpathy lo resumió en 2023: el lenguaje de programación más popular ya es el inglés. Y el lenguaje natural es ambiguo: por eso la lingüística pasa a primer plano.</aside>
+  <aside class="notes">Pulsa para avanzar por las cinco épocas. El indicador inferior muestra quién hace el esfuerzo de adaptarse. Remate oral: «Antes aprendíamos el idioma de la máquina; ahora la máquina intenta aprender el nuestro». Andrej Karpathy lo resumió en 2023: «el lenguaje de programación de moda es el inglés». Y el lenguaje natural es ambiguo: por eso la lingüística pasa a primer plano.</aside>
 </section>
 
 <section data-part="1" data-chapter="¿Qué ha cambiado? · La interfaz">
@@ -502,6 +556,44 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
     <div class="card human fragment fade-up"><span class="ico">🧭</span><h3>Por eso importa la lingüística</h3><p>Saber cómo se construye el significado ayuda a pedir, evaluar y diseñar.</p></div>
   </div>
   <aside class="notes">Esta es la razón de que una charla de lingüística hable de IA: el lenguaje natural se ha convertido en la interfaz principal entre personas y máquinas.</aside>
+</section>
+
+<section data-part="1" data-chapter="¿Qué ha cambiado? · La IA hoy">
+  <p class="kicker"><b>01</b> ¿Qué ha cambiado? <i>· la IA en 2026</i></p>
+  <h2>Ya no solo habla: <span class="g">razona, actúa y descubre</span>.</h2>
+  <div class="grid4 today">
+    <div class="card machine fragment fade-up"><span class="ico">🧠</span><h3>Razona</h3><p>Antes de responder escribe sus pasos, como quien piensa en voz alta, y revisa sus errores.</p><span class="yr">desde 2024</span></div>
+    <div class="card machine fragment fade-up"><span class="ico">🛠️</span><h3>Actúa</h3><p>Busca en internet, ejecuta código y maneja programas: encadena tareas como un <i>agente</i>.</p><span class="yr">2024–2026</span></div>
+    <div class="card machine fragment fade-up"><span class="ico">👁️</span><h3>Ve y oye</h3><p>Una foto, una voz o un vídeo también son entrada. Ya no vive solo de texto.</p><span class="yr">2023–2026</span></div>
+    <div class="card human fragment fade-up"><span class="ico">🔭</span><h3>Descubre… con ayuda</h3><p>Oro en la Olimpiada Internacional de Matemáticas. Algoritmos nuevos: el modelo propone y <b>un evaluador</b> filtra.</p><span class="yr">2023–2025</span></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:.9em">Lo que cambió no es solo el modelo: es <span class="h">el sistema que lo rodea</span>. Herramientas, evaluadores… y personas que deciden qué buscar.</p>
+  <p class="src">Razonamiento: OpenAI o1 (2024), DeepSeek‑R1 (2025) · IMO 2025: Google DeepMind y OpenAI, nivel de oro · FunSearch (<i>Nature</i>, 2023) · AlphaEvolve (2025).</p>
+  <aside class="notes">Estado del arte en una diapositiva. Razonar: los «modelos de razonamiento» generan una cadena de pasos antes de la respuesta. Actuar: los agentes llaman a herramientas (buscador, código, navegador) y encadenan acciones. Descubrir: en julio de 2025 dos sistemas lograron puntuación de oro en la IMO; FunSearch encontró nuevas construcciones para el problema del cap set y AlphaEvolve un método para multiplicar matrices 4×4 complejas con 48 multiplicaciones (mejora un récord de 1969). La clave para la charla: el descubrimiento sale de un sistema (modelo + evaluador + personas que definen el problema), no del modelo a solas.</aside>
+</section>
+
+<section data-part="1" data-chapter="¿Qué es lo humano?">
+  <p class="kicker"><b>01</b> ¿Qué es lo humano?</p>
+  <div class="grid2" style="grid-template-columns:1.05fr 1fr;align-items:center;gap:60px">
+    <div>
+      <p class="tag">«Una máquina nunca podrá…»</p>
+      <ul class="crossed">
+        <li class="fragment fade-up"><span data-rn="strike-through" data-rn-color="#fb7185">ganar al campeón de ajedrez</span><b>1997</b></li>
+        <li class="fragment fade-up"><span data-rn="strike-through" data-rn-color="#fb7185">ganar al go</span><b>2016</b></li>
+        <li class="fragment fade-up"><span data-rn="strike-through" data-rn-color="#fb7185">traducir con naturalidad</span><b>2016</b></li>
+        <li class="fragment fade-up"><span data-rn="strike-through" data-rn-color="#fb7185">escribir un soneto</span><b>2022</b></li>
+        <li class="fragment fade-up"><span data-rn="strike-through" data-rn-color="#fb7185">contar las erres de <i>strawberry</i></span><b>2024</b></li>
+        <li class="fragment fade-up"><span data-rn="strike-through" data-rn-color="#fb7185">ganar un oro en la Olimpiada de Matemáticas</span><b>2025</b></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Si lo humano es <span class="m">lo que la máquina aún no sabe hacer</span>…</h2>
+      <p class="lead fragment fade-up">…cada año somos <b>un poco menos humanos</b>. Algo falla en la definición.</p>
+      <p class="lead fragment fade-up">Busquemos otra: no en lo que a la máquina le falta, sino en <span class="h" data-rn="underline">lo que nosotros somos</span>.</p>
+      <p class="fragment fade-up" style="margin-top:1em"><span class="debate">Pregunta</span> <span class="lead">¿Qué es lo humano? Cuatro miedos nos ayudarán a buscarlo.</span></p>
+    </div>
+  </div>
+  <aside class="notes">Cada pulsación tacha una frontera que se dio por insuperable: Deep Blue (1997), AlphaGo (2016), traducción neuronal (2016), ChatGPT (2022), modelos de razonamiento (finales de 2024; el de OpenAI se llamaba en clave, precisamente, «Strawberry»), IMO 2025. Es la tesis de la charla: definir lo humano «por lo que falta» es una batalla perdida. Lo buscaremos en otro sitio: la experiencia, el juicio, el sentido y la responsabilidad.</aside>
 </section>
 
 
@@ -551,7 +643,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
     </div>
   </div>
   <p class="src" style="margin-top:14px"><span class="didactic">relación didáctica</span> Cynefin clasifica situaciones; la correspondencia con formas de pensar es una propuesta para la charla.</p>
-  <div class="balance fragment"><span class="bt">Balance · Miedo 1 · Razonar</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Muy fuerte en lo claro y lo complicado: aplicar reglas y encontrar patrones en cantidades enormes de datos. En lo complejo y lo caótico, el debate sigue abierto.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Elegir qué hipótesis merece la pena comprobar y darse cuenta de que conviene cambiar la pregunta.</div></div></div>
+  <div class="balance fragment"><span class="bt">Balance · Miedo 1 · Razonar</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Muy fuerte en lo claro y lo complicado: reglas y patrones a escala enorme. Hoy también propone hipótesis plausibles y resuelve problemas de olimpiada. En lo complejo y lo caótico, el debate está abierto.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Elegir qué hipótesis importa, comprobarla en el mundo real y darse cuenta de que conviene cambiar la pregunta.</div></div><p class="bq"><span class="debate">Pregunta</span> ¿Quién decide qué problema merece la pena resolver?</p></div>
   <aside class="notes">Vuelve a las llaves: si siempre están en el abrigo, el problema es claro; si hay que revisar dónde aparecieron otras veces, complicado; si hay pistas raras, complejo; si llegas tarde a un examen, caótico: actúa ya (pide que te abran) y piensa después. Para el debate: los sistemas actuales son muy buenos en lo claro (reglas, programas) y en lo complicado (inducción a gran escala). Se discute cuánto llegan a lo complejo y a lo caótico.</aside>
 </section>
 
@@ -598,7 +690,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
     </div>
   </div>
   <p class="src">Kitsch: Clement Greenberg, «Avant-garde and kitsch», 1939.</p>
-  <div class="balance fragment"><span class="bt">Balance · Miedo 2 · Crear</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Recombina lo que ya existe y tiende a lo más probable: fluido, correcto… y previsible.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Reconocer el valor de lo inesperado, como Fleming ante el moho, y decidir si algo es un error o un hallazgo.</div></div></div>
+  <div class="balance fragment"><span class="bt">Balance · Miedo 2 · Crear</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Tiende a lo más probable: fluido, correcto… y previsible. Pero con un evaluador automático que filtra miles de intentos, ya ha encontrado soluciones nuevas (FunSearch, AlphaEvolve).</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Decidir qué merece la pena buscar, qué cuenta como «mejor» y reconocer el valor de lo inesperado, como Fleming ante el moho.</div></div><p class="bq"><span class="debate">Pregunta</span> Si una máquina encuentra algo nuevo, ¿quién decide si es un hallazgo?</p></div>
   <aside class="notes">Tesis para debatir: la IA recombina lo que conoce y gravita hacia lo probable. Se puede forzar a salir del centro (subiendo la «temperatura»), pero eso produce sobre todo ruido; reconocer qué salida tiene valor es, hoy, un juicio humano, como el de Fleming ante el moho. Objeción legítima: los humanos también producimos kitsch.</aside>
 </section>
 
@@ -607,25 +699,25 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
   <p class="kicker"><b>Miedo 3/4</b> «Ya piensa como nosotros» <i>· el debate de fondo</i></p>
   <h2>¿Simular perfectamente el pensamiento <span class="g">es pensar</span>?</h2>
   <div class="grid2">
-    <div class="card machine fragment fade-up"><span class="tag m">IA débil · «simula»</span><h3>Reproduce conductas inteligentes</h3><p>Es una herramienta poderosa, pero simular una mente no es tenerla.</p><p style="margin-top:.8em"><b>Filosofía de fondo:</b> dualismo (Descartes). La mente no se reduce a materia ni a cálculo.</p></div>
-    <div class="card human fragment fade-up"><span class="tag h">IA fuerte · «piensa»</span><h3>Un programa adecuado sería una mente</h3><p>Con comprensión y estados mentales propios.</p><p style="margin-top:.8em"><b>Filosofía de fondo:</b> monismo, funcionalismo. Si un cerebro produce una mente, otro sistema bien organizado también podría.</p></div>
+    <div class="card machine fragment fade-up"><span class="tag m">IA débil · «simula»</span><h3>Reproduce conductas inteligentes</h3><p>Es una herramienta poderosa, pero simular una mente no es tenerla.</p><p style="margin-top:.8em"><b>Por ejemplo, Searle:</b> la mente surge de la biología concreta del cerebro; un programa, por sí solo, no basta. (El dualismo de Descartes llega a algo parecido por otro camino: la mente no es materia.)</p></div>
+    <div class="card human fragment fade-up"><span class="tag h">IA fuerte · «piensa»</span><h3>Un programa adecuado sería una mente</h3><p>Con comprensión y estados mentales propios.</p><p style="margin-top:.8em"><b>Filosofía de fondo:</b> funcionalismo. Lo que importa es la organización, no el material: si un cerebro produce una mente, otro sistema bien organizado también podría.</p></div>
   </div>
   <p class="lead fragment fade-up" style="margin-top:1em">Dos experimentos mentales famosos ponen a prueba cada postura.</p>
   <p class="src">La distinción «IA débil / IA fuerte» es de John Searle (1980).</p>
-  <aside class="notes">Presenta ambas posiciones con la misma fuerza; entre dualismo y monismo hay muchas posiciones intermedias. No hay que decidir aquí.</aside>
+  <aside class="notes">Presenta ambas posiciones con la misma fuerza. Ojo: Searle no es dualista; es materialista («naturalismo biológico»), pero cree que la mente depende de la biología, no solo del programa. Monismo y dualismo son un mapa más amplio: hay muchas posiciones intermedias. No hay que decidir aquí.</aside>
 </section>
 
 <section data-part="1" data-chapter="Miedo 3 de 4 · Entender">
   <p class="kicker"><b>Miedo 3/4</b> «Ya piensa como nosotros» <i>· dos experimentos</i></p>
   <div class="ts">
     <div class="card machine">
-      <span class="tag m">Turing, 1950 · a favor de la IA fuerte</span>
+      <span class="tag m">Turing, 1950 · la conducta basta</span>
       <h3>El juego de imitación</h3>
       <div class="doors"><div class="door"><span class="lbl">A</span><span class="who2">🙋</span></div><div class="judge">🧑‍⚖️</div><div class="door"><span class="lbl">B</span><span class="who2">🤖</span></div></div>
       <p>Un juez conversa por escrito con A y con B sin verlos. <b>Si no distingue cuál es la máquina, ¿qué razón tiene para negar que piensa?</b></p>
     </div>
     <div class="card human fragment fade-up">
-      <span class="tag h">Searle, 1980 · a favor de la IA débil</span>
+      <span class="tag h">Searle, 1980 · la conducta no basta</span>
       <h3>La habitación china</h3>
       <div class="room"><div class="sym">你好吗？</div><div class="box"><strong>Alguien que no sabe chino</strong><div class="rules">📖 SI ves 你好吗<br>&nbsp;&nbsp;&nbsp;ESCRIBE 我很好</div></div><div class="sym">我很好</div><span class="flyer in">你好吗</span><span class="flyer out">我很好</span></div>
       <p>Siguiendo un libro de reglas, la habitación responde perfecto y pasaría el test. Pero dentro <b>nadie entiende nada</b>: <span data-rn="highlight" data-rn-color="#8b5cf655">sintaxis sin semántica</span>.</p>
@@ -633,8 +725,8 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
   </div>
   <p class="lead fragment fade-up" style="margin-top:.9em"><span class="debate">Debate</span> ¿Qué tendría que hacer una máquina para que dijerais que <span class="g">entiende</span>?</p>
   <span class="fragment marker unmask"></span>
-  <div class="balance fragment"><span class="bt">Balance · Miedo 3 · Entender</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Supera muchas pruebas de conducta: a menudo no la distinguimos de una persona por escrito.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Decidir qué cuenta como «entender». Searle nos deja una pregunta sobre el lenguaje: ¿basta manejar símbolos para que signifiquen algo? Es el miedo 4.</div></div></div>
-  <aside class="notes">Turing cambia una pregunta difícil («¿piensa?») por una prueba de conducta. Searle responde que la conducta no basta. Respuestas a Searle, por si salen en el debate: la del sistema (entiende el conjunto, no la persona) y la del robot (dadle cuerpo y sensores). La última pulsación revela quién estaba detrás de cada puerta.</aside>
+  <div class="balance fragment"><span class="bt">Balance · Miedo 3 · Entender</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Supera pruebas de conducta: en un test de Turing de 2025, GPT‑4.5 fue tomado por humano el 73 % de las veces.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Decidir qué cuenta como «entender». Ninguna prueba de conducta lo zanja: es una decisión sobre qué significa la palabra.</div></div><p class="bq"><span class="debate">Pregunta</span> ¿Basta manejar símbolos para que signifiquen algo? Es el miedo 4.</p></div>
+  <aside class="notes">Turing cambia una pregunta difícil («¿piensa?») por una prueba de conducta; Jones y Bergen (2025) la repitieron con modelos actuales y GPT‑4.5 fue elegido como «el humano» el 73 % de las veces. Searle responde que la conducta no basta. Respuestas a Searle, por si salen en el debate: la del sistema (entiende el conjunto, no la persona) y la del robot (dadle cuerpo y sensores). La última pulsación revela quién estaba detrás de cada puerta.</aside>
 </section>
 
 <!-- Miedo 4 · Hablar -->
@@ -662,7 +754,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
 <section data-part="1" data-chapter="Miedo 4 de 4 · Fuera del texto">
   <p class="kicker"><b>Miedo 4/4</b> «Ya habla como nosotros» <i>· lo que el texto deja fuera</i></p>
   <h2>¿Qué se queda <span class="g">fuera del texto</span>?</h2>
-  <p class="textpill">📄 Un modelo de lenguaje recibe solo <b>texto</b>. Cuatro teorías señalan lo que el texto no trae:</p>
+  <p class="textpill">📄 Un modelo aprende sobre todo de <b>texto</b> (y cada vez más de imágenes y sonido), pero no vive en el mundo. Cuatro teorías señalan lo que falta:</p>
   <div class="gaps">
     <div class="card fragment fade-up"><span class="tag">Anclaje del símbolo · Harnad 1990</span><h3>🌍 Falta el mundo</h3><p class="idea2">Si cada palabra se define con otras palabras, el significado nunca toca las cosas.</p><p class="ex">Aprender chino con un diccionario chino-chino: «dolor → sensación → sentir → dolor…». Nosotros salimos del círculo porque nos ha dolido algo.</p><p class="prob">El modelo sabe cómo se usa «dolor», no qué se siente.</p></div>
     <div class="card fragment fade-up"><span class="tag">Cognición corporeizada · Lakoff y Johnson 1980</span><h3>🫀 Falta el cuerpo</h3><p class="idea2">Muchas metáforas nacen de la experiencia del cuerpo.</p><p class="ex">«Estoy de bajón», «me subió el ánimo», «una idea pesada»: lo triste está abajo; lo difícil, pesa.</p><p class="prob">Sin cuerpo, ¿qué significa «abajo» o «pesado»?</p></div>
@@ -670,7 +762,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
     <div class="card fragment fade-up"><span class="tag">Relatividad lingüística · Sapir y Whorf</span><h3>🔭 Falta la mirada de cada lengua</h3><p class="idea2">Cada lengua orienta lo que notamos.</p><p class="ex"><span class="blues"><i style="background:#7fb6e6">голубой</i><i style="background:#1f3f9a">синий</i></span>El ruso tiene dos azules básicos; en guugu yimithirr no se dice «izquierda», sino «al norte del plato».</p><p class="prob">Aprende sobre todo de textos en inglés: ¿qué mirada hereda?</p></div>
   </div>
   <p class="lead fragment fade-up" style="margin-top:.7em">Y falta una quinta cosa, la más cotidiana: <span class="h">la situación</span>.</p>
-  <aside class="notes">La idea que une las cuatro: el modelo recibe texto, y el significado humano también se apoya en el mundo, el cuerpo, la práctica y la propia lengua. Matices: de Sapir-Whorf solo se sostiene la versión débil (Winawer et al., 2007; Levinson, 2003). Los modelos que también ven imágenes u oyen audio intentan acortar la distancia: debate abierto. La quinta es la pragmática, en la siguiente.</aside>
+  <aside class="notes">La idea que une las cuatro: el modelo recibe texto, y el significado humano también se apoya en el mundo, el cuerpo, la práctica y la propia lengua. Matices: de Sapir-Whorf solo se sostiene la versión débil (Winawer et al., 2007; Levinson, 2003). Los modelos actuales también ven imágenes y oyen audio, y algunos controlan robots: acortan la distancia, pero ver una foto de un fuego no es quemarse. Debate abierto. La quinta es la pragmática, en la siguiente.</aside>
 </section>
 
 <section data-part="1" data-chapter="Miedo 4 de 4 · Pragmática">
@@ -683,10 +775,10 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
     <div class="say">«Hace frío aquí.»</div>
   </div>
   <span class="fragment marker s1"></span><span class="fragment marker s2"></span><span class="fragment marker s3"></span>
-  <p class="lead fragment fade-up">La pragmática estudia lo que <b>hacemos</b> al hablar, más allá de lo que <b>decimos</b>. Un modelo solo tiene el texto; nosotros, <span class="h">la escena compartida</span>.</p>
+  <p class="lead fragment fade-up">La pragmática estudia lo que <b>hacemos</b> al hablar, más allá de lo que <b>decimos</b>. Si le describes la escena, un modelo actual la interpreta muy bien. El problema: <span class="h">la escena no viene en el texto</span>, y alguien tiene que ponerla.</p>
   <div class="chips fragment fade-up" style="margin-top:10px"><span>«¿Tienes hora?» → dime la hora</span><span>«Aprobaron algunos» → no todos</span><span>«Genial, otra vez lluvia» → ironía</span><span>«Déjalo ahí mañana» → ¿dónde?, ¿cuándo?</span></div>
-  <div class="balance fragment"><span class="bt">Balance · Miedo 4 · Hablar</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Ha aprendido el lenguaje de millones de textos y lo usa con una fluidez asombrosa.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Aportar lo que el texto no trae: el mundo, el cuerpo, el uso y la escena compartida que da sentido a «Hace frío aquí».</div></div></div>
-  <aside class="notes">Pulsa tres veces para cambiar de escena. Austin (1962): hablar es hacer cosas. Grice (1975): lo que se comunica va más allá de lo que se dice.</aside>
+  <div class="balance fragment"><span class="bt">Balance · Miedo 4 · Hablar</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Ha aprendido el lenguaje de billones de palabras y lo usa con una fluidez asombrosa. Si le describes la escena, capta ironías e indirectas.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Vivir la escena: el mundo, el cuerpo, el uso y la situación compartida que da sentido a «Hace frío aquí»… y saber ponerla en palabras.</div></div><p class="bq"><span class="debate">Pregunta</span> ¿Puede haber sentido sin haber vivido nada?</p></div>
+  <aside class="notes">Pulsa tres veces para cambiar de escena. Austin (1962): hablar es hacer cosas. Grice (1975): lo que se comunica va más allá de lo que se dice. Honestidad: los modelos actuales resuelven bien casos como «¿Tienes hora?» o la ironía si el texto da pistas; los estudios (PUB 2024; Yu et al. 2026) encuentran un perfil desigual, no un «no puede». Lo que no tienen es la escena: si solo escribes «Hace frío aquí», no saben si estás en un coche o en la playa.</aside>
 </section>
 
 <section data-part="1" data-chapter="01 · Recapitulando">
@@ -708,7 +800,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
   <p class="num g" data-fx="scramble" data-chars="0123456789">02</p>
   <h2>Evolución de la IA</h2>
   <p class="guide">¿Cómo hemos llegado hasta aquí?</p>
-  <div class="pills"><span class="pill">Un manual en cuatro capítulos</span></div>
+  <div class="pills"><span class="pill">Cuatro capítulos y un epílogo</span></div>
 </section>
 
 <section data-part="2" data-chapter="El manual">
@@ -719,13 +811,14 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
         <li>La era de la estadística <span>1990</span></li>
         <li>La era del significado aprendido <span>2013</span></li>
         <li>La era generativa <span>2017</span></li>
+        <li style="list-style:none;margin-left:-1.1em"><i>Epílogo · razonar y actuar</i> <span>2024</span></li>
       </ol><p style="font:italic .5em var(--serif);color:#5d564b;margin-top:2em">Cada capítulo termina con la pregunta que obligó a escribir el siguiente.</p></div>
-      <div class="coverb"><div><p style="letter-spacing:.2em;text-transform:uppercase">Manual de bolsillo</p><h3>Breve historia de las máquinas que aprendieron a hablar</h3></div><p>4 capítulos · 70 años</p></div>
+      <div class="coverb"><div><p style="letter-spacing:.2em;text-transform:uppercase">Manual de bolsillo</p><h3>Breve historia de las máquinas que aprendieron a hablar</h3></div><p>4 capítulos y un epílogo · 75 años</p></div>
     </div>
     <div>
       <p class="kicker"><b>02</b> Evolución <i>· el manual</i></p>
       <h2>Abramos el libro.</h2>
-      <p class="lead">Cuatro capítulos. Cada uno resuelve un problema… y deja otro abierto.</p>
+      <p class="lead">Cuatro capítulos y un epílogo que se está escribiendo. Cada uno resuelve un problema… y deja otro abierto.</p>
       <span class="fragment marker openbook"></span>
     </div>
   </div>
@@ -745,7 +838,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
       <p class="dl u">Mi jefe tampoco.</p><p class="dl b">¿Por qué dices eso?</p>
       <p class="note" style="margin-top:1em">Regla: si aparece «madre», preguntar por la familia. Si no hay regla, respuesta comodín.</p></div>
   </div>
-  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:20%"></div></div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:87%">2024</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:20%"></div></div>
   <aside class="notes">ELIZA imitaba a un psicoterapeuta con reglas de palabras clave, y mucha gente le atribuía comprensión (el «efecto ELIZA»). Enlaza con Turing y Searle: es la línea de comandos del capítulo de interfaces.</aside>
 </section>
 
@@ -762,7 +855,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
       <div class="bars"><div><span>días</span><i style="--p:100%"></i><small>63 %</small></div><div><span>aires</span><i style="--p:12%"></i><small>8 %</small></div><div><span>tiempos</span><i style="--p:9%"></i><small>6 %</small></div></div>
       <p class="note" style="margin-top:1em">Cifras ilustrativas. También: traductores y correctores estadísticos.</p></div>
   </div>
-  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:51%"></div></div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:87%">2024</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:51%"></div></div>
   <aside class="notes">Modelos de n-gramas. La idea de predecir la siguiente palabra no desaparece: vuelve en el capítulo 4 a escala gigantesca.</aside>
 </section>
 
@@ -786,14 +879,14 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
       </svg>
       <p class="note" style="text-align:center;font-family:var(--mono)!important">rey − hombre + mujer ≈ reina</p></div>
   </div>
-  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:68%"></div></div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:87%">2024</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:68%"></div></div>
   <aside class="notes">Es la hipótesis distribucional del miedo 4 convertida en matemáticas. La analogía rey/reina es el ejemplo clásico y funciona solo de forma aproximada.</aside>
 </section>
 
 <section data-auto-animate data-part="2" data-chapter="Capítulo 4 · Generativa">
   <div class="chap">
     <div>
-      <span class="ribbon" data-id="rib">Capítulo 4 · 2017–hoy</span>
+      <span class="ribbon" data-id="rib">Capítulo 4 · 2017–2024</span>
       <h2 data-id="ct">La era <span class="g">generativa</span></h2>
       <p class="idea" data-id="idea"><b>Idea clave</b>La atención: cada palabra mira a todas las demás de la frase y ajusta su significado según el contexto. Después se predice la siguiente.</p>
       <p class="why fragment fade-up" data-id="why"><b>Pregunta abierta</b>Genera texto muy verosímil. Pero lo verosímil no siempre es verdadero.</p>
@@ -803,8 +896,26 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
       <p class="dl u">Saqué dinero del <b>banco</b>.</p>
       <p class="note" style="margin-top:1em">Con atención, «banco» recibe una representación distinta en cada frase: el problema del capítulo 3 queda resuelto.</p></div>
   </div>
-  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:86%"></div></div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:87%">2024</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:80%"></div></div>
   <aside class="notes">«Attention Is All You Need» (Vaswani et al., 2017). Sobre esa arquitectura se construyen GPT, Claude, Gemini, etc. Un LLM no borra los capítulos anteriores: los contiene todos, y lo veremos en la parte 03.</aside>
+</section>
+
+<section data-auto-animate data-part="2" data-chapter="Epílogo · Razonar y actuar">
+  <div class="chap">
+    <div>
+      <span class="ribbon" data-id="rib">Epílogo · 2024–hoy</span>
+      <h2 data-id="ct">La era de <span class="g">razonar y actuar</span></h2>
+      <p class="idea" data-id="idea"><b>Idea clave</b>Antes de responder, el modelo escribe sus pasos. Y puede usar herramientas: buscador, calculadora, código.</p>
+      <p class="why fragment fade-up" data-id="why"><b>Pregunta abierta</b>Ya no solo escribe: actúa. Si se equivoca al actuar, ¿quién responde?</p>
+    </div>
+    <div class="demo" data-id="demo"><div class="t">Ejemplo · un modelo de razonamiento</div>
+      <p class="dl u">¿Cuántas erres tiene <i>strawberry</i>?</p>
+      <p class="dl th">💭 Deletreo: s‑t‑<b>r</b>‑a‑w‑b‑e‑<b>r</b>‑<b>r</b>‑y. Erres en las posiciones 3, 8 y 9.</p>
+      <p class="dl b">Tiene tres erres.</p>
+      <p class="note" style="margin-top:1em">El misterio del principio, resuelto. Por qué funciona: parte 03, paso 5.</p></div>
+  </div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:87%">2024</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:94%"></div></div>
+  <aside class="notes">Modelos de razonamiento: OpenAI o1 (septiembre de 2024; nombre en clave «Strawberry»), DeepSeek‑R1 (enero de 2025, abierto). Generan una cadena de pasos antes de responder; se entrenan premiando las respuestas que se pueden comprobar. Agentes: el modelo llama a herramientas y encadena acciones. El libro no está terminado: este capítulo se escribe ahora, y quizá lo escribáis vosotros.</aside>
 </section>
 
 <!-- ═══════════════ 03 · CÓMO FUNCIONA ═══════════════ -->
@@ -812,7 +923,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
   <p class="num g" data-fx="scramble" data-chars="0123456789">03</p>
   <h2>Cómo funciona un LLM</h2>
   <p class="guide">¿Qué hace cuando le escribimos? ¿Y cómo aprendió a hacerlo? Por el camino, resolveremos el misterio de las erres.</p>
-  <div class="pills"><span class="pill">Responder: 4 pasos</span><span class="pill">Aprender: 3 etapas</span></div>
+  <div class="pills"><span class="pill">Responder: 5 pasos</span><span class="pill">Aprender: 4 etapas</span></div>
 </section>
 
 <section data-part="3" data-chapter="Dos preguntas">
@@ -821,17 +932,17 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
   <p class="lead" style="margin-top:-.4em">LLM: <i>large language model</i>, un modelo grande de lenguaje. Para entenderlo, separemos dos momentos.</p>
   <div class="lanes">
     <div class="card machine lane fragment fade-up"><span class="when">Cada vez que le escribes · en segundos</span><h3>¿Cómo responde?</h3>
-      <div class="mini"><span><i>✂️</i>1 · Trocear</span><span><i>🧭</i>2 · Situar</span><span><i>👀</i>3 · Mirar el contexto</span><span><i>🎯</i>4 · Predecir y repetir</span></div></div>
+      <div class="mini"><span><i>✂️</i>1 · Trocear</span><span><i>🧭</i>2 · Situar</span><span><i>👀</i>3 · Mirar el contexto</span><span><i>🎯</i>4 · Predecir y repetir</span><span><i>💭</i>5 · Pensar y usar herramientas</span></div></div>
     <div class="card human lane fragment fade-up"><span class="when">Antes, una sola vez · durante meses</span><h3>¿Cómo aprendió?</h3>
-      <div class="mini"><span><i>📚</i>1 · Leer y adivinar</span><span><i>🧑‍🏫</i>2 · Imitar ejemplos</span><span><i>👍</i>3 · Aprender qué preferimos</span></div></div>
+      <div class="mini"><span><i>📚</i>1 · Leer y adivinar</span><span><i>🧑‍🏫</i>2 · Imitar ejemplos</span><span><i>👍</i>3 · Aprender qué preferimos</span><span><i>🧩</i>4 · Practicar problemas</span></div></div>
   </div>
   <p class="lead fragment fade-up" style="margin-top:1em">Seguiremos una sola frase de principio a fin: <span class="h">«Fui al banco a sacar…»</span></p>
-  <aside class="notes">Simplificación didáctica. Primero, lo que pasa cada vez que alguien escribe (4 pasos); después, cómo se fabricó el modelo (3 etapas). Los capítulos del manual reaparecen: trocear y predecir (cap. 2), el mapa de significado (cap. 3), la atención (cap. 4).</aside>
+  <aside class="notes">Simplificación didáctica. Primero, lo que pasa cada vez que alguien escribe (5 pasos); después, cómo se fabricó el modelo (4 etapas). Los capítulos del manual reaparecen: trocear y predecir (cap. 2), el mapa de significado (cap. 3), la atención (cap. 4).</aside>
 </section>
 
 <section data-auto-animate data-part="3" data-chapter="Paso 1 · Trocear">
   <p class="kicker"><b>Paso 1</b> Trocear <span class="didactic">cortes y números ilustrativos</span></p>
-  <div class="stepbar"><span class="on">1 · Trocear</span><span class="">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span></div>
+  <div class="stepbar"><span class="on">1 · Trocear</span><span class="">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span><span class="">5 · Pensar</span></div>
   <h2 data-id="t1">El texto se trocea en piezas, y cada pieza es <span class="m">un número</span>.</h2>
   <p class="sent" data-id="sent">Fui al banco a sacar</p>
   <div class="toks fragment fade-up">
@@ -848,8 +959,8 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
 
 <section data-auto-animate data-part="3" data-chapter="Paso 1 · El misterio resuelto">
   <p class="kicker"><b>Paso 1</b> ¿Os acordáis del misterio?</p>
-  <div class="stepbar"><span class="on">1 · Trocear</span><span class="">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span></div>
-  <h2 data-id="t1">Por eso no sabía <span class="g">contar las erres</span>.</h2>
+  <div class="stepbar"><span class="on">1 · Trocear</span><span class="">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span><span class="">5 · Pensar</span></div>
+  <h2 data-id="t1">Por eso le costaba <span class="g">contar las erres</span>.</h2>
   <div class="grid2" style="align-items:center;margin-top:20px">
     <div>
       <p class="tag">Lo que vemos nosotros</p>
@@ -862,12 +973,12 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
       <p class="lead fragment fade-up">Lo que para nosotros es trivial depende de una unidad, la letra, que <span class="h" data-rn="underline">el modelo no ve directamente</span>.</p>
     </div>
   </div>
-  <aside class="notes">Es la explicación más citada, aunque no la única. Los modelos actuales suelen acertar, por mejor entrenamiento o porque usan herramientas, como escribir un pequeño programa que cuente. Números ilustrativos.</aside>
+  <aside class="notes">Es la explicación más citada, aunque no la única. Números ilustrativos (tokenizador de GPT‑4). En el paso 5 veremos por qué hoy acierta.</aside>
 </section>
 
 <section data-part="3" data-chapter="Paso 2 · Situar">
   <p class="kicker"><b>Paso 2</b> Situar <span class="didactic">proyección simplificada a 2D</span></p>
-  <div class="stepbar"><span class="done">1 · Trocear</span><span class="on">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span></div>
+  <div class="stepbar"><span class="done">1 · Trocear</span><span class="on">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span><span class="">5 · Pensar</span></div>
   <div class="emb">
     <div class="plane">
       <div class="cluster" style="left:3%;top:6%;width:330px;height:270px">dinero</div>
@@ -891,7 +1002,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
 
 <section data-part="3" data-chapter="Paso 3 · Mirar el contexto">
   <p class="kicker"><b>Paso 3</b> Mirar el contexto <span class="didactic">pesos ilustrativos</span></p>
-  <div class="stepbar"><span class="done">1 · Trocear</span><span class="done">2 · Situar</span><span class="on">3 · Mirar el contexto</span><span class="">4 · Predecir</span></div>
+  <div class="stepbar"><span class="done">1 · Trocear</span><span class="done">2 · Situar</span><span class="on">3 · Mirar el contexto</span><span class="">4 · Predecir</span><span class="">5 · Pensar</span></div>
   <h2>Para saber qué es «banco», <span class="g">mira a las demás palabras</span>.</h2>
   <div class="attn">
     <svg viewBox="0 0 1376 330" preserveAspectRatio="none" aria-hidden="true">
@@ -908,7 +1019,7 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
 
 <section data-part="3" data-chapter="Paso 4 · Predecir">
   <p class="kicker"><b>Paso 4</b> Predecir <span class="didactic">probabilidades ilustrativas</span></p>
-  <div class="stepbar"><span class="done">1 · Trocear</span><span class="done">2 · Situar</span><span class="done">3 · Mirar el contexto</span><span class="on">4 · Predecir</span></div>
+  <div class="stepbar"><span class="done">1 · Trocear</span><span class="done">2 · Situar</span><span class="done">3 · Mirar el contexto</span><span class="on">4 · Predecir</span><span class="">5 · Pensar</span></div>
   <h2>Calcula <span class="g">qué pieza viene después</span>… y repite.</h2>
   <div class="pred">
     <div>
@@ -920,32 +1031,51 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
       <div class="bars fragment"><div><span>fotos</span><i style="--p:100%"></i><small>34 %</small></div><div><span>al perro</span><i style="--p:62%"></i><small>21 %</small></div><div><span>la merienda</span><i style="--p:38%"></i><small>13 %</small></div><div><span>dinero</span><i style="--p:12%"></i><small>4 %</small></div></div>
     </div>
   </div>
-  <p class="gen"><span class="base">Fui al banco a sacar</span><b class="fragment">dinero</b><b class="fragment">para</b><b class="fragment">pagar</b><b class="fragment">el</b><b class="fragment">alquiler.</b></p>
-  <p class="lead fragment fade-up">Así escribe: <b>una pieza cada vez</b>. No consulta hechos: <span class="m" data-rn="underline" data-rn-color="#22d3ee">calcula lo verosímil</span>. Por eso puede inventar con total seguridad.</p>
+  <p class="gen"><span class="base">Fui al banco a sacar</span><b class="fragment" data-fx="scramble">dinero</b><b class="fragment" data-fx="scramble">para</b><b class="fragment" data-fx="scramble">pagar</b><b class="fragment" data-fx="scramble">el</b><b class="fragment" data-fx="scramble">alquiler.</b></p>
+  <p class="lead fragment fade-up">Así escribe: <b>una pieza cada vez</b>. Por sí solo no consulta hechos: <span class="m" data-rn="underline" data-rn-color="#22d3ee">calcula lo verosímil</span>. Por eso, sin un buscador, puede inventar con total seguridad.</p>
   <aside class="notes">Cifras inventadas. Dos palabras más («del parque») cambian toda la distribución. Las piezas punteadas muestran el bucle: cada pieza elegida se añade a la frase y se vuelve a calcular. Lo verosímil no siempre es lo verdadero: de ahí las «alucinaciones».</aside>
 </section>
 
-<section data-part="3" data-chapter="Aprender · 3 etapas">
+<section data-part="3" data-chapter="Paso 5 · Pensar y usar herramientas">
+  <p class="kicker"><b>Paso 5</b> Pensar en voz alta y usar herramientas <i>· lo nuevo desde 2024</i></p>
+  <div class="stepbar"><span class="done">1 · Trocear</span><span class="done">2 · Situar</span><span class="done">3 · Mirar el contexto</span><span class="done">4 · Predecir</span><span class="on">5 · Pensar</span></div>
+  <h2>Por qué <span class="g">hoy sí acierta</span> con las erres.</h2>
+  <div class="grid2 think5">
+    <div class="card machine"><span class="tag m">Opción A · escribir los pasos</span>
+      <p>Antes de responder, genera piezas «de borrador». Si escribe la palabra letra a letra, cada letra pasa a ser una pieza que <b>sí puede ver</b>.</p>
+      <div class="spell" id="spell"><span>s</span><span>t</span><span class="r">r</span><span>a</span><span>w</span><span>b</span><span>e</span><span class="r">r</span><span class="r">r</span><span>y</span></div>
+      <p class="count">erres: <b id="rcount">0</b></p></div>
+    <div class="card machine fragment fade-up"><span class="tag m">Opción B · usar una herramienta</span>
+      <p>O escribe un pequeño programa, lo ejecuta y lee el resultado. Ya no adivina: <b>calcula</b>.</p>
+      <pre class="code"><span class="m">&gt;&gt;&gt;</span> "strawberry".count("r")
+<b class="out">3</b></pre></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:.8em">Sigue siendo el paso 4, predecir piezas, pero con un borrador y con herramientas. <span class="h">Alguien tuvo que enseñarle cuándo merece la pena pensar</span>: lo vemos ahora.</p>
+  <aside class="notes">Simplificación didáctica. Opción A: los modelos de razonamiento generan una cadena de pasos antes de la respuesta final; al deletrear, cada letra se convierte en su propio token y contar es fácil. Opción B: el modelo genera una llamada a una herramienta (aquí, Python), el sistema la ejecuta y le devuelve el resultado. El misterio queda resuelto: no es que «vea» mejor, es que ahora sabe rodear su punto ciego.</aside>
+</section>
+
+<section data-part="3" data-chapter="Aprender · 4 etapas">
   <p class="kicker"><b>03</b> ¿Cómo aprendió? <span class="didactic">respuestas ilustrativas</span></p>
-  <h2>Una pregunta, <span class="g">tres etapas de entrenamiento</span>.</h2>
+  <h2>Una pregunta, <span class="g">cuatro etapas de entrenamiento</span>.</h2>
   <p class="task-line"><span>La pregunta</span> ¿Cuál es la capital de Francia?</p>
   <div class="train">
-    <div class="card machine fragment fade-up"><span class="step">1</span><span class="tag m">Preentrenamiento · máquina</span><h3>📚 Leer y adivinar</h3><p>Lee billones de palabras tapando la siguiente e intentando adivinarla. Así aprende la lengua y mucho sobre el mundo.</p><div class="bub bad">¿Cuál es la capital de Alemania? ¿Y la de Italia?</div><p class="cap2">Sabe continuar textos, no conversar: cree que es una lista de preguntas de examen.</p></div>
+    <div class="card machine fragment fade-up"><span class="step">1</span><span class="tag m">Preentrenamiento · máquina</span><h3>📚 Leer y adivinar</h3><p>Lee unas <b data-count="15000000000000">15.000.000.000.000</b> piezas de texto tapando la siguiente e intentando adivinarla. Así aprende la lengua y mucho del mundo.</p><div class="bub bad">¿Cuál es la capital de Alemania? ¿Y la de Italia?</div><p class="cap2">Sabe continuar textos, no conversar: cree que es una lista de preguntas de examen.</p></div>
     <div class="card human fragment fade-up"><span class="step">2</span><span class="tag h">Ajuste con ejemplos · personas</span><h3>🧑‍🏫 Imitar ejemplos</h3><p>Personas escriben miles de conversaciones modelo: una pregunta y una buena respuesta.</p><div class="bub">La capital de Francia es París.</div><p class="cap2">Aprende a contestar y a seguir instrucciones.</p></div>
     <div class="card human fragment fade-up"><span class="step">3</span><span class="tag h">Preferencias · personas</span><h3>👍 Aprender qué preferimos</h3><p>Personas comparan dos respuestas y eligen la mejor.</p><div class="bub">A · París. ¿Quieres saber algo más de la ciudad? 👍</div><div class="bub bad">B · Obviamente, París. Lo sabe todo el mundo. 👎</div><p class="cap2">Aprende tono, utilidad y prudencia.</p></div>
+    <div class="card machine fragment fade-up"><span class="step">4</span><span class="tag m">Práctica · máquina</span><h3>🧩 Practicar problemas</h3><p>Resuelve miles de problemas cuya respuesta se puede comprobar (matemáticas, código). Se premia lo que acierta.</p><div class="bub good">17 × 23 = ? 💭 17×20 = 340; 17×3 = 51 → 391 ✓</div><p class="cap2">Aprende a «pensar» antes de responder. Personas eligen qué problemas y qué cuenta como acierto.</p></div>
   </div>
-  <p class="lead fragment fade-up" style="margin-top:.8em">En las etapas 2 y 3, personas deciden qué es una buena respuesta: <span class="h">decisiones sobre el lenguaje</span>.</p>
-  <aside class="notes">Etapa 1: el modelo «base» solo continúa textos; ante una pregunta puede seguir con más preguntas, porque en internet las preguntas suelen ir en listas. Etapa 2: ajuste supervisado con ejemplos escritos por personas. Etapa 3: aprendizaje por refuerzo a partir de preferencias humanas (RLHF; Ouyang et al., 2022). Las respuestas son ilustrativas. Aquí se ve por qué hacen falta los perfiles de la parte 04.</aside>
+  <p class="lead fragment fade-up" style="margin-top:.8em">En cada etapa, personas deciden qué es una buena respuesta: <span class="h">decisiones sobre el lenguaje y sobre lo que valoramos</span>.</p>
+  <aside class="notes">Etapa 1: el modelo «base» solo continúa textos; ante una pregunta puede seguir con más preguntas, porque en internet las preguntas suelen ir en listas. Etapa 2: ajuste supervisado con ejemplos escritos por personas. Etapa 3: aprendizaje por refuerzo a partir de preferencias humanas (RLHF; Ouyang et al., 2022). Etapa 4: aprendizaje por refuerzo con recompensas comprobables (DeepSeek‑R1, 2025): así surgen los modelos que «piensan». El orden real varía entre laboratorios; esto es un esquema. Las respuestas son ilustrativas. Aquí se ve por qué hacen falta los perfiles de la parte 04.</aside>
 </section>
 
 <section data-part="3" data-chapter="03 · En resumen">
   <p class="kicker"><b>03</b> En resumen</p>
   <h2>Aprendió leyendo a <span class="m">predecir la siguiente pieza</span>, y personas le enseñaron <span class="h">a conversar</span>.</h2>
-  <p class="lead">Eso explica sus aciertos… y también sus fallos:</p>
+  <p class="lead">Eso explica sus aciertos, sus fallos… y por qué los va corrigiendo:</p>
   <div class="grid4 sumup">
-    <div class="card machine fragment fade-up"><span class="ico">🍓</span><h3>No ve letras</h3><p>Ve piezas con número. De ahí el misterio de las erres.</p><span class="tag m">Paso 1</span></div>
-    <div class="card machine fragment fade-up"><span class="ico">🎯</span><h3>Calcula lo verosímil</h3><p>No lo verdadero. Por eso a veces inventa con seguridad.</p><span class="tag m">Paso 4</span></div>
-    <div class="card human fragment fade-up"><span class="ico">📄</span><h3>Solo recibe texto</h3><p>Le falta el mundo, el cuerpo, el uso y la situación.</p><span class="tag h">Miedo 4</span></div>
+    <div class="card machine fragment fade-up"><span class="ico">🍓</span><h3>No ve letras…</h3><p>…pero aprendió a deletrear y a usar herramientas. Por eso ya acierta.</p><span class="tag m">Pasos 1 y 5</span></div>
+    <div class="card machine fragment fade-up"><span class="ico">🎯</span><h3>Calcula lo verosímil</h3><p>No lo verdadero. Sin herramientas, a veces inventa con seguridad.</p><span class="tag m">Paso 4</span></div>
+    <div class="card human fragment fade-up"><span class="ico">📄</span><h3>Aprende de lo escrito</h3><p>No vive la situación: el mundo, el cuerpo y la escena se los ponemos nosotros.</p><span class="tag h">Miedo 4</span></div>
     <div class="card human fragment fade-up"><span class="ico">🧑‍🏫</span><h3>Depende de personas</h3><p>Alguien decide qué es una buena respuesta.</p><span class="tag h">Parte 04</span></div>
   </div>
   <aside class="notes">Resumen de toda la parte en una frase. Las cuatro tarjetas atan cabos: el misterio de la introducción, las alucinaciones, el miedo 4 y la parte siguiente.</aside>
@@ -1029,15 +1159,34 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
 <section class="end" data-part="5" data-chapter="Para cerrar">
   <p class="kicker">Para cerrar</p>
   <h2>Las máquinas ya hablan.<br><span class="g">El sentido sigue siendo <span data-rn="underline">una pregunta abierta</span>.</span></h2>
-  <p class="lead fragment fade-up">Y una tarea compartida: diseñar una IA consciente de sus límites, que tenga en cuenta cómo somos. Para eso hace falta gente que sepa de lenguaje.</p>
-  <aside class="notes">«Consciente de sus límites» en el sentido de saber representar y comunicar lo que no sabe, no de consciencia subjetiva. El título era una pregunta, y la dejamos abierta a propósito.</aside>
+  <div class="grid4 human4">
+    <div class="card human fragment fade-up"><span class="ico">🌍</span><h3>Vivir</h3><p>el mundo, el cuerpo y la escena que dan sentido a las palabras.</p></div>
+    <div class="card human fragment fade-up"><span class="ico">🧭</span><h3>Elegir</h3><p>qué pregunta hacer y qué problema merece la pena.</p></div>
+    <div class="card human fragment fade-up"><span class="ico">💎</span><h3>Valorar</h3><p>reconocer el hallazgo y decidir qué es «bueno».</p></div>
+    <div class="card human fragment fade-up"><span class="ico">🤝</span><h3>Responder</h3><p>hacerse cargo de las consecuencias.</p></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:.9em">Lo humano no es la lista de lo que la máquina aún no sabe hacer. Es <span class="h">lo que no queremos dejar de hacer nosotros</span>. Diseñar una IA consciente de sus límites, que tenga en cuenta cómo somos, es tarea compartida: necesita gente que sepa de lenguaje.</p>
+  <aside class="notes">Vuelta a la diapositiva de las fronteras tachadas: esa lista seguirá encogiendo. Las cuatro tarjetas son una propuesta, no una respuesta cerrada. «Consciente de sus límites» en el sentido de saber representar y comunicar lo que no sabe, no de consciencia subjetiva. El título era una pregunta, y la dejamos abierta a propósito.</aside>
+</section>
+
+<section data-part="5" data-chapter="Preguntas para llevaros">
+  <p class="kicker">Para llevaros</p>
+  <h2>Cuatro preguntas <span class="g">sin respuesta cerrada</span>.</h2>
+  <ol class="takeq">
+    <li class="fragment fade-up"><b data-fx="scramble" data-chars="0123456789">01</b><span>¿Qué tendría que hacer una máquina para que dijerais que <span class="h">entiende</span>?</span></li>
+    <li class="fragment fade-up"><b data-fx="scramble" data-chars="0123456789">02</b><span>Si una IA encuentra algo nuevo, ¿quién decide si es <span class="h">un hallazgo</span>?</span></li>
+    <li class="fragment fade-up"><b data-fx="scramble" data-chars="0123456789">03</b><span>¿Qué parte de vuestro trabajo es <span class="m">preparación</span> y cuál es <span class="h">juicio</span>?</span></li>
+    <li class="fragment fade-up"><b data-fx="scramble" data-chars="0123456789">04</b><span>¿Lo humano es lo que la máquina no puede hacer… <span class="g">o lo que decidimos no delegar</span>?</span></li>
+  </ol>
+  <aside class="notes">Deja las preguntas en pantalla durante el turno de preguntas: sirven para arrancar el debate si nadie se anima.</aside>
 </section>
 
 <section class="qa" data-part="5" data-chapter="Gracias" data-hero>
   <p class="kicker">Gracias</p>
   <h1 class="g">¿Preguntas?</h1>
   <div class="who" style="margin-top:24px"><div class="avatar photo"></div><div style="text-align:left"><strong style="font-size:.78em">Adrián Gázquet</strong><p class="note" style="margin:.2em 0 0">Filólogo · lingüista computacional</p></div></div>
-  <aside class="notes">Añade aquí tu contacto o tu web si quieres compartirlos.</aside>
+  <p class="deck-url">La presentación, en vuestro móvil: <b>gabuftw.github.io/las-maquinas-ya-hablan</b></p>
+  <aside class="notes">Añade aquí tu contacto o tu web si quieres compartirlos. La URL lleva a esta misma presentación publicada en GitHub Pages.</aside>
 </section>
 
 <section data-part="5" data-chapter="Referencias">
@@ -1065,6 +1214,10 @@ section:has(.ctx-b.visible) .marg{left:75%;top:70%}
     <li>Vaswani, A. et al. (2017). Attention Is All You Need.</li>
     <li>Ouyang, L. et al. (2022). Training language models to follow instructions with human feedback.</li>
     <li>Stanovsky, G. et al. (2019). Evaluating Gender Bias in Machine Translation. <i>ACL</i>.</li>
+    <li>Romera‑Paredes, B. et al. (2023). Mathematical discoveries from program search with large language models (FunSearch). <i>Nature</i>.</li>
+    <li>Novikov, A. et al. (2025). AlphaEvolve: A coding agent for scientific and algorithmic discovery. Google DeepMind.</li>
+    <li>DeepSeek‑AI (2025). DeepSeek‑R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning.</li>
+    <li>Jones, C. y Bergen, B. (2025). Large Language Models Pass the Turing Test.</li>
   </ul>
 </section>
 
@@ -1089,7 +1242,7 @@ const names=['Inicio','01 Reflexión','02 Evolución','03 Cómo funciona','04 Pe
 document.querySelector('#menu-cols').innerHTML=names.map((n,p)=>{let last='';const items=slides.map((s,i)=>{const c=s.dataset.chapter;if(+s.dataset.part!==p||c===last)return'';last=c;return`<button data-i="${i}">${c}</button>`}).join('');return`<div class="grp"><b>${n}</b>${items}</div>`}).join('');
 menu.addEventListener('click',e=>{const i=e.target.dataset.i;if(i!==undefined){Reveal.slide(+i);toggleMenu(false)}else if(e.target===menu)toggleMenu(false)});
 function toggleMenu(force){const open=force??!menu.classList.contains('open');menu.classList.toggle('open',open);if(open){const cur=Reveal.getIndices().h;menu.querySelectorAll('button').forEach(b=>b.classList.toggle('cur',+b.dataset.i<=cur&&slides[cur].dataset.chapter===b.textContent))}}
-const sync=({currentSlide:s})=>{const p=+s.dataset.part;chapter.textContent=s.dataset.chapter||'';parts.forEach((el,i)=>{el.classList.toggle('on',i===p);el.classList.toggle('done',i<p)});document.body.classList.toggle('hero','hero' in s.dataset)};
+const sync=({currentSlide:s})=>{const p=+s.dataset.part;chapter.textContent=s.dataset.chapter||'';parts.forEach((el,i)=>{el.classList.toggle('on',i===p);el.classList.toggle('done',i<p)});document.body.classList.toggle('hero','hero' in s.dataset);document.body.classList.toggle('divider-on',s.classList.contains('divider'))};
 
 // ── Efectos (GSAP + Rough Notation) ──
 gsap.registerPlugin(ScrambleTextPlugin,DrawSVGPlugin);
@@ -1105,24 +1258,40 @@ function enter(s){
   if(motion)s.querySelectorAll('.draw').forEach(p=>gsap.fromTo(p,{drawSVG:'0%'},{drawSVG:'100%',duration:1.6,delay:+(p.dataset.delay||.2),ease:'power2.inOut'}));
   if(motion){
         s.querySelectorAll('.stagger>*:not(.fragment)').forEach((el,i)=>gsap.from(el,{y:40,opacity:0,filter:'blur(8px)',duration:.8,delay:.15+i*.08,ease:'power3.out'}));
-    if(s.querySelector('.divider .num')||s.classList.contains('divider'))gsap.from(s.querySelectorAll('h2,.guide,.pill'),{y:30,opacity:0,duration:.8,stagger:.08,delay:.3,ease:'power3.out'});
+    if(s.classList.contains('divider')){gsap.from(s.querySelectorAll('h2,.guide,.pill'),{y:30,opacity:0,duration:.8,stagger:.08,delay:.3,ease:'power3.out'});gsap.from(s.querySelector('.num'),{scale:2.4,opacity:0,filter:'blur(30px)',duration:1.1,ease:'expo.out'});burst()}
+    // entrada común: kicker desde la izquierda, título y entradilla con desenfoque
+    else if(!('autoAnimate' in s.dataset)&&!s.classList.contains('cover')){
+      gsap.from(s.querySelectorAll(':scope>.kicker'),{x:-50,opacity:0,duration:.7,ease:'power3.out'});
+      gsap.from(s.querySelectorAll(':scope>h2,:scope>.quote,:scope>.lead:not(.fragment),:scope>.grid2>div>h2'),{y:36,opacity:0,filter:'blur(10px)',duration:.9,stagger:.1,delay:.12,ease:'power3.out'});
+    }
+    s.querySelectorAll('.pulse').forEach(e=>e.remove());
+    s.querySelectorAll('.attn path.draw').forEach(p=>{const c=p.cloneNode();c.removeAttribute('class');c.removeAttribute('style');c.classList.add('pulse');c.setAttribute('pathLength',100);c.style.animationDelay=(+(p.dataset.delay||0)+1.6)+'s';c.style.opacity=0;p.after(c);gsap.to(c,{opacity:1,delay:+(p.dataset.delay||0)+1.6})});
   }
+  const sp=s.querySelector('.spell');if(sp)spell(sp);
+  s.querySelectorAll('[data-count]').forEach(el=>{if(!pending(el))count(el)});
   setTimeout(()=>{if(Reveal.getCurrentSlide()===s)s.querySelectorAll('[data-rn]').forEach(el=>{if(!pending(el))annotate(el)})},motion?900:0);
 }
+// Contador animado (15 billones de piezas…)
+function count(el){const to=+el.dataset.count,fmt=v=>Math.round(v).toLocaleString('es-ES');if(!motion){el.textContent=fmt(to);return}const o={v:0};gsap.to(o,{v:to,duration:2.2,delay:.4,ease:'expo.out',onUpdate:()=>el.textContent=fmt(o.v)})}
+// Paso 5: deletrear strawberry y contar las erres
+function spell(sp){const ls=[...sp.children],out=document.getElementById('rcount');ls.forEach(l=>l.classList.remove('on'));out.textContent=0;
+  if(!motion){ls.forEach(l=>l.classList.add('on'));out.textContent=3;return}
+  ls.forEach((l,i)=>gsap.delayedCall(.8+i*.38,()=>{l.classList.add('on');out.textContent=sp.querySelectorAll('.r.on').length;if(l.classList.contains('r'))gsap.fromTo(out,{scale:1.8},{scale:1,duration:.4,ease:'back.out(3)'})}))}
 Reveal.on('ready',e=>{sync(e);enter(e.currentSlide);hero()});
 Reveal.on('slidechanged',e=>{sync(e);clearNotes();gsap.globalTimeline.getChildren().forEach(t=>t.progress(1).kill());enter(e.currentSlide);hero()});
-Reveal.on('fragmentshown',e=>e.fragments.forEach(f=>{f.querySelectorAll('[data-fx="scramble"]').forEach((el,i)=>scramble(el,i*.08));[f,...f.querySelectorAll('[data-rn]')].forEach(el=>el.dataset&&el.dataset.rn&&setTimeout(()=>annotate(el),400))}));
+Reveal.on('fragmentshown',e=>e.fragments.forEach(f=>{[f,...f.querySelectorAll('[data-fx="scramble"]')].filter(el=>el.dataset.fx==='scramble').forEach((el,i)=>scramble(el,i*.08));f.querySelectorAll('[data-count]').forEach(count);if(motion&&f.classList.contains('toks'))gsap.from(f.children,{y:-110,scale:.3,rotation:()=>gsap.utils.random(-40,40),opacity:0,stagger:.09,duration:.8,ease:'back.out(1.8)'});[f,...f.querySelectorAll('[data-rn]')].forEach(el=>el.dataset&&el.dataset.rn&&setTimeout(()=>annotate(el),400))}));
 Reveal.on('fragmentshown',e=>{if(motion&&e.fragment.classList.contains('openbook'))gsap.from('.tbook li',{x:-30,opacity:0,stagger:.15,delay:1,duration:.6})});
 Reveal.on('fragmenthidden',e=>e.fragments.forEach(f=>clearNotes(f)));
 Reveal.on('resize',()=>notes.forEach(fixScale));
 
 // ── Red de palabras de fondo (portada y despedida) ──
 const cv=document.getElementById('net'),cx=cv.getContext('2d');let W,H,run=false;
-const nodes=Array.from({length:70},()=>({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.0006,vy:(Math.random()-.5)*.0006,c:Math.random()<.5?'34,211,238':'182,156,255'}));
+const nodes=Array.from({length:70},()=>{const vx=(Math.random()-.5)*.0006,vy=(Math.random()-.5)*.0006;return{x:Math.random(),y:Math.random(),vx,vy,bx:vx,by:vy,c:Math.random()<.5?'34,211,238':'182,156,255'}});
+function burst(){for(const n of nodes){const dx=n.x-.5,dy=n.y-.5,d=Math.hypot(dx,dy)||1;n.vx+=dx/d*.012;n.vy+=dy/d*.012}}
 const size=()=>{W=cv.width=innerWidth*devicePixelRatio;H=cv.height=innerHeight*devicePixelRatio};size();addEventListener('resize',size);
-function tick(){if(!run)return;cx.clearRect(0,0,W,H);for(const n of nodes){n.x=(n.x+n.vx+1)%1;n.y=(n.y+n.vy+1)%1}
+function tick(){if(!run)return;cx.clearRect(0,0,W,H);for(const n of nodes){n.vx=n.vx*.97+n.bx*.03;n.vy=n.vy*.97+n.by*.03;n.x=(n.x+n.vx+1)%1;n.y=(n.y+n.vy+1)%1}
   for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const a=nodes[i],b=nodes[j],dx=(a.x-b.x)*W,dy=(a.y-b.y)*H,d=Math.hypot(dx,dy),lim=180*devicePixelRatio;
     if(d<lim){cx.strokeStyle=`rgba(${a.c},${(1-d/lim)*.35})`;cx.lineWidth=devicePixelRatio;cx.beginPath();cx.moveTo(a.x*W,a.y*H);cx.lineTo(b.x*W,b.y*H);cx.stroke()}}
   for(const n of nodes){cx.fillStyle=`rgba(${n.c},.9)`;cx.beginPath();cx.arc(n.x*W,n.y*H,2.2*devicePixelRatio,0,7);cx.fill()}requestAnimationFrame(tick)}
-function hero(){const on=document.body.classList.contains('hero')&&motion;if(on&&!run){run=true;tick()}else if(!on)run=false}
+function hero(){const on=motion;if(on&&!run){run=true;tick()}else if(!on)run=false}
 </script></body></html>

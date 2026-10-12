@@ -1,4 +1,6 @@
-# Presentación UNIR
+# Presentación UNIR · «Las máquinas ya hablan»
+
+**En línea:** https://gabuftw.github.io/las-maquinas-ya-hablan/
 
 Abre `index.html` en un navegador (Chrome recomendado). Funciona sin conexión: Reveal.js, GSAP y Rough Notation van incluidos en `vendor/`.
 
@@ -13,4 +15,4 @@ Abre `index.html` en un navegador (Chrome recomendado). Funciona sin conexión: 
 Código visual: **cian** = lo que hace la máquina · **violeta** = lo que aporta la persona.
 Lo marcado en amarillo («ilustrativo») simplifica a propósito; las notas del ponente indican qué es simplificación.
 
-`index-v1.html` … `index-v9.html` conservan las versiones anteriores. Cada miedo de la parte 01 termina con un «balance» (última pulsación): qué hace la IA hoy y dónde seguimos haciendo falta.
+Las versiones se gestionan con git (las antiguas `index-v*.html` quedan solo en local). Cada miedo de la parte 01 termina con un «balance» (última pulsación): qué hace la IA hoy y dónde seguimos haciendo falta.
