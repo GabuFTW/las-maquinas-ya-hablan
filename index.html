@@ -575,6 +575,18 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:
 .jstep b{display:block;font-size:.7em;letter-spacing:-.02em;margin:.25em 0 .3em}
 .jstep p{font-size:.48em;margin:0}
 .reveal .conv{font-size:.95em;margin-top:1.1em;max-width:1300px}
+/* v14 · misterio unificado */
+.mystery2{display:grid;grid-template-columns:1fr 1.15fr;gap:36px;margin-top:10px;align-items:start}
+.why24 .letters span{width:40px;height:50px;font-size:.75em}
+.why24 .toks{margin:6px 0}.why24 .tok span{font-size:.8em}
+.why24>p:last-child{font-size:.5em}
+.ways{display:flex;flex-direction:column;gap:12px}
+.way{background:var(--card);border:1px solid #22d3ee55;border-radius:18px;padding:12px 18px}
+.way>b{font-size:.56em;color:var(--machine)}.way p{font-size:.48em;margin:.25em 0 0}
+.way:last-child{border-color:#a78bfa77}.way:last-child>b{color:var(--human)}
+.way .spell{margin:8px 0 0;gap:6px}.way .spell span{width:38px;height:46px;font-size:.62em}
+.way .count{font-size:.48em;margin:.3em 0 0}
+.code1{font:600 .95em var(--mono);color:var(--fg);background:#000;border:1px solid #22d3ee55;border-radius:8px;padding:.15em .5em}.code1 b{color:var(--ok)}
 /* móvil: el público abre el enlace en el teléfono */
 @media(max-width:700px){.parts,.chapter,.dock .legend,.brand{display:none}.dock{bottom:10px;left:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation:none!important}}
@@ -794,14 +806,14 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:
 <!-- Espejo 1 · Razonar -->
 <section data-part="1" data-chapter="Espejo 1 · Razonar">
   <p class="kicker"><b>Espejo 1/4</b> ¿Razona? <i>· cuatro formas de pensar</i></p>
-  <div class="scene"><span>🔑</span><b>La escena:</b> vas a salir de casa y no encuentras las llaves.</div>
+  <h2>Cuatro formas de pensar, <span class="g">con ejemplos sencillos</span>.</h2>
   <div class="think">
-    <div class="card machine fragment fade-up"><span class="tag m">Deducción</span><span class="orig">Aristóteles · s. IV a. C.</span><div class="vis">🧥 ⟶ 🔑</div><div class="formula">regla + caso → conclusión</div><p class="ex">«Siempre dejo las llaves en el abrigo que llevo. Ayer llevé el azul. <b>Están en el abrigo azul.</b>»</p><p class="res m">Segura, si la regla se cumple</p></div>
-    <div class="card machine fragment fade-up"><span class="tag m">Inducción</span><span class="orig">Aristóteles · s. IV a. C.</span><div class="vis">🛋️🔑 🛋️🔑 🛋️🔑</div><div class="formula">muchos casos → regla</div><p class="ex">«Las últimas cinco veces aparecieron entre los cojines del sofá. <b>Suelen acabar en el sofá.</b>»</p><p class="res m">Probable, nunca segura</p></div>
-    <div class="card human fragment fade-up"><span class="tag h">Abducción</span><span class="orig">Peirce · s. XIX</span><div class="vis">🛍️🚗 ⟶ 🔑?</div><div class="formula">pista → mejor explicación</div><p class="ex">«Hay bolsas de la compra en la entrada y el maletero sigue abierto. <b>Me las dejé en el coche al descargar.</b> Voy a mirar.»</p><p class="res h">Plausible: hay que comprobarla</p></div>
-    <div class="card human fragment fade-up"><span class="tag h">Pensamiento lateral</span><span class="orig">De Bono · 1967</span><div class="vis">❓ ⟶ 🪝</div><div class="formula">cambiar la pregunta</div><p class="ex">«¿Y si la pregunta no es dónde están, sino <b>cómo no volver a buscarlas</b>? Un gancho junto a la puerta.»</p><p class="res h">Nueva: cambia el problema</p></div>
+    <div class="card machine fragment fade-up"><span class="tag m">Deducción</span><span class="orig">Aristóteles · s. IV a. C.</span><div class="vis">📅 ⟶ 🔒</div><div class="formula">regla + caso → conclusión</div><p class="ex">«Los lunes la biblioteca cierra. Hoy es lunes. <b>Está cerrada.</b>»</p><p class="res m">Segura, si la regla es cierta</p></div>
+    <div class="card machine fragment fade-up"><span class="tag m">Inducción</span><span class="orig">Aristóteles · s. IV a. C.</span><div class="vis">🦢 🦢 🦢 ⟶ ?</div><div class="formula">muchos casos → regla</div><p class="ex">«Todos los cisnes que he visto son blancos. <b>Los cisnes son blancos.</b>» …hasta que ves uno negro.</p><p class="res m">Probable, nunca segura</p></div>
+    <div class="card human fragment fade-up"><span class="tag h">Abducción</span><span class="orig">Peirce · s. XIX</span><div class="vis">💧 ⟶ 🌧️?</div><div class="formula">pista → mejor explicación</div><p class="ex">«El suelo de la calle está mojado. <b>Habrá llovido.</b>» ¿O han pasado los de la limpieza?</p><p class="res h">Plausible: hay que comprobarla</p></div>
+    <div class="card human fragment fade-up"><span class="tag h">Pensamiento lateral</span><span class="orig">De Bono · 1967</span><div class="vis">🏓 ⟶ 💧</div><div class="formula">cambiar la pregunta</div><p class="ex">Una pelota de ping‑pong cae a un tubo estrecho y fijo al suelo. No llegas con la mano. <b>Echas agua: flota y sube.</b></p><p class="res h">Nueva: cambia el problema</p></div>
   </div>
-  <aside class="notes">Todos hemos perdido las llaves: pregunta al público cómo las buscan. Las flechas marcan la dirección. La deducción aplica una regla; la inducción saca una regla de casos repetidos; la abducción salta de una pista a la mejor explicación (Sherlock Holmes dice «deducir», pero casi siempre abduce); el pensamiento lateral no resuelve el problema planteado: lo cambia por otro mejor.</aside>
+  <aside class="notes">Cuatro ejemplos sencillos, uno por forma de pensar. Deducción: si la regla es verdad, la conclusión es segura. Inducción: generalizamos desde casos; los europeos «sabían» que todos los cisnes eran blancos hasta que vieron cisnes negros en Australia. Abducción: saltamos de una pista a la mejor explicación, que hay que comprobar (Sherlock Holmes dice «deducir», pero casi siempre abduce). Pensamiento lateral: no buscas mejor la respuesta, cambias la pregunta: no «¿cómo llego a la pelota?», sino «¿cómo hago que la pelota venga a mí?».</aside>
 </section>
 
 <section data-part="1" data-chapter="Espejo 1 · Razonar">
@@ -824,7 +836,7 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:
   </div>
   <p class="src" style="margin-top:14px"><span class="didactic">relación didáctica</span> Cynefin clasifica situaciones; la correspondencia con formas de pensar es una propuesta para la charla.</p>
   <div class="balance mirror fragment"><span class="bt">🪞 Espejo 1 · Razonar</span><div class="mir"><div class="md"><b>🤔 La duda tiene sentido</b>Resuelve problemas de olimpiada y escribe sus pasos. Es razonable preguntarse si acabará pensando por nosotros.</div><div class="bm"><b>🤖 Lo que hace hoy</b>Muy fuerte en lo claro y lo complicado: reglas y patrones a escala enorme. Propone hipótesis plausibles. En lo complejo y lo caótico, el debate está abierto.</div><div class="bh"><b>🪞 Lo que revela de nosotros</b>Pensar no es solo resolver: es <b>notar</b> que hay un problema, elegir cuál importa y atreverse a cambiar la pregunta.</div></div><p class="bq"><span class="debate">Pregunta abierta</span> ¿Quién decide qué problema merece la pena resolver?</p></div>
-  <aside class="notes">Vuelve a las llaves: si siempre están en el abrigo, el problema es claro; si hay que revisar dónde aparecieron otras veces, complicado; si hay pistas raras, complejo; si llegas tarde a un examen, caótico: actúa ya (pide que te abran) y piensa después. Para el debate: los sistemas actuales son muy buenos en lo claro (reglas, programas) y en lo complicado (inducción a gran escala). Se discute cuánto llegan a lo complejo y a lo caótico.</aside>
+  <aside class="notes">Ejemplos: claro, la biblioteca cierra los lunes (aplica la regla); complicado, diagnosticar una avería con datos y un experto; complejo, lanzar un producto nuevo (pruebas y observas); caótico, un incendio: actúa ya y piensa después. Para el debate: los sistemas actuales son muy buenos en lo claro (reglas, programas) y en lo complicado (inducción a gran escala). Se discute cuánto llegan a lo complejo y a lo caótico.</aside>
 </section>
 
 <!-- Espejo 2 · Crear -->
@@ -1108,31 +1120,6 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:
   <aside class="notes">Modelos de razonamiento: OpenAI o1 (septiembre de 2024; nombre en clave «Strawberry»), DeepSeek‑R1 (enero de 2025, abierto). Generan una cadena de pasos antes de responder; se entrenan premiando las respuestas que se pueden comprobar. Agentes: el modelo llama a herramientas y encadena acciones. El libro no está terminado: este capítulo se escribe ahora, y quizá lo escribáis vosotros.</aside>
 </section>
 
-<section data-part="2" data-chapter="Todas las eras conviven">
-  <p class="kicker"><b>02</b> Por qué importa la historia</p>
-  <div class="grid2" style="grid-template-columns:1.05fr 1fr;gap:60px;align-items:center">
-    <div class="stack">
-      <div class="layer l5 fragment" data-fragment-index="5"><i>🛠️</i><b>Arnés</b><span>herramientas, búsqueda, agentes</span><em>Epílogo</em></div>
-      <div class="layer l4 fragment" data-fragment-index="4"><i>✨</i><b>Generación</b><span>el transformer redacta la respuesta</span><em>Cap. 4</em></div>
-      <div class="layer l3 fragment" data-fragment-index="3"><i>🧭</i><b>Búsqueda por significado</b><span>encuentra los documentos útiles</span><em>Cap. 3</em></div>
-      <div class="layer l2 fragment" data-fragment-index="2"><i>🎯</i><b>Predicción</b><span>elige la pieza más probable</span><em>Cap. 2</em></div>
-      <div class="layer l1 fragment" data-fragment-index="1"><i>📏</i><b>Reglas</b><span>filtros y normas que no debe saltarse</span><em>Cap. 1</em></div>
-    </div>
-    <div>
-      <h2>Ninguna era desapareció: <span class="g">un asistente de hoy las usa todas</span>.</h2>
-      <p class="lead fragment fade-up" data-fragment-index="6">Por eso conviene conocerlas: cada capa falla a su manera.</p>
-      <ul class="fails fragment fade-up" data-fragment-index="6">
-        <li><b>Inventa un dato</b> → la predicción eligió lo verosímil</li>
-        <li><b>No encuentra el documento</b> → falló la búsqueda</li>
-        <li><b>Se salta una norma</b> → faltaba una regla</li>
-        <li><b>Hace algo que no debía</b> → el arnés le dio demasiado poder</li>
-      </ul>
-      <p class="lead fragment fade-up" data-fragment-index="7">Y cada capa pide <span class="h">un saber lingüístico distinto</span>: gramática, corpus, semántica, pragmática, redacción.</p>
-    </div>
-  </div>
-  <aside class="notes">Las capas se apilan de abajo arriba, en el orden de la historia. Simplificación didáctica: en un sistema real las piezas se combinan de muchas formas, pero las cinco existen. La implicación práctica: si sabes de qué capa viene un error, sabes a quién preguntar y cómo arreglarlo. Y para quien viene de letras, cada capa es una puerta de entrada distinta.</aside>
-</section>
-
 <!-- ═══════════════ 03 · CÓMO FUNCIONA ═══════════════ -->
 <section class="divider" data-part="3" data-chapter="03 · Cómo funciona">
   <p class="num g" data-particles>03</p>
@@ -1170,25 +1157,6 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:
   </div>
   <p class="lead fragment fade-up">Las piezas se llaman <i>tokens</i>. No son palabras ni sílabas: son los trozos más frecuentes en los textos. Para el modelo, la frase es <span class="m">una lista de números</span>.</p>
   <aside class="notes">Cada tokenizador corta a su manera. «Banco» podría partirse en «ban» + «co»: estadística, no gramática.</aside>
-</section>
-
-<section data-auto-animate data-part="3" data-chapter="Paso 1 · El misterio resuelto">
-  <p class="kicker"><b>Paso 1</b> ¿Os acordáis del misterio?</p>
-  <div class="stepbar"><span class="on">1 · Trocear</span><span class="">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span><span class="">5 · Pensar</span></div>
-  <h2 data-id="t1">Por eso le costaba <span class="g">contar las erres</span>.</h2>
-  <div class="grid2" style="align-items:center;margin-top:20px">
-    <div>
-      <p class="tag">Lo que vemos nosotros</p>
-      <div class="letters"><span>s</span><span>t</span><span class="r">r</span><span>a</span><span>w</span><span>b</span><span>e</span><span class="r">r</span><span class="r">r</span><span>y</span></div>
-      <p class="tag fragment fade-up" data-fragment-index="1" style="margin-top:30px">Lo que «ve» el modelo</p>
-      <div class="toks fragment fade-up" data-fragment-index="1"><div class="tok"><span>str</span><code data-fx="scramble" data-chars="0123456789">496</code></div><div class="tok"><span>aw</span><code data-fx="scramble" data-chars="0123456789">675</code></div><div class="tok"><span>berry</span><code data-fx="scramble" data-chars="0123456789">15717</code></div></div>
-    </div>
-    <div>
-      <p class="lead fragment fade-up">El modelo no recibe letras: recibe <span class="m">tres números</span>. Contar erres le obliga a recordar cómo se deletrea cada pieza.</p>
-      <p class="lead fragment fade-up">Lo que para nosotros es trivial depende de una unidad, la letra, que <span class="h" data-rn="underline">el modelo no ve directamente</span>.</p>
-    </div>
-  </div>
-  <aside class="notes">Es la explicación más citada, aunque no la única. Números ilustrativos (tokenizador de GPT‑4). En el paso 5 veremos por qué hoy acierta.</aside>
 </section>
 
 <section data-part="3" data-chapter="Paso 2 · Situar">
@@ -1251,22 +1219,27 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:
   <aside class="notes">Cifras inventadas. Dos palabras más («del parque») cambian toda la distribución. Las piezas punteadas muestran el bucle: cada pieza elegida se añade a la frase y se vuelve a calcular. Lo verosímil no siempre es lo verdadero: de ahí las «alucinaciones».</aside>
 </section>
 
-<section data-part="3" data-chapter="Paso 5 · Pensar y usar herramientas">
-  <p class="kicker"><b>Paso 5</b> Pensar en voz alta y usar herramientas <i>· lo nuevo desde 2024</i></p>
+<section data-part="3" data-chapter="Paso 5 · El misterio resuelto">
+  <p class="kicker"><b>Paso 5</b> ¿Os acordáis del misterio? <i>· pensar, usar herramientas… y recordar</i></p>
   <div class="stepbar"><span class="done">1 · Trocear</span><span class="done">2 · Situar</span><span class="done">3 · Mirar el contexto</span><span class="done">4 · Predecir</span><span class="on">5 · Pensar</span></div>
-  <h2>Por qué <span class="g">hoy sí acierta</span> con las erres.</h2>
-  <div class="grid2 think5">
-    <div class="card machine"><span class="tag m">Opción A · escribir los pasos</span>
-      <p>Antes de responder, genera piezas «de borrador». Si escribe la palabra letra a letra, cada letra pasa a ser una pieza que <b>sí puede ver</b>.</p>
-      <div class="spell" id="spell"><span>s</span><span>t</span><span class="r">r</span><span>a</span><span>w</span><span>b</span><span>e</span><span class="r">r</span><span class="r">r</span><span>y</span></div>
-      <p class="count">erres: <b id="rcount">0</b></p></div>
-    <div class="card machine fragment fade-up"><span class="tag m">Opción B · usar una herramienta</span>
-      <p>O escribe un pequeño programa, lo ejecuta y lee el resultado. Ya no adivina: <b>calcula</b>.</p>
-      <pre class="code"><span class="m">&gt;&gt;&gt;</span> "strawberry".count("r")
-<b class="out">3</b></pre></div>
+  <h2>Por qué <span class="h">fallaba</span> con las erres… <span class="g">y por qué hoy acierta</span>.</h2>
+  <div class="mystery2">
+    <div class="card human why24"><span class="tag h">2024 · por qué fallaba</span>
+      <p class="tag" style="margin:.6em 0 .2em">Lo que vemos nosotros</p>
+      <div class="letters"><span>s</span><span>t</span><span class="r">r</span><span>a</span><span>w</span><span>b</span><span>e</span><span class="r">r</span><span class="r">r</span><span>y</span></div>
+      <p class="tag fragment fade-up" data-fragment-index="1" style="margin:.8em 0 .2em">Lo que «ve» el modelo</p>
+      <div class="toks fragment fade-up" data-fragment-index="1"><div class="tok"><span>str</span><code data-fx="scramble" data-chars="0123456789">496</code></div><div class="tok"><span>aw</span><code data-fx="scramble" data-chars="0123456789">675</code></div><div class="tok"><span>berry</span><code data-fx="scramble" data-chars="0123456789">15717</code></div></div>
+      <p class="fragment fade-up" data-fragment-index="1">Recibe <b>tres números</b>, no diez letras: la letra es una unidad que <span class="h">no ve directamente</span>.</p>
+    </div>
+    <div class="ways">
+      <span class="tag m">2026 · por qué acierta</span>
+      <div class="way fragment fade-up" data-fragment-index="2"><b>A · Escribe los pasos</b><p>Deletrea antes de contar: cada letra pasa a ser una pieza que sí ve.</p><div class="spell" id="spell"><span>s</span><span>t</span><span class="r">r</span><span>a</span><span>w</span><span>b</span><span>e</span><span class="r">r</span><span class="r">r</span><span>y</span></div><p class="count">erres: <b id="rcount">0</b></p></div>
+      <div class="way fragment fade-up" data-fragment-index="3"><b>B · Usa una herramienta</b><p>Escribe un programa y lee el resultado: <code class="code1">"strawberry".count("r") → <b>3</b></code></p></div>
+      <div class="way fragment fade-up" data-fragment-index="4"><b>C · Se aprendió la respuesta</b><p>El fallo se hizo famoso: en el postentrenamiento aparecieron pares de pregunta y respuesta como este. A veces no razona: <span class="h">recuerda</span>.</p></div>
+    </div>
   </div>
-  <p class="lead fragment fade-up" style="margin-top:.8em">Sigue siendo el paso 4, predecir piezas, pero con borrador y herramientas. ¿Quién le enseñó? <span class="h">Personas que escribieron respuestas razonadas paso a paso, personas que prefirieron las respuestas comprobadas</span>… y mucha práctica: lo vemos ahora.</p>
-  <aside class="notes">Simplificación didáctica. Opción A: los modelos de razonamiento generan una cadena de pasos antes de la respuesta final; al deletrear, cada letra se convierte en su propio token y contar es fácil. Opción B: el modelo genera una llamada a una herramienta (aquí, Python), el sistema la ejecuta y le devuelve el resultado. El misterio queda resuelto: no es que «vea» mejor, es que ahora sabe rodear su punto ciego. ¿Dónde lo aprendió? En varias etapas a la vez: ejemplos de preguntas y respuestas razonadas escritos por personas (ajuste supervisado), preferencias humanas que premian respuestas cuidadosas y comprobadas (RLHF) y práctica con problemas cuya respuesta se puede verificar. Además, el fallo se hizo famoso y es probable que ejemplos como este acabaran en los datos de entrenamiento.</aside>
+  <p class="lead fragment fade-up" data-fragment-index="5" style="margin-top:.6em">No es que hoy «vea» mejor: <span class="h">ha aprendido a rodear su punto ciego</span>, gracias a personas que escribieron y eligieron buenas respuestas. Lo vemos ahora.</p>
+  <aside class="notes">Simplificación didáctica. Por qué fallaba: el modelo recibe piezas con número, no letras (números ilustrativos del tokenizador de GPT‑4). Por qué acierta, tres vías que se combinan: A, los modelos de razonamiento escriben una cadena de pasos, y al deletrear cada letra se convierte en su propio token; B, el modelo llama a una herramienta (aquí, Python) y lee el resultado; C, la pregunta se hizo viral y casos así entraron en los datos de postentrenamiento (ejemplos de pregunta y respuesta escritos por personas, preferencias humanas, práctica con respuestas comprobables): a veces el acierto es memoria, no razonamiento. Por eso conviene evaluar con preguntas nuevas, no con las famosas.</aside>
 </section>
 
 <section data-part="3" data-chapter="Aprender · 4 etapas">
@@ -1322,7 +1295,7 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:
   <h2>Aprendió leyendo a <span class="m">predecir la siguiente pieza</span>, y personas le enseñaron <span class="h">a conversar</span>.</h2>
   <p class="lead">Eso explica sus aciertos, sus fallos… y por qué los va corrigiendo:</p>
   <div class="grid4 sumup">
-    <div class="card machine fragment fade-up"><span class="ico">🍓</span><h3>No ve letras…</h3><p>…pero aprendió a deletrear y a usar herramientas. Por eso ya acierta.</p><span class="tag m">Pasos 1 y 5</span></div>
+    <div class="card machine fragment fade-up"><span class="ico">🍓</span><h3>No ve letras…</h3><p>…pero aprendió a deletrear, a usar herramientas y hasta la respuesta. Por eso ya acierta.</p><span class="tag m">Paso 5</span></div>
     <div class="card machine fragment fade-up"><span class="ico">🎯</span><h3>Calcula lo verosímil</h3><p>No lo verdadero. Sin herramientas, a veces inventa con seguridad.</p><span class="tag m">Paso 4</span></div>
     <div class="card human fragment fade-up"><span class="ico">📄</span><h3>Aprende de lo escrito</h3><p>No vive la situación: el mundo, el cuerpo y la escena se los ponemos nosotros.</p><span class="tag h">Espejo 4</span></div>
     <div class="card human fragment fade-up"><span class="ico">🧑‍🏫</span><h3>Depende de personas</h3><p>Alguien decide qué es una buena respuesta y qué contexto recibe.</p><span class="tag h">Entrenamiento y arnés</span></div>
@@ -1368,18 +1341,6 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:
     <div class="card human fragment fade-up"><span class="ico">🎓</span><h3>Educación</h3><p>Enseñar a usarla con criterio: alfabetización en IA.</p></div>
   </div>
   <aside class="notes">Las humanidades aportan algo que no es técnico pero sí imprescindible: criterio sobre qué es valioso, verdadero, justo o adecuado. El Reglamento Europeo de IA (AI Act) se aprobó en 2024 y se aplica por fases; incluye obligaciones de alfabetización en IA para quien la usa en el trabajo.</aside>
-</section>
-
-<section data-part="4" data-chapter="Dónde entra">
-  <p class="kicker"><b>04</b> Dónde entra quien sabe de lenguaje</p>
-  <h2>Un sistema de lenguaje necesita personas <span class="g">en tres momentos</span>.</h2>
-  <div class="moments">
-    <div class="card human moment fragment fade-up"><span class="when">Antes · los datos</span><h3>📚 ¿Con qué aprende?</h3><ul><li>Elegir y revisar los textos de entrenamiento</li><li>Anotar ejemplos: intención, tono, ironía…</li><li>Ordenar el vocabulario de un dominio</li></ul><span class="link">→ etapas 1 y 2 del entrenamiento</span></div>
-    <div class="card human moment fragment fade-up"><span class="when">Durante · el diseño</span><h3>💬 ¿Cómo habla?</h3><ul><li>Diseñar conversaciones y mensajes de error</li><li>Escribir instrucciones, skills y contexto: el arnés</li><li>Adaptarlo a cada lengua y cultura</li></ul><span class="link">→ lo que ve el usuario</span></div>
-    <div class="card human moment fragment fade-up"><span class="when">Después · la evaluación</span><h3>🔍 ¿Lo hace bien?</h3><ul><li>Comparar y puntuar respuestas con criterios</li><li>Buscar fallos, sesgos y riesgos</li><li>Definir normas de uso</li></ul><span class="link">→ etapa 3 del entrenamiento</span></div>
-  </div>
-  <p class="lead fragment fade-up" style="margin-top:1em">En los tres momentos, las preguntas son lingüísticas: <span class="h">¿qué significa esto?, ¿para quién?, ¿en qué situación?</span></p>
-  <aside class="notes">Conecta con la parte 03: los datos alimentan las etapas 1 y 2; la evaluación es la etapa 3; el diseño es lo que el usuario ve. Nada de esto exige ser ingeniero; casi todo exige saber de lenguaje.</aside>
 </section>
 
 <section data-part="4" data-chapter="Tareas reales">
@@ -1547,7 +1508,7 @@ function enter(s){
     s.querySelectorAll('.pulse').forEach(e=>e.remove());
     s.querySelectorAll('.attn path.draw').forEach(p=>{const c=p.cloneNode();c.removeAttribute('class');c.removeAttribute('style');c.classList.add('pulse');c.setAttribute('pathLength',100);c.style.animationDelay=(+(p.dataset.delay||0)+1.6)+'s';c.style.opacity=0;p.after(c);gsap.to(c,{opacity:1,delay:+(p.dataset.delay||0)+1.6})});
   }
-  const sp=s.querySelector('.spell');if(sp)spell(sp);
+  const sp=s.querySelector('.spell');if(sp&&!pending(sp))spell(sp);
   s.querySelectorAll('[data-count]').forEach(el=>{if(!pending(el))count(el)});
   setTimeout(()=>{if(Reveal.getCurrentSlide()===s)s.querySelectorAll('[data-rn]').forEach(el=>{if(!pending(el))annotate(el)})},motion?900:0);
 }
@@ -1559,7 +1520,7 @@ function spell(sp){const ls=[...sp.children],out=document.getElementById('rcount
   ls.forEach((l,i)=>gsap.delayedCall(.8+i*.38,()=>{l.classList.add('on');out.textContent=sp.querySelectorAll('.r.on').length;if(l.classList.contains('r'))gsap.fromTo(out,{scale:1.8},{scale:1,duration:.4,ease:'back.out(3)'})}))}
 Reveal.on('ready',e=>{sync(e);enter(e.currentSlide);hero()});
 Reveal.on('slidechanged',e=>{sync(e);clearNotes();gsap.globalTimeline.getChildren().forEach(t=>t.progress(1).kill());enter(e.currentSlide);hero()});
-Reveal.on('fragmentshown',e=>e.fragments.forEach(f=>{[f,...f.querySelectorAll('[data-fx="scramble"]')].filter(el=>el.dataset.fx==='scramble').forEach((el,i)=>scramble(el,i*.08));f.querySelectorAll('[data-count]').forEach(count);if(motion&&f.classList.contains('toks'))intro(f.children,{y:-110,scale:.3,rotation:()=>gsap.utils.random(-40,40),opacity:0,stagger:.09,duration:.8,ease:'back.out(1.8)'});[f,...f.querySelectorAll('[data-rn]')].forEach(el=>el.dataset&&el.dataset.rn&&setTimeout(()=>annotate(el),400))}));
+Reveal.on('fragmentshown',e=>e.fragments.forEach(f=>{[f,...f.querySelectorAll('[data-fx="scramble"]')].filter(el=>el.dataset.fx==='scramble').forEach((el,i)=>scramble(el,i*.08));f.querySelectorAll('[data-count]').forEach(count);f.querySelectorAll('.spell').forEach(spell);if(motion&&f.classList.contains('toks'))intro(f.children,{y:-110,scale:.3,rotation:()=>gsap.utils.random(-40,40),opacity:0,stagger:.09,duration:.8,ease:'back.out(1.8)'});[f,...f.querySelectorAll('[data-rn]')].forEach(el=>el.dataset&&el.dataset.rn&&setTimeout(()=>annotate(el),400))}));
 Reveal.on('fragmentshown',e=>{if(motion&&e.fragment.classList.contains('openbook'))intro('.tbook li',{x:-30,opacity:0,stagger:.15,delay:1,duration:.6})});
 Reveal.on('fragmenthidden',e=>e.fragments.forEach(f=>clearNotes(f)));
 Reveal.on('resize',()=>{notes.forEach(fixScale);setTimeout(()=>particles(Reveal.getCurrentSlide()),200)});
@@ -1585,7 +1546,7 @@ function particles(s){
     const t=el.textContent.trim(),k=r.width*dpr/o.measureText(t).width;o.setTransform(k,0,0,1,0,0);o.fillStyle='#fff';o.fillText(t,r.left*dpr/k,(r.top+r.height/2)*dpr);o.setTransform(1,0,0,1,0,0);
     x0=Math.min(x0,r.left*dpr);y0=Math.min(y0,r.top*dpr);x1=Math.max(x1,r.right*dpr);y1=Math.max(y1,r.bottom*dpr)}
   if(x1<=x0)return;
-  x0=Math.max(0,x0|0);y0=Math.max(0,y0|0);const w=Math.min(W,x1|0)-x0,h=Math.min(H,y1|0)-y0,d=o.getImageData(x0,y0,w,h).data;
+  x0=Math.max(0,x0|0);y0=Math.max(0,y0|0);const w=Math.min(W,x1|0)-x0,h=Math.min(H,y1|0)-y0;if(w<1||h<1)return;const d=o.getImageData(x0,y0,w,h).data;
   const step=Math.max(2,Math.round(4.5*sc*dpr)),tg=[];
   for(let y=0;y<h;y+=step)for(let x=0;x<w;x+=step)if(d[(y*w+x)*4+3]>140)tg.push([x0+x,y0+y]);
   pts.length=tg.length;
