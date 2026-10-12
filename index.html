@@ -1175,7 +1175,7 @@ section:has(.jstep:nth-child(4).visible) .jline i{width:100%}
     </div>
   </div>
   <p class="lead fragment fade-up" data-fragment-index="5" style="margin-top:.6em">¿Cómo lo aprendió? <span class="h">En el entrenamiento</span>: lo vemos ahora.</p>
-  <aside class="notes">Simplificación didáctica. Por qué fallaba: el modelo recibe piezas con número, no letras (números ilustrativos del tokenizador de GPT‑4). Por qué acierta, tres vías que se combinan: A, los modelos de razonamiento escriben una cadena de pasos, y al deletrear cada letra se convierte en su propio token; B, el modelo llama a una herramienta (aquí, un pequeño programa) y lee el resultado; C, la pregunta se hizo viral y casos así entraron en los datos de postentrenamiento (ejemplos de pregunta y respuesta escritos por personas, preferencias humanas, práctica con respuestas comprobables): a veces el acierto es memoria, no razonamiento. Por eso conviene evaluar con preguntas nuevas, no con las famosas.</aside>
+  <aside class="notes">Simplificación didáctica. Por qué fallaba: el modelo recibe piezas con número, no letras (números ilustrativos del tokenizador de GPT‑4). Por qué acierta, tres vías que se combinan: A, los modelos de razonamiento escriben una cadena de pasos, y al deletrear cada letra se convierte en su propio token; B, el modelo llama a una herramienta (aquí, Python) y lee el resultado; C, la pregunta se hizo viral y casos así entraron en los datos de postentrenamiento (ejemplos de pregunta y respuesta escritos por personas, preferencias humanas, práctica con respuestas comprobables): a veces el acierto es memoria, no razonamiento. Por eso conviene evaluar con preguntas nuevas, no con las famosas.</aside>
 </section>
 
 <section data-part="3" data-chapter="Aprender · 4 etapas">
@@ -1316,7 +1316,7 @@ section:has(.jstep:nth-child(4).visible) .jline i{width:100%}
   <h2>Lo que ya sabes hacer… <span class="g">y lo que conviene añadir</span>.</h2>
   <div class="grid2 kit">
     <div class="card human fragment fade-up"><span class="tag h">Lo que traes de humanidades</span><ul><li>Ver la ambigüedad y el doble sentido</li><li>Definir criterios y justificarlos</li><li>Escribir con precisión para un lector</li></ul></div>
-    <div class="card machine fragment fade-up"><span class="tag m">Lo que conviene añadir</span><ul><li>Comparar modelos con método</li><li>Escribir instrucciones y contexto</li><li>Estadística básica y algo de programación</li></ul></div>
+    <div class="card machine fragment fade-up"><span class="tag m">Lo que conviene añadir</span><ul><li>Comparar modelos con método</li><li>Escribir instrucciones y contexto</li><li>Estadística básica y algo de Python</li></ul></div>
   </div>
   <div class="project fragment fade-up"><b>Un primer proyecto:</b> elige un chatbot, hazle 30 preguntas con ironía, dobles sentidos y variedades del español, y documenta dónde falla y por qué. <span class="h">Eso ya es evaluación lingüística.</span></div>
   <aside class="notes">El proyecto se puede hacer en una semana y sirve como muestra de trabajo para los puestos de evaluación o diseño. Aunque no trabajes en IA: la IA acelera lo cerrado y repetible (resumir, clasificar, reformular); lo abierto, situado y con consecuencias (interpretar, decidir) necesita nuestro juicio.</aside>
