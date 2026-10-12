@@ -84,7 +84,7 @@
 /* ── portada ── */
 .reveal .slides section.cover{padding-top:170px}
 .cover h1{font-size:3em;max-width:1376px}
-.present .cover-sub{animation:fadein 1s 3.4s both}.present .who{animation:fadein 1s 3.8s both}
+.present .promise .pr{animation:prin .8s both}.present .pr.m1{animation-delay:3.4s}.present .pr.h1{animation-delay:3.65s}.present .pr.g1{animation-delay:3.9s}.present .who{animation:fadein 1s 4.3s both}
 @keyframes fadein{from{opacity:0;transform:translateY(14px)}}
 .me{width:230px;height:230px;border-radius:50%;object-fit:cover;border:3px solid transparent;background:var(--grad) border-box;box-shadow:0 0 50px -8px #22d3ee,0 0 40px -10px #8b5cf6}
 .who{display:flex;align-items:center;gap:22px;margin-top:48px}
@@ -480,7 +480,6 @@ section:has(.ytog.visible) .t3{animation:flipcard 1s cubic-bezier(.5,0,.3,1);bor
 .sat span{position:absolute;left:215px;top:0;white-space:nowrap;font:500 .5em var(--sans);color:var(--machine);border:1px solid #22d3ee55;background:#0b0b14e6;border-radius:99px;padding:.3em .9em;animation:corb 40s linear infinite;animation-delay:calc(var(--i) * -8s)}
 @keyframes orb{to{transform:rotate(360deg)}}
 @keyframes corb{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
-.effect{margin-top:.6em}.effect p{font-size:.52em}
 /* espejos */
 .mirrors .flip{height:330px;-webkit-box-reflect:below 12px linear-gradient(transparent 72%,#ffffff1f)}
 .mirrors .fr{overflow:hidden}
@@ -550,6 +549,32 @@ section:has(.ytog.visible) .t3{animation:flipcard 1s cubic-bezier(.5,0,.3,1);bor
 .sectors{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
 .sectors b{font:650 .38em var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:6px}
 .sectors span{font-size:.4em;border:1px solid var(--line2);border-radius:99px;padding:.3em .9em;background:#ffffff08;color:var(--fg)}
+/* v13 · portada y presentación */
+.promise{display:flex;gap:18px;margin-top:34px}
+.pr{display:flex;align-items:center;gap:14px;font-size:.5em;line-height:1.3;color:var(--muted);background:#0b0b14cc;backdrop-filter:blur(6px);border:1px solid var(--line2);border-radius:18px;padding:14px 20px}
+.pr i{font-style:normal;font-size:1.6em}.pr b{font-weight:650;font-size:1.15em}
+.pr.m1{border-color:#22d3ee66;box-shadow:0 0 30px -12px #22d3ee}.pr.m1 b{color:var(--machine)}
+.pr.h1{border-color:#a78bfa77;box-shadow:0 0 30px -12px #8b5cf6}.pr.h1 b{color:var(--human)}
+.pr.g1{border-color:#f0abfc55;box-shadow:0 0 30px -12px #c084fc}.pr.g1 b{color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text}
+@keyframes prin{from{opacity:0;transform:translateY(24px) scale(.94);filter:blur(8px)}}
+.me-head{display:flex;gap:44px;align-items:center}
+.me-head h2{margin:0}
+.me-ring{position:relative;border-radius:50%;padding:6px;flex:none}
+.me-ring:before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from var(--a),#22d3ee,#c084fc,#22d3ee);animation:spin 6s linear infinite}
+.me-ring .me{position:relative;display:block;border:4px solid var(--bg);background:var(--bg)}
+.journey{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:46px}
+.jline{position:absolute;left:0;right:0;top:9px;height:3px;background:#ffffff14;border-radius:9px}
+.jline i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:9px;background:var(--grad);box-shadow:0 0 16px #22d3ee;transition:width 1s cubic-bezier(.4,0,.2,1)}
+section:has(.jstep[data-fragment-index="1"].visible) .jline i{width:12%}section:has(.jstep[data-fragment-index="2"].visible) .jline i{width:38%}
+section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:64%}section:has(.jstep[data-fragment-index="4"].visible) .jline i{width:100%}
+.jstep{position:relative;padding-top:34px}
+.reveal .jstep.fragment{transform:translateY(24px)}.reveal .jstep.fragment.visible{transform:none;transition:all .7s cubic-bezier(.3,1.4,.5,1)}
+.jstep .dot{position:absolute;top:0;left:0;width:21px;height:21px;border-radius:50%;background:var(--bg);border:3px solid var(--machine);box-shadow:0 0 18px var(--machine)}
+.jstep:nth-child(4) .dot,.jstep:nth-child(5) .dot{border-color:var(--human);box-shadow:0 0 18px var(--human)}
+.jstep .yr{display:block;font:600 .38em var(--mono);color:var(--muted)}
+.jstep b{display:block;font-size:.7em;letter-spacing:-.02em;margin:.25em 0 .3em}
+.jstep p{font-size:.48em;margin:0}
+.reveal .conv{font-size:.95em;margin-top:1.1em;max-width:1300px}
 /* móvil: el público abre el enlace en el teléfono */
 @media(max-width:700px){.parts,.chapter,.dock .legend,.brand{display:none}.dock{bottom:10px;left:10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation:none!important}}
@@ -565,24 +590,34 @@ section:has(.ytog.visible) .t3{animation:flipcard 1s cubic-bezier(.5,0,.3,1);bor
 
 <!-- ═══════════════ INICIO ═══════════════ -->
 <section class="cover" data-part="0" data-chapter="Portada" data-hero>
-  <p class="kicker"><b>Charla</b> Inteligencia artificial y lingüística computacional</p>
+  <p class="kicker"><b>Lingüística computacional</b> IA · lenguaje · humanidades</p>
   <h1><span class="ptext" data-particles>Las máquinas ya hablan.</span><br>
     <span class="typed"><span class="g">¿Quién</span> <span class="g">pone</span> <span class="g">el</span> <span class="g">sentido?</span></span>
   </h1>
-  <p class="lead cover-sub">Qué hace de verdad una máquina con nuestro lenguaje, qué le sigue costando y qué sigue siendo humano.</p>
-  <div class="who"><div class="avatar photo"></div><div><strong style="font-size:.78em">Adrián Gázquet</strong><p class="note" style="margin:.2em 0 0">Filólogo · lingüista computacional</p></div></div>
+  <div class="promise">
+    <div class="pr m1"><i>🤖</i><span>Qué hace de verdad<br><b>una máquina con nuestro lenguaje</b></span></div>
+    <div class="pr h1"><i>🪞</i><span>Qué sigue siendo<br><b>humano</b></span></div>
+    <div class="pr g1"><i>📚</i><span>Qué aportan<br><b>las letras</b></span></div>
+  </div>
+  <div class="who"><div class="avatar photo"></div><div><strong style="font-size:.78em">Adrián Gázquet</strong><p class="note" style="margin:.2em 0 0">Filólogo · lingüista computacional · IA conversacional</p></div></div>
   <aside class="notes">El título se forma con partículas, como piezas de texto que se ordenan: es lo que hace un modelo de lenguaje, y lo veremos en la parte 03. La pregunta aparece palabra a palabra, como escribe un LLM. Mueve el ratón por el título si quieres dispersarlo. Saludo breve. Unos 45 minutos y preguntas al final.</aside>
 </section>
 
 <section data-part="0" data-chapter="Quién os habla">
   <p class="kicker">Quién os habla</p>
-  <div style="display:flex;gap:44px;align-items:center"><img src="img/adrian.png" alt="Adrián Gázquet" class="me"><h2 style="margin:0">Soy Adrián.<br>Vengo de las letras.<br><span class="g">Trabajo con máquinas que usan palabras.</span></h2></div>
-  <div class="grid3" style="margin-top:40px">
-    <div class="card fragment fade-up"><span class="ico">📚</span><h3>Filología</h3><p>Cómo funciona una lengua: estructura, significado, uso y variación.</p></div>
-    <div class="card machine fragment fade-up"><span class="ico">🤖</span><h3>Lingüística computacional</h3><p>Diseñar sistemas conversacionales: intenciones, entidades, ambigüedades y errores.</p></div>
-    <div class="card human fragment fade-up"><span class="ico">💡</span><h3>Divulgación</h3><p>Explicar la tecnología del lenguaje a quien viene de humanidades, sin idealizarla ni temerla.</p></div>
+  <div class="me-head">
+    <div class="me-ring"><img src="img/adrian.png" alt="Adrián Gázquet" class="me"></div>
+    <h2>Soy Adrián. Vengo de las letras.<br><span class="g">Hoy diseño cómo hablan las máquinas.</span></h2>
   </div>
-  <aside class="notes">Dos frases personales: por qué pasaste de la filología a la tecnología. Ajusta las tarjetas a tu trayectoria real.</aside>
+  <div class="journey">
+    <div class="jline"><i></i></div>
+    <div class="jstep fragment" data-fragment-index="1"><span class="dot"></span><span class="yr">2019–2023</span><b>📚 Filología</b><p>Grado en Lengua y Literatura Españolas (URJC). Sintaxis, semántica, corpus.</p></div>
+    <div class="jstep fragment" data-fragment-index="2"><span class="dot"></span><span class="yr">2023–2024</span><b>💻 Letras digitales</b><p>Máster en Letras Digitales (UCM). Python, etiquetado de textos, tecnologías del lenguaje.</p></div>
+    <div class="jstep fragment" data-fragment-index="3"><span class="dot"></span><span class="yr">2024–hoy</span><b>🤖 IA conversacional</b><p>Asistentes de voz y chat en producción: reglas, NLP, IA generativa, RAG y agentes.</p></div>
+    <div class="jstep fragment" data-fragment-index="4"><span class="dot"></span><span class="yr">siempre</span><b>💡 Divulgación</b><p>LinguAI, charlas y talleres: tecnología del lenguaje para gente de letras.</p></div>
+  </div>
+  <p class="quote fragment fade-up conv" data-fragment-index="5">«La tecnología más avanzada necesita el conocimiento más profundo <span class="h">sobre el lenguaje… y sobre quienes lo usan</span>.»</p>
+  <aside class="notes">Cuatro pulsaciones recorren el camino: de la filología a las letras digitales, de ahí a la IA conversacional (NTT DATA y Capitole) y, en paralelo, la divulgación. El trabajo diario de hoy mezcla las cinco eras que veremos en la parte 02: reglas, NLP, IA generativa, RAG y agentes. Remate con la convicción que guía la charla.</aside>
 </section>
 
 <section data-part="0" data-chapter="La paradoja de Moravec">
@@ -667,12 +702,11 @@ section:has(.ytog.visible) .t3{animation:flipcard 1s cubic-bezier(.5,0,.3,1);bor
     <div>
       <h2>Ni siquiera hay <span class="g" data-rn="circle">una definición</span> de inteligencia.</h2>
       <p class="lead">Cada definición pone el listón en un sitio distinto. Por eso el mismo sistema parece inteligente o no según desde dónde se mire.</p>
-      <div class="card machine fragment fade-up effect"><span class="tag m">El efecto IA</span><p class="quote" style="font-size:.95em">«La IA es todo lo que aún no se ha hecho.»</p><p>En cuanto una máquina lo consigue, dejamos de llamarlo inteligencia: el ajedrez, la traducción, el dictado…</p></div>
-      <p class="lead fragment fade-up">Con lo humano pasa lo mismo, pero al revés: <span class="h">si lo definimos por lo que la máquina no hace, la frontera no para de moverse.</span></p>
+      <p class="lead fragment fade-up">Y con lo humano pasa algo parecido: <span class="h">si lo definimos por lo que la máquina no hace, la frontera no para de moverse.</span></p>
     </div>
   </div>
-  <p class="src">Legg y Hutter (2007) recopilaron más de 70 definiciones · «Teorema de Tesler», citado por Hofstadter (1979) · McCorduck, <i>Machines Who Think</i> (1979).</p>
-  <aside class="notes">Las definiciones giran alrededor de la palabra: ninguna se impone. El efecto IA (Pamela McCorduck): cada vez que una máquina hace algo, alguien dice «eso no es pensar de verdad». Larry Tesler lo resumió: «la IA es lo que aún no se ha hecho». Puente con lo que viene: dentro de poco veremos la misma trampa con la definición de lo humano.</aside>
+  <p class="src">Legg y Hutter (2007) recopilaron más de 70 definiciones de inteligencia.</p>
+  <aside class="notes">Las definiciones giran alrededor de la palabra: ninguna se impone. Puente con lo que viene: dentro de poco veremos la misma trampa con la definición de lo humano.</aside>
 </section>
 
 <section data-part="1" data-chapter="¿Qué ha cambiado? · La interfaz">
@@ -1431,7 +1465,7 @@ section:has(.ytog.visible) .t3{animation:flipcard 1s cubic-bezier(.5,0,.3,1);bor
   <h2>Para seguir leyendo</h2>
   <ul class="refs">
     <li>McCarthy, J. et al. (1955). A Proposal for the Dartmouth Summer Research Project on Artificial Intelligence.</li>
-    <li>Moravec, H. (1988). <i>Mind Children</i>. · McCorduck, P. (1979). <i>Machines Who Think</i>.</li>
+    <li>Moravec, H. (1988). <i>Mind Children</i>.</li>
     <li>Turing, A. (1950). Computing Machinery and Intelligence. <i>Mind</i>.</li>
     <li>Searle, J. (1980). Minds, brains, and programs. <i>Behavioral and Brain Sciences</i>.</li>
     <li>Legg, S. y Hutter, M. (2007). <i>Universal Intelligence: A Definition of Machine Intelligence</i>.</li>
