@@ -565,8 +565,8 @@ section:has(.ytog.visible) .t3{animation:flipcard 1s cubic-bezier(.5,0,.3,1);bor
 .journey{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:46px}
 .jline{position:absolute;left:0;right:0;top:9px;height:3px;background:#ffffff14;border-radius:9px}
 .jline i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:9px;background:var(--grad);box-shadow:0 0 16px #22d3ee;transition:width 1s cubic-bezier(.4,0,.2,1)}
-section:has(.jstep[data-fragment-index="1"].visible) .jline i{width:20%}section:has(.jstep[data-fragment-index="2"].visible) .jline i{width:55%}
-section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:100%}
+section:has(.jstep:nth-child(2).visible) .jline i{width:20%}section:has(.jstep:nth-child(3).visible) .jline i{width:55%}
+section:has(.jstep:nth-child(4).visible) .jline i{width:100%}
 .jstep{position:relative;padding-top:34px}
 .reveal .jstep.fragment{transform:translateY(24px)}.reveal .jstep.fragment.visible{transform:none;transition:all .7s cubic-bezier(.3,1.4,.5,1)}
 .jstep .dot{position:absolute;top:0;left:0;width:21px;height:21px;border-radius:50%;background:var(--bg);border:3px solid var(--machine);box-shadow:0 0 18px var(--machine)}
@@ -623,7 +623,7 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:100%}
   <div class="journey">
     <div class="jline"><i></i></div>
     <div class="jstep fragment" data-fragment-index="1"><span class="dot"></span><span class="yr">2019–2023</span><b>📚 Filología</b><p>Grado en Lengua y Literatura Españolas (URJC). Sintaxis, semántica, corpus.</p></div>
-    <div class="jstep fragment" data-fragment-index="2"><span class="dot"></span><span class="yr">2023–2024</span><b>💻 Letras digitales</b><p>Máster en Letras Digitales (UCM). Python, etiquetado de textos, tecnologías del lenguaje.</p></div>
+    <div class="jstep fragment" data-fragment-index="2"><span class="dot"></span><span class="yr">2023–2024</span><b>💻 Letras digitales</b><p>Máster en Letras Digitales (UCM). Programación, etiquetado de textos, tecnologías del lenguaje.</p></div>
     <div class="jstep fragment" data-fragment-index="3"><span class="dot"></span><span class="yr">2024–hoy</span><b>🤖 IA conversacional</b><p>Asistentes de voz y chat en producción: reglas, NLP, IA generativa, RAG y agentes.</p></div>
   </div>
   <aside class="notes">Tres pulsaciones recorren el camino: de la filología a las letras digitales, y de ahí a la IA conversacional. El trabajo diario de hoy mezcla las eras que veremos en la parte 02: reglas, NLP, IA generativa, RAG y agentes.</aside>
@@ -1175,7 +1175,7 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:100%}
     </div>
   </div>
   <p class="lead fragment fade-up" data-fragment-index="5" style="margin-top:.6em">¿Cómo lo aprendió? <span class="h">En el entrenamiento</span>: lo vemos ahora.</p>
-  <aside class="notes">Simplificación didáctica. Por qué fallaba: el modelo recibe piezas con número, no letras (números ilustrativos del tokenizador de GPT‑4). Por qué acierta, tres vías que se combinan: A, los modelos de razonamiento escriben una cadena de pasos, y al deletrear cada letra se convierte en su propio token; B, el modelo llama a una herramienta (aquí, Python) y lee el resultado; C, la pregunta se hizo viral y casos así entraron en los datos de postentrenamiento (ejemplos de pregunta y respuesta escritos por personas, preferencias humanas, práctica con respuestas comprobables): a veces el acierto es memoria, no razonamiento. Por eso conviene evaluar con preguntas nuevas, no con las famosas.</aside>
+  <aside class="notes">Simplificación didáctica. Por qué fallaba: el modelo recibe piezas con número, no letras (números ilustrativos del tokenizador de GPT‑4). Por qué acierta, tres vías que se combinan: A, los modelos de razonamiento escriben una cadena de pasos, y al deletrear cada letra se convierte en su propio token; B, el modelo llama a una herramienta (aquí, un pequeño programa) y lee el resultado; C, la pregunta se hizo viral y casos así entraron en los datos de postentrenamiento (ejemplos de pregunta y respuesta escritos por personas, preferencias humanas, práctica con respuestas comprobables): a veces el acierto es memoria, no razonamiento. Por eso conviene evaluar con preguntas nuevas, no con las famosas.</aside>
 </section>
 
 <section data-part="3" data-chapter="Aprender · 4 etapas">
@@ -1316,7 +1316,7 @@ section:has(.jstep[data-fragment-index="3"].visible) .jline i{width:100%}
   <h2>Lo que ya sabes hacer… <span class="g">y lo que conviene añadir</span>.</h2>
   <div class="grid2 kit">
     <div class="card human fragment fade-up"><span class="tag h">Lo que traes de humanidades</span><ul><li>Ver la ambigüedad y el doble sentido</li><li>Definir criterios y justificarlos</li><li>Escribir con precisión para un lector</li></ul></div>
-    <div class="card machine fragment fade-up"><span class="tag m">Lo que conviene añadir</span><ul><li>Comparar modelos con método</li><li>Escribir instrucciones y contexto</li><li>Estadística básica y algo de Python</li></ul></div>
+    <div class="card machine fragment fade-up"><span class="tag m">Lo que conviene añadir</span><ul><li>Comparar modelos con método</li><li>Escribir instrucciones y contexto</li><li>Estadística básica y algo de programación</li></ul></div>
   </div>
   <div class="project fragment fade-up"><b>Un primer proyecto:</b> elige un chatbot, hazle 30 preguntas con ironía, dobles sentidos y variedades del español, y documenta dónde falla y por qué. <span class="h">Eso ya es evaluación lingüística.</span></div>
   <aside class="notes">El proyecto se puede hacer en una semana y sirve como muestra de trabajo para los puestos de evaluación o diseño. Aunque no trabajes en IA: la IA acelera lo cerrado y repetible (resumir, clasificar, reformular); lo abierto, situado y con consecuencias (interpretar, decidir) necesita nuestro juicio.</aside>
