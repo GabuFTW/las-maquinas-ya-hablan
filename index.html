@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#030308">
+<title>Las máquinas ya hablan</title>
+<link rel="stylesheet" href="vendor/reveal.js/dist/reset.css"><link rel="stylesheet" href="vendor/reveal.js/dist/reveal.css">
+<style>
+/* Noche, rejilla tenue, brillo cian y violeta.
+   Código fijo: cian = lo que hace la máquina · violeta = lo que aporta la persona. */
+:root{
+  --bg:#030308;--card:#151520;--card2:#1b1b29;--fg:#eef2ff;--muted:#94a3b8;--line:#ffffff14;--line2:#ffffff2e;
+  --machine:#22d3ee;--machine-dk:#0891b2;--machine-soft:#22d3ee1c;
+  --human:#b69cff;--human-dk:#7c3aed;--human-soft:#8b5cf624;--warn:#fbbf24;--bad:#fb7185;--ok:#34d399;
+  --grad:linear-gradient(90deg,#22d3ee,#c084fc);
+  --sans:"Geist","Inter","SF Pro Display",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  --mono:"Geist Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  --serif:"Iowan Old Style","Charter","Palatino",Georgia,serif;
+}
+*{box-sizing:border-box}
+.reveal-viewport{background:radial-gradient(ellipse 55% 50% at 92% 0%,#0e749055,transparent 70%),radial-gradient(ellipse 45% 45% at 0% 100%,#7c3aed40,transparent 70%),var(--bg)}
+.reveal-viewport:after{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 40%,#000 30%,transparent 85%)}
+#net{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 1.2s}
+.hero #net{opacity:.85}
+.reveal{font:34px/1.45 var(--sans);color:var(--fg)}
+.reveal .slides{text-align:left}
+.reveal .slides section{height:100%;padding:112px 112px 92px}
+.reveal h1,.reveal h2,.reveal h3{font-family:var(--sans);font-weight:750;letter-spacing:-.035em;line-height:1.06;margin:0 0 .45em;color:var(--fg)}
+.reveal h1{font-size:2.75em}.reveal h2{font-size:1.66em}
+.reveal p{line-height:1.45;margin:.5em 0;color:var(--muted)}
+.reveal strong,.reveal b{font-weight:650;color:var(--fg)}
+.reveal em{font-style:normal;color:var(--fg)}
+.reveal .g,.g{color:transparent;background:var(--grad);-webkit-background-clip:text;background-clip:text}
+.m{color:var(--machine)!important}.h{color:var(--human)!important}
+.kicker{display:inline-flex;align-items:center;gap:.7em;font:600 .4em/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--machine)!important;margin:0 0 1.4em!important}
+.kicker b{color:var(--fg);background:#ffffff10;border:1px solid var(--line2);border-radius:99px;padding:.45em .8em;letter-spacing:.1em}
+.kicker i{font-style:normal;color:var(--muted)}
+.lead{font-size:.95em;color:#d5dcef!important;max-width:1250px}
+.note{font-size:.46em!important;color:var(--muted)!important}
+.didactic{font:500 1em var(--sans);text-transform:none;letter-spacing:.02em;color:var(--warn);border:1px dashed #fbbf2466;border-radius:99px;padding:.4em .9em}
+.debate{display:inline-flex;align-items:center;gap:.6em;font:700 .42em var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--bg);background:var(--grad);border-radius:99px;padding:.55em 1.1em;box-shadow:0 0 24px -4px #8b5cf6;vertical-align:middle}
+.debate:before{content:"⚖️";font-size:1.3em}
+.quote{font:300 1.3em/1.3 var(--sans);letter-spacing:-.02em;color:var(--fg)!important;max-width:1280px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px 28px;box-shadow:0 10px 40px -20px #000}
+.card h3{font-size:.78em;letter-spacing:-.02em;margin:0 0 .35em}
+.card p{font-size:.56em;margin:.2em 0}
+.card .ico{font-size:1.1em;display:block;margin-bottom:.4em}
+.card.machine{border-color:#22d3ee55;box-shadow:0 0 34px -12px #22d3ee66}
+.card.human{border-color:#a78bfa66;box-shadow:0 0 34px -12px #8b5cf699}
+.tag{font:650 .4em var(--sans);letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:.8em;color:var(--muted)}
+.pill{display:inline-block;font-size:.58em;border:1px solid var(--line2);background:#ffffff08;border-radius:99px;padding:.35em 1em;color:var(--fg)}
+.src{font:500 .4em var(--mono);color:var(--muted);letter-spacing:.02em}
+.rough-annotation{overflow:visible;pointer-events:none}
+/* ── navegación ── */
+.brand{position:fixed;z-index:30;top:22px;left:32px;font:700 15px var(--sans);background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;pointer-events:none}
+.parts{position:fixed;z-index:30;top:16px;left:50%;transform:translateX(-50%);display:flex;gap:6px;transition:opacity .6s}
+.parts button{all:unset;cursor:pointer;font:600 12px var(--sans);letter-spacing:.06em;color:#64748b;border:1px solid transparent;border-radius:99px;padding:6px 13px;transition:all .4s}
+.parts button:hover{color:var(--fg);border-color:var(--line2)}
+.parts button.done{color:var(--muted)}.parts button.done:before{content:"✓ ";color:var(--machine)}
+.parts button.on{color:var(--bg);background:var(--grad);box-shadow:0 0 20px -4px #22d3ee}
+.hero .parts{opacity:0;pointer-events:none}
+.chapter{position:fixed;z-index:30;top:24px;right:36px;font:600 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+.dock{position:fixed;z-index:30;bottom:20px;left:28px;display:flex;gap:10px;align-items:center}
+.dock button{all:unset;cursor:pointer;font:600 13px var(--sans);color:var(--muted);border:1px solid var(--line2);background:#0b0b14cc;border-radius:99px;padding:8px 14px;transition:all .3s}
+.dock button:hover{color:var(--fg);border-color:var(--machine)}
+.dock .legend{font:500 13px var(--sans);color:var(--muted);margin-left:8px}.dock .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 6px 0 10px;vertical-align:middle}
+#menu{position:fixed;inset:0;z-index:40;background:#030308ee;backdrop-filter:blur(10px);display:none;padding:70px 90px;overflow:auto}
+#menu.open{display:block}
+#menu h4{font:700 28px var(--sans);color:var(--fg);margin:0 0 6px}
+#menu .help{font:14px var(--sans);color:var(--muted);margin:0 0 28px}
+#menu .help kbd{font:600 12px var(--mono);border:1px solid var(--line2);border-radius:6px;padding:2px 7px;color:var(--fg)}
+#menu .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+#menu .grp b{display:block;font:700 13px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--machine);margin-bottom:8px}
+#menu .grp button{all:unset;cursor:pointer;display:block;font:15px/1.3 var(--sans);color:#cbd5e1;padding:7px 12px;border-radius:10px}
+#menu .grp button:hover,#menu .grp button.cur{background:var(--human-soft);color:var(--fg)}
+.reveal .progress{height:3px;background:#ffffff0d}.reveal .progress span{background:var(--grad)}
+.reveal .controls{color:var(--machine);bottom:18px;right:24px}
+.reveal .slide-number{right:120px;bottom:28px;background:none;color:var(--muted);font:13px var(--mono)}.reveal .slide-number a{text-decoration:none;color:inherit}
+.reveal .fragment.fade-up{transform:translateY(18px)}.reveal .fragment.fade-up.visible{transform:none}
+.reveal .fragment.pop{transform:scale(.6)}.reveal .fragment.pop.visible{transform:none;transition:all .5s cubic-bezier(.3,1.6,.5,1)}
+.marker{display:none}
+/* ── portada ── */
+.reveal .slides section.cover{padding-top:170px}
+.cover h1{font-size:3.4em;max-width:1300px}
+.assemble span{display:inline-block}
+.present .assemble span{animation:assemble 1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes assemble{0%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(.7);filter:blur(10px)}60%{filter:blur(0)}100%{opacity:1;transform:none}}
+.present .cover-sub{animation:fadein 1s 1.4s both}.present .who{animation:fadein 1s 1.8s both}
+@keyframes fadein{from{opacity:0;transform:translateY(14px)}}
+.me{width:230px;height:230px;border-radius:50%;object-fit:cover;border:3px solid transparent;background:var(--grad) border-box;box-shadow:0 0 50px -8px #22d3ee,0 0 40px -10px #8b5cf6}
+.who{display:flex;align-items:center;gap:22px;margin-top:48px}
+.avatar.photo{background:url(img/adrian.png) center/cover;width:120px;height:120px}
+.avatar{width:80px;height:80px;border-radius:50%;display:grid;place-items:center;font:700 .8em var(--sans);color:var(--bg);background:var(--grad);box-shadow:0 0 30px -4px #22d3ee99,0 0 18px -6px #7c3aed}
+/* ── encargos ── */
+.task{position:relative;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:26px 28px 30px;min-height:330px}
+.task .ask{font-size:.56em;color:var(--fg);background:linear-gradient(135deg,#7c3aed,#5b21b6);border-radius:16px 16px 4px 16px;padding:12px 16px;margin-left:30px}
+.task .ans{font-size:.52em;color:#cbd5e1;background:#ffffff0a;border:1px solid #22d3ee44;border-radius:16px 16px 16px 4px;padding:12px 16px;margin:14px 30px 0 0;line-height:1.45}
+.task .ans:before{content:"🤖 "}
+.stamp{position:absolute;right:22px;bottom:-26px;font:800 .62em var(--sans);letter-spacing:.06em;border:3px solid;border-radius:14px;padding:.25em .7em;transform:rotate(-6deg);background:var(--bg)}
+.stamp.ok{color:var(--ok)}.stamp.ko{color:var(--bad);box-shadow:0 0 30px -4px var(--bad)}
+.mystery{font:800 3.2em/1 var(--mono);letter-spacing:-.02em;text-align:center;margin:20px 0;color:var(--fg)}
+/* ── mapa / divisores ── */
+.road{display:grid;grid-template-columns:repeat(4,1fr);margin-top:50px;counter-reset:act}
+.road div{border-top:2px solid var(--line2);padding:26px 26px 0 0;position:relative}
+.road div:before{counter-increment:act;content:"0" counter(act);position:absolute;top:-19px;left:0;width:38px;height:38px;border-radius:50%;background:var(--bg);border:2px solid var(--machine);font:600 13px/34px var(--mono);text-align:center;color:var(--machine)}
+.road b{display:block;font-size:.78em;letter-spacing:-.02em;margin-top:10px}.road span{display:block;font-size:.52em;line-height:1.4;color:var(--muted);margin-top:.35em}
+.road q{display:block;font-size:.5em;color:var(--human);margin-top:.6em;quotes:"«" "»"}
+.reveal .slides section.divider{padding-top:220px}
+.divider .num{font:800 5em/1 var(--mono);letter-spacing:-.04em;margin:0}
+.divider h2{font-size:2.1em;margin:.12em 0 .3em}
+.divider .guide{font-size:.95em;color:var(--human)!important;margin-bottom:1em}
+.divider .pills{display:flex;gap:14px;flex-wrap:wrap}
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:16px;margin:30px 0}
+.chips span{font-size:.74em;border:1px solid var(--line2);border-radius:99px;padding:.32em 1em;background:#ffffff08}
+.chips span:nth-child(odd){border-color:#22d3ee55;color:var(--machine)}
+/* ── interfaces ── */
+.task-line{display:flex;align-items:center;gap:16px;font-size:.6em;color:var(--fg);margin:-6px 0 20px}
+.task-line span{font:650 .7em var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--bg);background:var(--grad);border-radius:99px;padding:.4em .9em}
+.ifaces{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.iface{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px 18px 16px;opacity:.12;transform:translateY(16px) scale(.97);transition:all .6s cubic-bezier(.3,0,.2,1);min-height:330px;display:flex;flex-direction:column}
+.iface .y{font:600 .4em var(--mono);color:var(--machine)}
+.iface b{display:block;font-size:.6em;margin:.25em 0 .6em;letter-spacing:-.02em}
+.iface .who4{margin-top:auto;font-size:.4em;color:var(--muted);border-top:1px solid var(--line);padding-top:.7em}
+.iface .who4 strong{color:var(--human)}
+.sample{font-size:.44em;line-height:1.45;border-radius:12px;padding:12px;min-height:150px}
+.s-cli{background:#000;border:1px solid #22c55e55;color:#4ade80;font-family:var(--mono)}
+.s-gui{background:#e5e7eb;color:#111;font-family:var(--sans);padding:0;overflow:hidden}
+.s-gui .bar{background:#cbd5e1;padding:5px 8px;font-size:.9em}.s-gui .bar i{display:inline-block;width:8px;height:8px;border-radius:50%;background:#f87171;margin-right:4px}
+.s-gui .body{padding:10px}
+.s-web{background:#fff;color:#111;display:flex;flex-direction:column;gap:10px}
+.s-web .q{border:1px solid #cbd5e1;border-radius:99px;padding:8px 12px;font-family:var(--sans)}
+.s-voice{background:#111827;color:#e5e7eb;display:flex;flex-direction:column;gap:8px}
+.s-voice .mic{font-size:1.6em}
+.s-chat{background:#7c3aed33;border:1px solid #a78bfa77;color:var(--fg)}
+.meter{position:relative;height:6px;border-radius:9px;background:linear-gradient(90deg,#c084fc,#22d3ee);margin:42px 30px 12px}
+.meter .knob{position:absolute;top:-13px;left:4%;width:32px;height:32px;border-radius:50%;background:var(--bg);border:3px solid #fff;box-shadow:0 0 22px #fff8;transform:translateX(-50%);transition:left 1s cubic-bezier(.3,0,.2,1)}
+.meter-l{display:flex;justify-content:space-between;font:650 .46em var(--sans);margin:0 10px}
+section:has(.e1.visible) .if1,section:has(.e2.visible) .if2,section:has(.e3.visible) .if3,section:has(.e4.visible) .if4,section:has(.e5.visible) .if5{opacity:1;transform:none}
+section:has(.e1.current-fragment) .if1,section:has(.e2.current-fragment) .if2,section:has(.e3.current-fragment) .if3,section:has(.e4.current-fragment) .if4,section:has(.e5.current-fragment) .if5{border-color:#a78bfa;box-shadow:0 0 40px -10px #8b5cf6;transform:translateY(-8px)}
+section:has(.e2.visible) .knob{left:26%}section:has(.e3.visible) .knob{left:48%}section:has(.e4.visible) .knob{left:68%}section:has(.e5.visible) .knob{left:94%}
+/* ── miedos ── */
+.fears4{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:20px;perspective:1600px}
+.flip{height:420px;position:relative}
+.flip .in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.5,0,.2,1)}
+.flip .fr,.flip .bk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:24px;padding:26px;display:flex;flex-direction:column}
+.flip .fr{background:var(--card);border:1px solid var(--line2)}
+.flip .fr .ico{font-size:1.5em}
+.flip .fr q{font:700 .95em/1.15 var(--sans);letter-spacing:-.03em;color:var(--fg);margin-top:auto;quotes:"«" "»"}
+.flip .fr small{font:.42em var(--sans);color:var(--muted);margin-top:.8em}
+.flip .bk{transform:rotateY(180deg);background:linear-gradient(160deg,#1e1636,#151520);border:1px solid #a78bfa;box-shadow:0 0 50px -12px #8b5cf6}
+.flip .bk .n{font:700 .42em var(--mono);color:var(--human)}
+.flip .bk h3{font-size:.85em;margin:.4em 0 .5em}
+.flip .bk ul{list-style:none;margin:auto 0 0;padding:0}
+.flip .bk li{font-size:.46em;color:#cbd5e1;padding:.35em 0;border-top:1px solid var(--line)}
+section:has(.fl1.visible) .f1 .in,section:has(.fl2.visible) .f2 .in,section:has(.fl3.visible) .f3 .in,section:has(.fl4.visible) .f4 .in{transform:rotateY(180deg)}
+/* turing + searle */
+.ts{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:6px}
+.ts .card{padding:22px 26px}
+.doors{display:grid;grid-template-columns:1fr 90px 1fr;align-items:center;gap:12px;margin:14px 0}
+.door{background:#ffffff08;border:1px solid var(--line2);border-radius:18px;height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.door .who2{font-size:1.7em;filter:blur(12px);transition:filter 1s}
+.door .lbl{font:700 .5em var(--mono);color:var(--muted)}
+.judge{text-align:center;font-size:1.8em}
+section:has(.unmask.visible) .door .who2{filter:none}
+.room{position:relative;display:grid;grid-template-columns:1fr 1.6fr 1fr;align-items:center;gap:10px;margin:14px 0;height:150px}
+.sym{font:500 1.15em/1 var(--sans);text-align:center;color:var(--fg)}
+.box{border:1px solid var(--line2);border-radius:18px;padding:14px;text-align:center;background:#ffffff08;position:relative;z-index:1}
+.box strong{font-size:.48em}
+.box .rules{font:600 .44em var(--mono);background:var(--machine-soft);color:var(--machine);border-radius:10px;padding:10px;margin-top:8px;text-align:left;line-height:1.6}
+.present .box .rules{animation:glow 3s ease-in-out infinite 1s}
+@keyframes glow{40%,60%{box-shadow:0 0 40px -4px #22d3ee;background:#22d3ee33}}
+.flyer{position:absolute;top:-30px;font:500 .55em var(--sans);color:var(--machine);opacity:0;z-index:2}
+.present .flyer.in{animation:flyin 3s ease-in-out infinite}
+.present .flyer.out{animation:flyout 3s ease-in-out infinite}
+@keyframes flyin{0%{left:6%;opacity:0}15%{opacity:1}45%{left:34%;opacity:1}50%,100%{left:36%;opacity:0}}
+@keyframes flyout{0%,55%{left:60%;opacity:0}65%{opacity:1}100%{left:86%;opacity:0}}
+/* pensamiento */
+.scene{display:flex;align-items:center;gap:20px;background:var(--card2);border:1px solid var(--line);border-radius:20px;padding:14px 22px;font-size:.6em;color:var(--fg)}
+.scene span{font-size:1.6em}
+.think{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:22px}
+.think .card{padding:22px;min-height:440px;display:flex;flex-direction:column}
+.think .orig{font:600 .4em var(--mono);color:var(--muted);margin:-.4em 0 .8em}
+.think .formula{font:600 .44em var(--mono);color:var(--machine);background:var(--machine-soft);border-radius:10px;padding:.6em .8em;margin:0 0 .8em}
+.think .card.human .formula{color:var(--human);background:var(--human-soft)}
+.think .ex{font-size:.5em;color:#cbd5e1;line-height:1.45;flex:1}
+.think .res{font:650 .42em var(--sans);letter-spacing:.08em;text-transform:uppercase;margin-top:.8em}
+.think .vis{font-size:.9em;text-align:center;margin:.1em 0 .4em;letter-spacing:.05em}
+/* cynefin */
+.cyn{display:grid;grid-template-columns:680px 1fr;gap:56px;align-items:center}
+.cynmap{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;width:680px;height:520px;gap:8px}
+.cynmap>div{border-radius:22px;padding:22px 24px;font-size:.5em;color:var(--muted);border:1px solid var(--line);background:#ffffff05;transition:all .6s;position:relative}
+.cynmap b{display:block;font-size:1.6em;color:var(--fg);margin-bottom:.2em}
+.cynmap .resp{font:600 .9em var(--mono);color:#cbd5e1;display:block;margin:.3em 0 .6em}
+.cynmap .tk{position:absolute;left:22px;bottom:18px;font:700 1em var(--sans);border-radius:99px;padding:.35em .9em;opacity:0;transform:translateY(10px);transition:all .6s}
+.cynmap .q-cl .tk,.cynmap .q-cp .tk{color:var(--machine);background:var(--machine-soft);border:1px solid #22d3ee66}
+.cynmap .q-cx .tk,.cynmap .q-ch .tk{color:var(--human);background:var(--human-soft);border:1px solid #a78bfa77}
+section:has(.c1.visible) .q-cl,section:has(.c2.visible) .q-cp{background:var(--machine-soft);border-color:#22d3ee66}
+section:has(.c3.visible) .q-cx,section:has(.c4.visible) .q-ch{background:var(--human-soft);border-color:#a78bfa77}
+section:has(.c1.visible) .q-cl .tk,section:has(.c2.visible) .q-cp .tk,section:has(.c3.visible) .q-cx .tk,section:has(.c4.visible) .q-ch .tk{opacity:1;transform:none}
+.cynsteps p{font-size:.58em;margin:.5em 0;padding-left:1em;border-left:3px solid var(--line2)}
+/* camino del error */
+.path{position:relative;height:460px}
+.path svg{position:absolute;inset:0;width:100%;height:100%}
+.stone{position:absolute;width:280px;font-size:.5em;color:var(--muted)}
+.stone b{display:block;font-size:1.4em;letter-spacing:-.02em}
+.stone .y{font:600 .9em var(--mono);color:var(--human)}
+.defs{position:absolute;left:80px;right:80px;top:250px;display:grid;grid-template-columns:1fr 1fr;gap:30px;z-index:5;transform:scale(.85)}
+.defs.visible{transform:none;transition:all .7s cubic-bezier(.3,1.4,.5,1)}
+.def{background:#0b0b14f2;backdrop-filter:blur(8px);border:1px solid;border-radius:28px;padding:34px 38px;box-shadow:0 30px 80px -20px #000}
+.def.machine{border-color:#22d3ee88;box-shadow:0 0 60px -14px #22d3ee}.def.human{border-color:#a78bfa;box-shadow:0 0 60px -14px #8b5cf6}
+.def b{display:block;font-size:1.15em;letter-spacing:-.03em;line-height:1.1;margin:.1em 0 .4em}
+.def p{font-size:.6em;margin:0}
+section:has(.defs.visible) .path{filter:blur(4px);opacity:.35;transition:all .7s}
+/* kitsch */
+.dist{position:relative;height:420px;margin-top:6px}
+.dist svg{position:absolute;inset:0;width:100%;height:100%}
+.dist .dot{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--machine);box-shadow:0 0 12px var(--machine);top:-20px;opacity:0}
+.present .dist .dot{animation:drop 1.2s cubic-bezier(.5,0,.6,1.4) forwards}
+@keyframes drop{0%{opacity:0;top:-20px}20%{opacity:1}100%{opacity:1;top:var(--t)}}
+.dist .odd{position:absolute;left:92%;top:300px;width:22px;height:22px;border-radius:50%;background:var(--human);box-shadow:0 0 26px var(--human)}
+.dist .odd:after{content:"¿error o hallazgo?";position:absolute;left:50%;top:-46px;transform:translateX(-50%);white-space:nowrap;font:700 .55em var(--sans);color:var(--human)}
+.dist .lab{position:absolute;font:600 .46em var(--sans);color:var(--muted);text-align:center}
+/* balance de cada miedo */
+.balance{position:absolute;left:112px;right:112px;top:50%;transform:translateY(-44%);z-index:6;background:#0b0b14f2;backdrop-filter:blur(10px);border:1px solid var(--line2);border-radius:28px;padding:30px 36px;box-shadow:0 30px 90px -20px #000}
+.reveal .slides section .balance.visible{transform:translateY(-50%);transition:all .6s cubic-bezier(.3,1.3,.5,1)}
+.balance .bt{display:block;font:650 .4em var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:1em}
+.bal{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.bal>div{border-radius:20px;padding:22px 26px;font-size:.6em;line-height:1.45;color:#d5dcef}
+.bal b{display:block;font-size:.75em;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5em}
+.bal .bm{background:var(--machine-soft);border:1px solid #22d3ee66}.bal .bm b{color:var(--machine)}
+.bal .bh{background:var(--human-soft);border:1px solid #a78bfa77}.bal .bh b{color:var(--human)}
+section:has(.balance.visible)>*:not(.balance){filter:blur(5px);opacity:.25;transition:all .6s}
+/* compañías */
+.blank{display:inline-block;min-width:3.4em;border-bottom:3px solid var(--human);text-align:center;color:var(--human)}
+.cloud{position:relative;height:330px;border:1px solid var(--line);border-radius:24px;background:var(--card)}
+.cloud span{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);font:500 .56em var(--sans);color:var(--machine);white-space:nowrap}
+.cloud .core{font:800 1.15em var(--sans);color:var(--fg);background:var(--human-soft);border:1px solid var(--human);border-radius:99px;padding:.15em .7em}
+.present .cloud span:not(.core){animation:fadein .8s both}
+.cloud span:nth-child(2){animation-delay:.3s!important}.cloud span:nth-child(3){animation-delay:.45s!important}.cloud span:nth-child(4){animation-delay:.6s!important}.cloud span:nth-child(5){animation-delay:.75s!important}.cloud span:nth-child(6){animation-delay:.9s!important}.cloud span:nth-child(7){animation-delay:1.05s!important}.cloud span:nth-child(8){animation-delay:1.2s!important}.cloud span:nth-child(9){animation-delay:1.35s!important}
+/* fuera del texto */
+.reveal .textpill{display:inline-block;font-size:.56em;color:var(--fg);background:var(--machine-soft);border:1px solid #22d3ee77;border-radius:99px;padding:.4em 1.1em;margin:-.2em 0 .9em}
+.gaps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.gaps .card{padding:20px 22px;display:flex;flex-direction:column;border-style:dashed;border-color:#a78bfa66}
+.gaps h3{font-size:.7em}
+.gaps .tag{margin-bottom:.7em;font-size:.34em}
+.reveal .gaps .idea2{font-size:.48em;color:#d5dcef}
+.reveal .gaps .ex{font-size:.46em;color:var(--fg);background:#ffffff08;border-radius:12px;padding:.6em .8em;margin:.6em 0}
+.reveal .gaps .prob{margin-top:auto;font-size:.46em;color:var(--human);border-top:1px solid var(--line);padding-top:.6em}
+.blues{display:inline-flex;gap:10px;vertical-align:middle}
+.blues i{display:inline-block;border-radius:10px;font:650 .9em var(--sans);color:#fff;text-align:center;font-style:normal}
+.gaps .blues{display:flex;margin:0 0 .5em}.gaps .blues i{width:auto;padding:0 .6em;height:34px;line-height:34px}
+/* pragmática */
+.prag-stage{position:relative;height:280px;border:1px solid var(--line);border-radius:28px;background:var(--card);overflow:hidden;margin-top:10px}
+.prag-stage .say{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font:700 1.7em var(--sans);letter-spacing:-.03em;white-space:nowrap}
+.prag-stage .sc{position:absolute;inset:0;opacity:0;transition:opacity .8s}
+.prag-stage .sc .emo{position:absolute;left:44px;top:34px;font-size:1.8em}
+.prag-stage .sc .where2{position:absolute;left:130px;top:46px;font:600 .55em var(--sans);color:var(--muted)}
+.prag-stage .sc .mean{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);font:600 .7em var(--sans);color:var(--human);white-space:nowrap}
+section:has(.s1.visible) .sc1,section:has(.s2.visible) .sc2,section:has(.s3.visible) .sc3{opacity:1}
+section:has(.s2.visible) .sc1,section:has(.s3.visible) .sc2{opacity:0}
+.prag-stage .sc1{background:radial-gradient(circle at 15% 20%,#22d3ee22,transparent 50%)}
+.prag-stage .sc2{background:radial-gradient(circle at 15% 20%,#fbbf2422,transparent 50%)}
+.prag-stage .sc3{background:radial-gradient(circle at 15% 20%,#fb718522,transparent 50%)}
+/* resumen */
+.hard{display:grid;grid-template-columns:150px 260px 1fr 1fr;margin-top:20px;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.hard>div{padding:13px 20px;font-size:.48em;border-bottom:1px solid var(--line);color:#cbd5e1}
+.hard .hd{font:650 .4em var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:#ffffff06}
+.hard .f{font:700 .42em var(--mono);color:var(--human)}
+.hard .k{font-weight:650;color:var(--fg);font-size:.54em}
+.hard .q{color:var(--human)}
+/* libro */
+.bookwrap{display:grid;grid-template-columns:560px 1fr;gap:70px;align-items:center;perspective:2000px}
+.tbook{position:relative;width:520px;height:640px}
+.tbook .page{position:absolute;inset:0;background:#f4efe6;border-radius:6px 18px 18px 6px;padding:46px 44px;color:#1c1a17;box-shadow:0 30px 60px -20px #000}
+.tbook .p2{transform:rotate(-2.5deg) translate(-8px,6px);background:#e9e2d4}.tbook .p3{transform:rotate(3deg) translate(10px,10px);background:#ddd5c4}
+.tbook .page h4{font:700 .9em var(--serif);margin:0 0 .8em;color:#1c1a17}
+.tbook .page ol{font:.62em/2 var(--serif);padding-left:1.1em;margin:0}
+.tbook .page li span{float:right;color:#8a8375}
+.tbook .coverb{position:absolute;inset:0;border-radius:6px 18px 18px 6px;background:linear-gradient(150deg,#1e1b4b,#0e7490);transform-origin:left;transition:transform 1.6s cubic-bezier(.6,0,.2,1);backface-visibility:hidden;padding:56px 48px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 30px 60px -20px #000,inset 10px 0 0 #ffffff14}
+.tbook .coverb h3{font:700 1.5em/1.05 var(--serif);color:#fff;letter-spacing:-.02em}
+.tbook .coverb p{color:#c7d2fe;font-size:.55em}
+section:has(.openbook.visible) .tbook .coverb{transform:rotateY(-165deg)}
+.chap{perspective:2200px;display:grid;grid-template-columns:1fr 560px;gap:56px;align-items:start}
+.chap .ribbon{display:inline-block;font:700 .42em var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--bg);background:var(--grad);border-radius:6px;padding:.5em 1em;margin-bottom:.8em}
+.chap .idea{font-size:.62em;color:#d5dcef;background:var(--card);border-left:4px solid var(--machine);border-radius:0 16px 16px 0;padding:.8em 1.1em}
+.chap .idea>b:first-child{display:block;font:650 .7em var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--machine);margin-bottom:.3em}
+.chap .why{font-size:.58em;color:#fecdd3;background:#fb71851a;border:1px solid #fb718555;border-radius:16px;padding:.8em 1.1em;margin-top:18px}
+.chap .why>b:first-child{display:block;font:650 .72em var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--bad);margin-bottom:.3em}
+.demo{background:var(--card);border:1px solid var(--line2);border-radius:24px;padding:24px 26px;min-height:420px}
+.demo .t{font:650 .42em var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1em}
+.dl{font-size:.54em;margin:.5em 0;padding:.5em .8em;border-radius:12px;color:var(--fg)!important}
+.dl.u{background:#7c3aed33;margin-left:60px}.dl.b{background:#22d3ee1a;margin-right:60px}
+.era{position:absolute;left:112px;right:112px;bottom:70px;height:4px;background:#ffffff14;border-radius:9px}
+.era span{position:absolute;top:14px;font:600 13px var(--mono);color:var(--muted);transform:translateX(-50%)}
+.era .mk{position:absolute;top:-9px;width:22px;height:22px;border-radius:50%;background:var(--grad);box-shadow:0 0 20px #22d3ee;transform:translateX(-50%)}
+.vec svg text{font:600 17px var(--sans);fill:#eef2ff}
+/* LLM */
+.sent{font:300 1.35em/1.25 var(--sans);letter-spacing:-.02em;color:var(--fg)}
+.toks{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0}
+.tok{display:flex;flex-direction:column;align-items:center;gap:8px}
+.tok span{font:.95em var(--mono);padding:.15em .45em;border-radius:10px;background:var(--machine-soft);border:1px solid #22d3ee88;color:var(--fg);white-space:pre}
+.tok:nth-child(2n) span{background:var(--human-soft);border-color:#a78bfa88}
+.tok code{font:600 .52em var(--mono);color:var(--machine)}
+.tok.new span{border-style:dashed;border-color:var(--human);box-shadow:0 0 20px -2px #8b5cf6}
+.letters{display:flex;gap:6px;margin:10px 0}
+.letters span{font:700 .9em var(--mono);width:44px;height:56px;display:grid;place-items:center;border-radius:10px;background:#ffffff0a;border:1px solid var(--line2)}
+.letters span.r{color:var(--bad);border-color:var(--bad)}
+.llmword{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:30px}
+.llmword .card b{font:800 1.4em var(--sans);letter-spacing:-.04em;display:block}
+.stepbar{position:absolute;top:104px;right:112px;display:flex;gap:6px}
+.stepbar span{font:600 .36em var(--sans);letter-spacing:.04em;color:#64748b;border:1px solid var(--line);border-radius:99px;padding:.45em .9em}
+.stepbar span.done{color:var(--machine);border-color:#22d3ee55}
+.stepbar span.on{color:var(--bg);background:var(--machine);border-color:var(--machine)}
+.lanes{display:grid;grid-template-columns:1fr 1fr;gap:36px;margin-top:20px}
+.lane .when{font:600 .4em var(--mono);color:var(--muted)}
+.lane h3{font-size:.9em;margin:.3em 0 .7em}
+.mini{display:flex;gap:14px}
+.mini span{flex:1;position:relative;background:#ffffff08;border:1px solid var(--line2);border-radius:14px;padding:14px 8px;font-size:.44em;line-height:1.3;text-align:center;color:var(--fg)}
+.mini i{display:block;font-style:normal;font-size:1.7em;margin-bottom:.25em}
+.mini span:not(:last-child):after{content:"→";position:absolute;right:-13px;top:38%;color:var(--machine)}
+.lane.human .mini span:not(:last-child):after{color:var(--human)}
+.gen{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:.66em;color:var(--fg)!important;margin:.5em 0 .2em}
+.gen .base{color:var(--muted)}
+.gen b{font-weight:600;background:var(--human-soft);border:1px dashed var(--human);border-radius:10px;padding:.05em .45em}
+.sumup{margin-top:20px}.sumup .card{display:flex;flex-direction:column}.sumup .tag{margin:auto 0 0;padding-top:.8em}
+.emb{display:grid;grid-template-columns:760px 1fr;gap:56px;align-items:center}
+.plane{position:relative;width:760px;height:500px;border:1px solid var(--line);border-radius:24px;background:var(--card);background-image:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff09 1px,transparent 1px);background-size:50px 50px}
+.pt{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);font:500 .53em var(--sans);color:var(--fg);white-space:nowrap}
+.pt:before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--machine);margin-right:8px;vertical-align:middle;box-shadow:0 0 10px var(--machine)}
+.cluster{position:absolute;border:1.5px dashed var(--line2);border-radius:50%;font:650 .4em var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding-top:12px;text-align:center}
+.marg{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:700 .66em var(--sans);color:#fff;transition:left 1s cubic-bezier(.6,0,.2,1),top 1s cubic-bezier(.6,0,.2,1);white-space:nowrap;background:linear-gradient(135deg,#7c3aed,#5b21b6);padding:5px 14px;border-radius:99px;box-shadow:0 0 26px #8b5cf6cc}
+section:has(.ctx-a.visible) .marg{left:24%;top:32%}
+section:has(.ctx-b.visible) .marg{left:75%;top:70%}
+.ctx{font:400 .82em/1.35 var(--sans);color:var(--fg)!important;border-left:3px solid var(--human);padding-left:20px;margin:18px 0}
+.ctx.fragment.visible:not(.current-fragment){opacity:.35!important}
+.attn{position:relative;height:330px;margin-top:20px}
+.attn svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.attn .row{position:absolute;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);justify-items:center}
+.attn .row span{font:.8em var(--mono);padding:.2em .5em;border-radius:10px;background:var(--card);border:1px solid var(--line2)}
+.attn .row span.focus{background:var(--human-soft);border-color:var(--human);box-shadow:0 0 24px -4px #8b5cf6}
+.attn path{fill:none;stroke-linecap:round}
+.pred{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:16px}
+.prompt{font:400 .9em/1.35 var(--sans);color:var(--fg)!important;min-height:2.7em}
+.prompt u{text-decoration:none;border-bottom:3px solid var(--human);padding:0 .6em}
+.bars div{display:grid;grid-template-columns:170px 1fr 70px;align-items:center;gap:16px;margin:12px 0;font:.56em var(--mono);color:var(--fg)}
+.bars i{display:block;height:22px;border-radius:99px;background:var(--machine-dk);width:0;transition:width 1.1s cubic-bezier(.3,0,.2,1)}
+.bars div:first-child i{background:var(--grad);box-shadow:0 0 18px #22d3ee88}
+.reveal .present .bars i{width:var(--p)}
+.reveal .present .bars.fragment:not(.visible) i{width:0}
+.bars small{color:var(--muted);text-align:right}
+.train{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:30px}
+.train .card{position:relative}
+.train .card{padding:22px 24px;display:flex;flex-direction:column}
+.bub{font-size:.5em;line-height:1.4;color:var(--fg);background:#22d3ee14;border:1px solid #22d3ee55;border-radius:14px 14px 14px 4px;padding:.55em .9em;margin-top:.7em}
+.bub.bad{background:#fb71851a;border-color:#fb718566}.bub.good{background:#34d3991a;border-color:#34d39977}
+.reveal .cap2{font-size:.44em;margin-top:.6em}
+.train .step{font:800 2em/1 var(--sans);opacity:.18;position:absolute;right:22px;top:16px}
+/* perfiles */
+.tasks{position:relative;margin:90px 0 84px;height:6px;border-radius:9px;background:var(--grad)}
+.tasks span{position:absolute;left:var(--x);transform:translateX(-50%);font:.5em var(--sans);color:var(--fg);white-space:nowrap;background:var(--card);border:1px solid var(--line2);border-radius:99px;padding:.35em .9em}
+.tasks .up{bottom:22px}.tasks .dn{top:22px}
+.ends{display:flex;justify-content:space-between;font:650 .54em var(--sans)}
+.moments{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:20px}
+.moment{position:relative;display:flex;flex-direction:column}
+.moment:not(:last-child):after{content:"→";position:absolute;right:-32px;top:44px;font-size:.9em;color:var(--human)}
+.moment .when{font:650 .4em var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--human)}
+.moment h3{font-size:.84em;margin:.35em 0 .3em}
+.moment ul{list-style:none;margin:.4em 0 0;padding:0}
+.moment li{font-size:.5em;color:#d5dcef;padding:.5em 0;border-top:1px solid var(--line)}
+.moment .link{margin-top:auto;padding-top:.8em;font:600 .38em var(--mono);color:var(--machine)}
+.cases .card{display:flex;flex-direction:column;padding:22px 24px}
+.cases .lbl2{font:650 .34em var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:1em 0 -.3em}
+.cases em{margin-top:auto;padding-top:1em;font:500 .44em/1.45 var(--sans);color:var(--human)}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:6px}
+.roles .col>b{display:block;font:650 .44em var(--sans);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.7em}
+.role{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 18px;margin-bottom:12px}
+.role b{display:block;font-size:.54em;color:var(--fg)}
+.role i{display:block;font:500 .38em var(--mono);font-style:normal;color:var(--machine);margin:.3em 0 .35em}
+.role span{display:block;font-size:.42em;line-height:1.4;color:var(--muted)}
+.role .code{display:inline-block;font:650 .34em var(--sans);letter-spacing:.06em;color:var(--warn);border:1px dashed #fbbf2466;border-radius:99px;padding:.2em .7em;margin-top:.5em}
+.kit ul{list-style:none;margin:.2em 0 0;padding:0}
+.kit li{font-size:.54em;color:#d5dcef;padding:.45em 0;border-top:1px solid var(--line)}
+.project{margin-top:24px;font-size:.58em;color:#d5dcef;background:var(--card2);border:1px solid #a78bfa77;border-radius:20px;padding:18px 24px;box-shadow:0 0 34px -12px #8b5cf699}
+/* cierre */
+.reveal .slides section.end{padding-top:250px}
+.end h2{font-size:2.3em;max-width:1300px}
+.reveal .slides section.qa{padding-top:240px;text-align:center}.qa .who{justify-content:center}
+.qa h1{font-size:5em;margin:.05em 0 .2em}
+.refs{columns:2;column-gap:56px}
+.refs li{font-size:.46em;line-height:1.45;color:var(--muted);margin:.3em 0;break-inside:avoid}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation:none!important}}
+</style>
+</head><body>
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="brand">Adrián Gázquet</div>
+<nav class="parts" id="parts" aria-label="Partes de la charla"><button>Inicio</button><button>01 Reflexión</button><button>02 Evolución</button><button>03 Cómo funciona</button><button>04 Perfiles</button><button>Cierre</button></nav>
+<div class="chapter" id="chapter"></div>
+<div class="dock"><button id="btn-back" title="Diapositiva anterior completa (←)">← Atrás</button><button id="btn-menu" title="Índice (M)">☰ Índice</button><span class="legend"><i style="background:var(--machine)"></i>máquina<i style="background:var(--human)"></i>persona</span></div>
+<div id="menu" role="dialog" aria-label="Índice de la charla"><h4>Índice</h4><p class="help"><kbd>→</kbd> siguiente paso · <kbd>←</kbd> diapositiva anterior completa · <kbd>↑</kbd> deshacer un paso · <kbd>⇧</kbd>+<kbd>→</kbd> saltar a la siguiente diapositiva · <kbd>M</kbd> índice · <kbd>Esc</kbd> cerrar · <kbd>S</kbd> notas</p><div class="cols" id="menu-cols"></div></div>
+<div class="reveal"><div class="slides">
+
+<!-- ═══════════════ INICIO ═══════════════ -->
+<section class="cover" data-part="0" data-chapter="Portada" data-hero>
+  <p class="kicker"><b>Charla</b> Inteligencia artificial y lingüística computacional</p>
+  <h1 class="assemble">
+    <span style="animation-delay:.20s;--dx:-180px;--dy:-120px;--r:-14deg">Las</span> <span style="animation-delay:.29s;--dx:120px;--dy:-160px;--r:10deg">máquinas</span> <span style="animation-delay:.38s;--dx:-60px;--dy:140px;--r:8deg">ya</span> <span style="animation-delay:.47s;--dx:200px;--dy:90px;--r:-10deg">hablan.</span><br>
+    <span class="g" style="animation-delay:.65s;--dx:-220px;--dy:160px;--r:12deg">¿Quién</span> <span class="g" style="animation-delay:.74s;--dx:80px;--dy:-140px;--r:-8deg">pone</span> <span class="g" style="animation-delay:.83s;--dx:-120px;--dy:-90px;--r:6deg">el</span> <span class="g" style="animation-delay:.92s;--dx:240px;--dy:130px;--r:-12deg">sentido?</span>
+  </h1>
+  <p class="lead cover-sub">Qué hace de verdad una máquina con nuestro lenguaje, qué le sigue costando y dónde entramos nosotros.</p>
+  <div class="who"><div class="avatar photo"></div><div><strong style="font-size:.78em">Adrián Gázquet</strong><p class="note" style="margin:.2em 0 0">Filólogo · lingüista computacional</p></div></div>
+  <aside class="notes">Las palabras del título llegan sueltas y se ordenan: es lo que hace un modelo de lenguaje, y lo veremos en la parte 03. Saludo breve. Unos 45 minutos y preguntas al final.</aside>
+</section>
+
+<section data-part="0" data-chapter="Quién os habla">
+  <p class="kicker">Quién os habla</p>
+  <div style="display:flex;gap:44px;align-items:center"><img src="img/adrian.png" alt="Adrián Gázquet" class="me"><h2 style="margin:0">Soy Adrián.<br>Vengo de las letras.<br><span class="g">Trabajo con máquinas que usan palabras.</span></h2></div>
+  <div class="grid3" style="margin-top:40px">
+    <div class="card fragment fade-up"><span class="ico">📚</span><h3>Filología</h3><p>Cómo funciona una lengua: estructura, significado, uso y variación.</p></div>
+    <div class="card machine fragment fade-up"><span class="ico">🤖</span><h3>Lingüística computacional</h3><p>Diseñar sistemas conversacionales: intenciones, entidades, ambigüedades y errores.</p></div>
+    <div class="card human fragment fade-up"><span class="ico">💡</span><h3>Divulgación</h3><p>Explicar la tecnología del lenguaje a quien viene de humanidades, sin idealizarla ni temerla.</p></div>
+  </div>
+  <aside class="notes">Dos frases personales: por qué pasaste de la filología a la tecnología. Ajusta las tarjetas a tu trayectoria real.</aside>
+</section>
+
+<section data-part="0" data-chapter="Un juego">
+  <p class="kicker">Empecemos con un juego</p>
+  <h2>Tres encargos a una IA. <span class="g">¿Cuál falló?</span></h2>
+  <div class="grid3" style="margin-top:30px">
+    <div class="task"><div class="ask">Resume la <i>Crítica de la razón pura</i> en tres frases.</div><div class="ans">Kant se pregunta qué podemos conocer. Propone que la mente ordena la experiencia…</div><span class="stamp ok fragment pop">✓ BIEN</span></div>
+    <div class="task"><div class="ask">Escribe un soneto sobre la ironía.</div><div class="ans">Dice lo contrario de lo que nombra, / y en ese doble fondo nos sonríe…</div><span class="stamp ok fragment pop">✓ BIEN</span></div>
+    <div class="task"><div class="ask">¿Cuántas erres tiene la palabra <i>strawberry</i>?</div><div class="ans">La palabra «strawberry» tiene dos erres.</div><span class="stamp ko fragment pop">✗ SON TRES</span></div>
+  </div>
+  <aside class="notes">Pide al público que vote antes de revelar. Caso real: en 2024 muchos modelos avanzados respondían que «strawberry» tiene dos erres. Lo que nos parece difícil le resultó fácil; lo que haría un niño, no.</aside>
+</section>
+
+<section data-part="0" data-chapter="El misterio">
+  <p class="kicker">El misterio de la charla</p>
+  <div class="mystery" data-fx="scramble" data-chars="abcdefghijklmnopqrstuvwxyz">strawberry</div>
+  <h2 style="text-align:center">¿Cómo puede escribir un soneto<br>y <span class="g" data-rn="underline">no saber contar letras</span>?</h2>
+  <p class="lead fragment fade-up" style="text-align:center;margin:1em auto 0">Para responderlo hay que entender qué hace, y qué no, una máquina con nuestro lenguaje.<br><span class="h">Lo resolveremos en la parte 03.</span></p>
+  <aside class="notes">Deja el misterio abierto: es el hilo que mantiene la atención. En la parte 03 verán que el modelo no ve letras, sino fragmentos con número.</aside>
+</section>
+
+<section data-part="0" data-chapter="El mapa de la charla">
+  <p class="kicker">El mapa de la charla</p>
+  <p class="quote">Una pregunta guía: <span class="g">¿qué hace una máquina con nuestro lenguaje, y qué sigue siendo nuestro?</span></p>
+  <div class="road">
+    <div class="fragment fade-up"><b>Reflexión sobre la IA</b><span>Qué es, qué ha cambiado y cuatro miedos</span><q>¿Qué sigue siendo nuestro?</q></div>
+    <div class="fragment fade-up"><b>Evolución</b><span>Un manual en cuatro capítulos</span><q>¿Cómo hemos llegado aquí?</q></div>
+    <div class="fragment fade-up"><b>Cómo funciona</b><span>Cómo responde y cómo aprendió</span><q>¿Qué hace por dentro?</q></div>
+    <div class="fragment fade-up"><b>Perfiles</b><span>Trabajos y tareas para quien sabe de lenguaje</span><q>¿Y yo qué pinto aquí?</q></div>
+  </div>
+  <aside class="notes">Arriba se ve siempre en qué parte estamos y se puede saltar a cualquiera. El botón «Índice» (tecla M) abre el índice completo.</aside>
+</section>
+
+<!-- ═══════════════ 01 · REFLEXIÓN ═══════════════ -->
+<section class="divider" data-part="1" data-chapter="01 · Reflexión">
+  <p class="num g" data-fx="scramble" data-chars="0123456789">01</p>
+  <h2>Reflexión sobre la IA</h2>
+  <p class="guide">¿Qué es, qué ha cambiado y por qué nos da miedo?</p>
+  <div class="pills"><span class="pill">¿Qué es?</span><span class="pill">¿Qué ha cambiado?</span><span class="pill">¿Qué nos asusta?</span></div>
+</section>
+
+<section data-part="1" data-chapter="¿Qué es?">
+  <p class="kicker"><b>01</b> ¿Qué es?</p>
+  <h2>«Inteligencia artificial» no nombra <span class="g" data-rn="circle">una sola cosa</span>.</h2>
+  <p class="lead">Según a quién preguntes, inteligencia es…</p>
+  <div class="chips">
+    <span class="fragment fade-up">adaptarse a lo nuevo</span><span class="fragment fade-up">aprender de la experiencia</span><span class="fragment fade-up">razonar</span><span class="fragment fade-up">optimizar un objetivo</span><span class="fragment fade-up">imitar a una persona</span>
+  </div>
+  <p class="lead fragment fade-up">Cada definición pone el listón en un sitio distinto. Por eso el mismo sistema parece inteligente o no según desde dónde lo miremos.</p>
+  <p class="src">Legg y Hutter (2007) recopilaron decenas de definiciones de inteligencia.</p>
+  <aside class="notes">Definición de trabajo: sistemas que hacen tareas que asociamos con la inteligencia. No hay una definición única ni de la inteligencia artificial ni de la humana.</aside>
+</section>
+
+<section data-part="1" data-chapter="¿Qué ha cambiado? · La interfaz">
+  <p class="kicker"><b>01</b> ¿Qué ha cambiado? <i>· cómo hablamos con las máquinas</i></p>
+  <h2>Una misma tarea, <span class="g">cinco formas de pedirla</span>.</h2>
+  <p class="task-line"><span>La tarea</span> Encontrar los artículos sobre IA publicados este año.</p>
+  <div class="ifaces">
+    <div class="iface if1"><span class="y">1970s</span><b>Línea de comandos</b><div class="sample s-cli">$ grep -l "IA" ~/articulos/2026/*.txt<span style="display:block;margin-top:6px;color:#22c55e99">ia_lenguaje.txt<br>chatbots.txt</span></div><p class="who4">Hay que <strong>aprender comandos</strong> exactos. Un error de sintaxis y no funciona.</p></div>
+    <div class="iface if2"><span class="y">1984</span><b>Interfaz gráfica</b><div class="sample s-gui"><div class="bar"><i></i><i style="background:#fbbf24"></i><i style="background:#4ade80"></i> Artículos</div><div class="body">📁 2025<br>📁 2026 ◀︎ <br>&nbsp;&nbsp;📄 ia_lenguaje.txt<br>&nbsp;&nbsp;📄 chatbots.txt</div></div><p class="who4">Ventanas, carpetas y ratón: hay que <strong>saber dónde está</strong> cada cosa.</p></div>
+    <div class="iface if3"><span class="y">2000s</span><b>Buscador</b><div class="sample s-web"><span class="q">🔍 artículos IA 2026</span><span style="color:#2563eb">Inteligencia artificial: los artículos de…</span></div><p class="who4">Hablamos «en telegrama»: <strong>quitamos</strong> artículos, verbos y matices.</p></div>
+    <div class="iface if4"><span class="y">2011</span><b>Asistente de voz</b><div class="sample s-voice"><span class="mic">🎙️</span>«Oye, busca artículos sobre IA.»<span style="color:#fca5a5">«No he encontrado nada para "artículos de IA".»</span></div><p class="who4">Habla, pero con <strong>órdenes fijas</strong>: si te sales del guion, falla.</p></div>
+    <div class="iface if5"><span class="y">2022</span><b>Lenguaje natural</b><div class="sample s-chat">«¿Me buscas lo que se ha publicado este año sobre IA y lenguaje, y me lo resumes en tres ideas para mis alumnos?»</div><p class="who4">Pides como a una persona: <strong>intención, contexto y matices</strong>.</p></div>
+  </div>
+  <div class="meter"><div class="knob"></div></div>
+  <div class="meter-l"><span class="h">La persona se adapta a la máquina</span><span class="m">La máquina se adapta a la persona</span></div>
+  <span class="fragment marker e1"></span><span class="fragment marker e2"></span><span class="fragment marker e3"></span><span class="fragment marker e4"></span><span class="fragment marker e5"></span>
+  <aside class="notes">Pulsa para avanzar por las cinco épocas. El indicador inferior muestra quién hace el esfuerzo de adaptarse. Remate oral: «Antes aprendíamos el idioma de la máquina; ahora la máquina intenta aprender el nuestro». Andrej Karpathy lo resumió en 2023: el lenguaje de programación más popular ya es el inglés. Y el lenguaje natural es ambiguo: por eso la lingüística pasa a primer plano.</aside>
+</section>
+
+<section data-part="1" data-chapter="¿Qué ha cambiado? · La interfaz">
+  <p class="kicker"><b>01</b> ¿Qué ha cambiado? <i>· la consecuencia</i></p>
+  <p class="quote" style="font-size:1.5em">Antes aprendíamos el idioma de la máquina.<br><span class="g" data-rn="underline">Ahora la máquina intenta aprender el nuestro.</span></p>
+  <div class="stagger grid3" style="margin-top:36px">
+    <div class="card machine fragment fade-up"><span class="ico">🧾</span><h3>El lenguaje es el programa</h3><p>Una instrucción en español hace lo que antes hacía un programa. Escribirla bien es una competencia lingüística.</p></div>
+    <div class="card fragment fade-up"><span class="ico">🌫️</span><h3>Pero es ambiguo</h3><p>«Busca lo último sobre IA»: ¿lo último publicado o lo más reciente que has leído? El código no admite dudas; el lenguaje natural vive de ellas.</p></div>
+    <div class="card human fragment fade-up"><span class="ico">🧭</span><h3>Por eso importa la lingüística</h3><p>Saber cómo se construye el significado ayuda a pedir, evaluar y diseñar.</p></div>
+  </div>
+  <aside class="notes">Esta es la razón de que una charla de lingüística hable de IA: el lenguaje natural se ha convertido en la interfaz principal entre personas y máquinas.</aside>
+</section>
+
+
+<!-- ¿Qué nos asusta? -->
+<section data-part="1" data-chapter="¿Qué nos asusta?">
+  <p class="kicker"><b>01</b> ¿Qué nos asusta?</p>
+  <h2>Cuatro frases que se oyen mucho… <span class="g">y la pregunta que esconden</span>.</h2>
+  <div class="fears4">
+    <div class="flip f1"><div class="in"><div class="fr"><span class="ico">🧮</span><q>Va a pensar por nosotros</q><small>Miedo 1</small></div><div class="bk"><span class="n">MIEDO 1 · RAZONAR</span><h3>¿Qué tipo de razonamiento hace?</h3><ul><li>Cuatro formas de pensar</li><li>Qué problema pide cada una</li></ul></div></div></div>
+    <div class="flip f2"><div class="in"><div class="fr"><span class="ico">🎨</span><q>Creará mejor que nosotros</q><small>Miedo 2</small></div><div class="bk"><span class="n">MIEDO 2 · CREAR</span><h3>¿Puede salirse de lo conocido?</h3><ul><li>Hallazgos que nadie buscaba</li><li>Lo kitsch</li></ul></div></div></div>
+    <div class="flip f3"><div class="in"><div class="fr"><span class="ico">🧠</span><q>Ya piensa como nosotros</q><small>Miedo 3</small></div><div class="bk"><span class="n">MIEDO 3 · ENTENDER</span><h3>¿Entiende o solo simula?</h3><ul><li>IA débil e IA fuerte</li><li>Turing frente a Searle</li></ul></div></div></div>
+    <div class="flip f4"><div class="in"><div class="fr"><span class="ico">💬</span><q>Ya habla como nosotros</q><small>Miedo 4</small></div><div class="bk"><span class="n">MIEDO 4 · HABLAR</span><h3>¿Basta el texto para dar sentido?</h3><ul><li>Por qué habla tan bien</li><li>Lo que el texto deja fuera</li><li>La situación: pragmática</li></ul></div></div></div>
+  </div>
+  <span class="fragment marker fl1"></span><span class="fragment marker fl2"></span><span class="fragment marker fl3"></span><span class="fragment marker fl4"></span>
+  <aside class="notes">Lee cada frase como si la dijera alguien del público y pulsa para girar la tarjeta: detrás está la pregunta de verdad. El orden va de lo que hace la IA (razonar, crear) a lo que es (entender, hablar), y el último miedo nos lleva al lenguaje, el tema de la charla. Cada miedo termina con un «balance»: qué hace hoy la IA y dónde seguimos haciendo falta.</aside>
+</section>
+
+<!-- Miedo 1 · Razonar -->
+<section data-part="1" data-chapter="Miedo 1 de 4 · Razonar">
+  <p class="kicker"><b>Miedo 1/4</b> «Va a pensar por nosotros» <i>· cuatro formas de pensar</i></p>
+  <div class="scene"><span>🔑</span><b>La escena:</b> vas a salir de casa y no encuentras las llaves.</div>
+  <div class="think">
+    <div class="card machine fragment fade-up"><span class="tag m">Deducción</span><span class="orig">Aristóteles · s. IV a. C.</span><div class="vis">🧥 ⟶ 🔑</div><div class="formula">regla + caso → conclusión</div><p class="ex">«Siempre dejo las llaves en el abrigo que llevo. Ayer llevé el azul. <b>Están en el abrigo azul.</b>»</p><p class="res m">Segura, si la regla se cumple</p></div>
+    <div class="card machine fragment fade-up"><span class="tag m">Inducción</span><span class="orig">Aristóteles · s. IV a. C.</span><div class="vis">🛋️🔑 🛋️🔑 🛋️🔑</div><div class="formula">muchos casos → regla</div><p class="ex">«Las últimas cinco veces aparecieron entre los cojines del sofá. <b>Suelen acabar en el sofá.</b>»</p><p class="res m">Probable, nunca segura</p></div>
+    <div class="card human fragment fade-up"><span class="tag h">Abducción</span><span class="orig">Peirce · s. XIX</span><div class="vis">🛍️🚗 ⟶ 🔑?</div><div class="formula">pista → mejor explicación</div><p class="ex">«Hay bolsas de la compra en la entrada y el maletero sigue abierto. <b>Me las dejé en el coche al descargar.</b> Voy a mirar.»</p><p class="res h">Plausible: hay que comprobarla</p></div>
+    <div class="card human fragment fade-up"><span class="tag h">Pensamiento lateral</span><span class="orig">De Bono · 1967</span><div class="vis">❓ ⟶ 🪝</div><div class="formula">cambiar la pregunta</div><p class="ex">«¿Y si la pregunta no es dónde están, sino <b>cómo no volver a buscarlas</b>? Un gancho junto a la puerta.»</p><p class="res h">Nueva: cambia el problema</p></div>
+  </div>
+  <aside class="notes">Todos hemos perdido las llaves: pregunta al público cómo las buscan. Las flechas marcan la dirección. La deducción aplica una regla; la inducción saca una regla de casos repetidos; la abducción salta de una pista a la mejor explicación (Sherlock Holmes dice «deducir», pero casi siempre abduce); el pensamiento lateral no resuelve el problema planteado: lo cambia por otro mejor.</aside>
+</section>
+
+<section data-part="1" data-chapter="Miedo 1 de 4 · Razonar">
+  <p class="kicker"><b>Miedo 1/4</b> «Va a pensar por nosotros» <i>· el mapa Cynefin (Snowden)</i></p>
+  <div class="cyn">
+    <div class="cynmap">
+      <div class="q-cx"><b>Complejo</b><span class="resp">probar → observar → responder</span>Nadie sabe la respuesta de antemano; el sentido aparece al experimentar.<span class="tk">abducción</span></div>
+      <div class="q-cp"><b>Complicado</b><span class="resp">analizar → responder</span>Hay una respuesta, pero requiere datos y expertos.<span class="tk">inducción</span></div>
+      <div class="q-ch"><b>Caótico</b><span class="resp">actuar → observar → responder</span>Las reglas se han roto; hay que actuar distinto.<span class="tk">pensamiento lateral</span></div>
+      <div class="q-cl"><b>Claro</b><span class="resp">reconocer → aplicar la regla</span>Si A, entonces B.<span class="tk">deducción</span></div>
+    </div>
+    <div class="cynsteps">
+      <h2>Cada tipo de problema pide <span class="g">una forma de pensar</span>.</h2>
+      <p class="fragment c1">Lo <b>claro</b> se resuelve aplicando reglas.</p>
+      <p class="fragment c2">Lo <b>complicado</b>, extrayendo patrones de los datos.</p>
+      <p class="fragment c3">Lo <b>complejo</b> exige proponer hipótesis y probarlas.</p>
+      <p class="fragment c4">Lo <b>caótico</b>, romper el marco.</p>
+      <p class="fragment fade-up" style="border:0;padding:0;margin-top:1em"><span class="debate">Debate</span> <span class="lead">¿Hasta qué cuadrante llega hoy la IA?</span></p>
+    </div>
+  </div>
+  <p class="src" style="margin-top:14px"><span class="didactic">relación didáctica</span> Cynefin clasifica situaciones; la correspondencia con formas de pensar es una propuesta para la charla.</p>
+  <div class="balance fragment"><span class="bt">Balance · Miedo 1 · Razonar</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Muy fuerte en lo claro y lo complicado: aplicar reglas y encontrar patrones en cantidades enormes de datos. En lo complejo y lo caótico, el debate sigue abierto.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Elegir qué hipótesis merece la pena comprobar y darse cuenta de que conviene cambiar la pregunta.</div></div></div>
+  <aside class="notes">Vuelve a las llaves: si siempre están en el abrigo, el problema es claro; si hay que revisar dónde aparecieron otras veces, complicado; si hay pistas raras, complejo; si llegas tarde a un examen, caótico: actúa ya (pide que te abran) y piensa después. Para el debate: los sistemas actuales son muy buenos en lo claro (reglas, programas) y en lo complicado (inducción a gran escala). Se discute cuánto llegan a lo complejo y a lo caótico.</aside>
+</section>
+
+<!-- Miedo 2 · Crear -->
+<section data-part="1" data-chapter="Miedo 2 de 4 · Crear">
+  <p class="kicker"><b>Miedo 2/4</b> «Creará mejor que nosotros» <i>· errores que cambiaron la historia</i></p>
+  <h2>Muchos avances <span class="g">no se estaban buscando</span>.</h2>
+  <div class="path">
+    <svg viewBox="0 0 1376 460" aria-hidden="true">
+      <defs><linearGradient id="gp" x1="0" x2="1"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#c084fc"/></linearGradient></defs>
+      <path d="M20 420 L1350 420" stroke="#22d3ee" stroke-width="2.5" stroke-dasharray="10 10" fill="none" opacity=".6"/>
+      <text x="1350" y="452" text-anchor="end" style="font:600 17px sans-serif;fill:#22d3ee">el camino planeado</text>
+      <path class="draw" d="M20 420 C120 420, 140 200, 240 200 S 420 330, 520 320 S 680 120, 790 130 S 960 330, 1060 300 S 1260 60, 1350 50" stroke="url(#gp)" stroke-width="4" fill="none"/>
+    </svg>
+    <div class="stone fragment fade-up" style="left:120px;top:60px"><span class="y">1895</span><b>Rayos X</b>Röntgen investigaba tubos de rayos catódicos y vio brillar una pantalla lejana.</div>
+    <div class="stone fragment fade-up" style="left:430px;top:340px"><span class="y">1928</span><b>Penicilina</b>Un moho contaminó por descuido las placas de Fleming.</div>
+    <div class="stone fragment fade-up" style="left:690px;top:0px"><span class="y">1945</span><b>Microondas</b>A Percy Spencer se le derritió una chocolatina junto a un radar.</div>
+    <div class="stone fragment fade-up" style="left:1000px;top:330px"><span class="y">1968–1980</span><b>Post-it</b>Se buscaba un pegamento fuerte; salió uno débil.</div>
+  </div>
+  <div class="defs fragment">
+    <div class="def machine"><span class="tag m">Heurística</span><b>Un atajo para decidir sin certeza.</b><p>Una regla práctica que no garantiza acertar, pero permite avanzar cuando no hay datos ni reglas.</p></div>
+    <div class="def human"><span class="tag h">Genialidad</span><b>Ver valor donde nadie lo buscaba.</b><p>Fijarse en el moho, en la chocolatina derretida, en el pegamento que no pega. <span data-rn="underline">Una capacidad muy humana.</span></p></div>
+  </div>
+  <aside class="notes">Stanley y Lehman (Why Greatness Cannot Be Planned) los llaman piedras de paso: hallazgos que solo parecen decisivos a posteriori. Perseguir un objetivo en línea recta puede cerrar justo los caminos que llevan más lejos. Heurística: Pólya (1945), Kahneman y Tversky (1974).</aside>
+</section>
+
+<section data-part="1" data-chapter="Miedo 2 de 4 · Crear">
+  <p class="kicker"><b>Miedo 2/4</b> «Creará mejor que nosotros» <i>· lo kitsch, una tesis para debatir</i></p>
+  <div class="grid2" style="grid-template-columns:1.25fr 1fr;align-items:center">
+    <div class="dist">
+      <svg viewBox="0 0 760 420" preserveAspectRatio="none" aria-hidden="true">
+        <defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22d3ee" stop-opacity=".35"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient></defs>
+        <path d="M0 400 C 180 400, 250 70, 380 70 S 580 400, 760 400 Z" fill="url(#gd)" stroke="#22d3ee" stroke-width="2"/>
+      </svg>
+      <span class="lab" style="left:31%;top:395px;width:300px">lo ya escrito: los datos de entrenamiento</span>
+      <span class="dot" style="animation-delay:.40s;left:48%;--t:120px"></span><span class="dot" style="animation-delay:.54s;left:51%;--t:140px"></span><span class="dot" style="animation-delay:.68s;left:45%;--t:170px"></span><span class="dot" style="animation-delay:.82s;left:54%;--t:180px"></span><span class="dot" style="animation-delay:.96s;left:49%;--t:200px"></span><span class="dot" style="animation-delay:1.10s;left:42%;--t:230px"></span><span class="dot" style="animation-delay:1.24s;left:57%;--t:220px"></span><span class="dot" style="animation-delay:1.38s;left:52%;--t:250px"></span>
+      <span class="odd fragment pop"></span>
+    </div>
+    <div>
+      <h2>La IA tiende al <span class="m">centro de lo conocido</span>.</h2>
+      <p class="lead">Genera lo más probable a partir de lo que ya ha visto: correcto, fluido… y <span data-rn="underline" data-rn-color="#22d3ee">previsible</span>.</p>
+      <p class="lead fragment fade-up"><b>Kitsch</b> es la imitación de los efectos de lo valioso sin el riesgo que lo hizo valioso.</p>
+      <p class="lead fragment fade-up">Y si se sale del centro, <span class="h">¿quién decide si es un error o un hallazgo?</span></p>
+    </div>
+  </div>
+  <p class="src">Kitsch: Clement Greenberg, «Avant-garde and kitsch», 1939.</p>
+  <div class="balance fragment"><span class="bt">Balance · Miedo 2 · Crear</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Recombina lo que ya existe y tiende a lo más probable: fluido, correcto… y previsible.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Reconocer el valor de lo inesperado, como Fleming ante el moho, y decidir si algo es un error o un hallazgo.</div></div></div>
+  <aside class="notes">Tesis para debatir: la IA recombina lo que conoce y gravita hacia lo probable. Se puede forzar a salir del centro (subiendo la «temperatura»), pero eso produce sobre todo ruido; reconocer qué salida tiene valor es, hoy, un juicio humano, como el de Fleming ante el moho. Objeción legítima: los humanos también producimos kitsch.</aside>
+</section>
+
+<!-- Miedo 3 · Entender -->
+<section data-part="1" data-chapter="Miedo 3 de 4 · Entender">
+  <p class="kicker"><b>Miedo 3/4</b> «Ya piensa como nosotros» <i>· el debate de fondo</i></p>
+  <h2>¿Simular perfectamente el pensamiento <span class="g">es pensar</span>?</h2>
+  <div class="grid2">
+    <div class="card machine fragment fade-up"><span class="tag m">IA débil · «simula»</span><h3>Reproduce conductas inteligentes</h3><p>Es una herramienta poderosa, pero simular una mente no es tenerla.</p><p style="margin-top:.8em"><b>Filosofía de fondo:</b> dualismo (Descartes). La mente no se reduce a materia ni a cálculo.</p></div>
+    <div class="card human fragment fade-up"><span class="tag h">IA fuerte · «piensa»</span><h3>Un programa adecuado sería una mente</h3><p>Con comprensión y estados mentales propios.</p><p style="margin-top:.8em"><b>Filosofía de fondo:</b> monismo, funcionalismo. Si un cerebro produce una mente, otro sistema bien organizado también podría.</p></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:1em">Dos experimentos mentales famosos ponen a prueba cada postura.</p>
+  <p class="src">La distinción «IA débil / IA fuerte» es de John Searle (1980).</p>
+  <aside class="notes">Presenta ambas posiciones con la misma fuerza; entre dualismo y monismo hay muchas posiciones intermedias. No hay que decidir aquí.</aside>
+</section>
+
+<section data-part="1" data-chapter="Miedo 3 de 4 · Entender">
+  <p class="kicker"><b>Miedo 3/4</b> «Ya piensa como nosotros» <i>· dos experimentos</i></p>
+  <div class="ts">
+    <div class="card machine">
+      <span class="tag m">Turing, 1950 · a favor de la IA fuerte</span>
+      <h3>El juego de imitación</h3>
+      <div class="doors"><div class="door"><span class="lbl">A</span><span class="who2">🙋</span></div><div class="judge">🧑‍⚖️</div><div class="door"><span class="lbl">B</span><span class="who2">🤖</span></div></div>
+      <p>Un juez conversa por escrito con A y con B sin verlos. <b>Si no distingue cuál es la máquina, ¿qué razón tiene para negar que piensa?</b></p>
+    </div>
+    <div class="card human fragment fade-up">
+      <span class="tag h">Searle, 1980 · a favor de la IA débil</span>
+      <h3>La habitación china</h3>
+      <div class="room"><div class="sym">你好吗？</div><div class="box"><strong>Alguien que no sabe chino</strong><div class="rules">📖 SI ves 你好吗<br>&nbsp;&nbsp;&nbsp;ESCRIBE 我很好</div></div><div class="sym">我很好</div><span class="flyer in">你好吗</span><span class="flyer out">我很好</span></div>
+      <p>Siguiendo un libro de reglas, la habitación responde perfecto y pasaría el test. Pero dentro <b>nadie entiende nada</b>: <span data-rn="highlight" data-rn-color="#8b5cf655">sintaxis sin semántica</span>.</p>
+    </div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:.9em"><span class="debate">Debate</span> ¿Qué tendría que hacer una máquina para que dijerais que <span class="g">entiende</span>?</p>
+  <span class="fragment marker unmask"></span>
+  <div class="balance fragment"><span class="bt">Balance · Miedo 3 · Entender</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Supera muchas pruebas de conducta: a menudo no la distinguimos de una persona por escrito.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Decidir qué cuenta como «entender». Searle nos deja una pregunta sobre el lenguaje: ¿basta manejar símbolos para que signifiquen algo? Es el miedo 4.</div></div></div>
+  <aside class="notes">Turing cambia una pregunta difícil («¿piensa?») por una prueba de conducta. Searle responde que la conducta no basta. Respuestas a Searle, por si salen en el debate: la del sistema (entiende el conjunto, no la persona) y la del robot (dadle cuerpo y sensores). La última pulsación revela quién estaba detrás de cada puerta.</aside>
+</section>
+
+<!-- Miedo 4 · Hablar -->
+<section data-part="1" data-chapter="Miedo 4 de 4 · Hablar">
+  <p class="kicker"><b>Miedo 4/4</b> «Ya habla como nosotros» <i>· por qué habla tan bien</i></p>
+  <h2>Una palabra se conoce <span class="g">por sus compañías</span>.</h2>
+  <div class="grid2" style="align-items:center;margin-top:10px">
+    <div>
+      <p class="lead">¿Qué palabra falta?</p>
+      <p class="prompt">Me tomé un <span class="blank"><span class="fragment">café</span></span> con leche y una tostada.</p>
+      <p class="lead fragment fade-up">Nadie os ha dicho qué es. Lo habéis sabido por <b>las palabras que la rodean</b>.</p>
+    </div>
+    <div class="cloud">
+      <span class="core" style="--x:50%;--y:50%">café</span>
+      <span style="--x:20%;--y:20%">taza</span><span style="--x:52%;--y:13%">con leche</span><span style="--x:82%;--y:22%">desayuno</span>
+      <span style="--x:15%;--y:52%">tomar</span><span style="--x:85%;--y:52%">caliente</span>
+      <span style="--x:22%;--y:84%">cafetera</span><span style="--x:52%;--y:88%">cortado</span><span style="--x:82%;--y:82%">en el bar</span>
+    </div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:.8em">Es la <b>hipótesis distribucional</b>: el significado se refleja en las compañías. Es <span class="m">justo lo que aprende un modelo</span> de millones de textos, y por eso habla tan bien.</p>
+  <p class="src">Harris (1954) · Firth (1957): «Conocerás una palabra por las compañías que frecuenta».</p>
+  <aside class="notes">Haz el juego en voz alta: todo el mundo dice «café». Esa es la intuición que hace funcionar a los modelos de lenguaje, y la veremos convertida en un mapa en el capítulo 3 y en el paso 2 de la parte 03. Transición: «Pero ¿con las compañías basta? ¿Sabe a qué sabe el café?».</aside>
+</section>
+
+<section data-part="1" data-chapter="Miedo 4 de 4 · Fuera del texto">
+  <p class="kicker"><b>Miedo 4/4</b> «Ya habla como nosotros» <i>· lo que el texto deja fuera</i></p>
+  <h2>¿Qué se queda <span class="g">fuera del texto</span>?</h2>
+  <p class="textpill">📄 Un modelo de lenguaje recibe solo <b>texto</b>. Cuatro teorías señalan lo que el texto no trae:</p>
+  <div class="gaps">
+    <div class="card fragment fade-up"><span class="tag">Anclaje del símbolo · Harnad 1990</span><h3>🌍 Falta el mundo</h3><p class="idea2">Si cada palabra se define con otras palabras, el significado nunca toca las cosas.</p><p class="ex">Aprender chino con un diccionario chino-chino: «dolor → sensación → sentir → dolor…». Nosotros salimos del círculo porque nos ha dolido algo.</p><p class="prob">El modelo sabe cómo se usa «dolor», no qué se siente.</p></div>
+    <div class="card fragment fade-up"><span class="tag">Cognición corporeizada · Lakoff y Johnson 1980</span><h3>🫀 Falta el cuerpo</h3><p class="idea2">Muchas metáforas nacen de la experiencia del cuerpo.</p><p class="ex">«Estoy de bajón», «me subió el ánimo», «una idea pesada»: lo triste está abajo; lo difícil, pesa.</p><p class="prob">Sin cuerpo, ¿qué significa «abajo» o «pesado»?</p></div>
+    <div class="card fragment fade-up"><span class="tag">Juegos de lenguaje · Wittgenstein 1953</span><h3>🎲 Falta el uso</h3><p class="idea2">El significado está en lo que hacemos con las palabras.</p><p class="ex">«¡Agua!» en el desierto es una petición; en un incendio, una orden; en un barco, una alarma.</p><p class="prob">Ve las huellas del uso en los textos, pero no participa en la práctica.</p></div>
+    <div class="card fragment fade-up"><span class="tag">Relatividad lingüística · Sapir y Whorf</span><h3>🔭 Falta la mirada de cada lengua</h3><p class="idea2">Cada lengua orienta lo que notamos.</p><p class="ex"><span class="blues"><i style="background:#7fb6e6">голубой</i><i style="background:#1f3f9a">синий</i></span>El ruso tiene dos azules básicos; en guugu yimithirr no se dice «izquierda», sino «al norte del plato».</p><p class="prob">Aprende sobre todo de textos en inglés: ¿qué mirada hereda?</p></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:.7em">Y falta una quinta cosa, la más cotidiana: <span class="h">la situación</span>.</p>
+  <aside class="notes">La idea que une las cuatro: el modelo recibe texto, y el significado humano también se apoya en el mundo, el cuerpo, la práctica y la propia lengua. Matices: de Sapir-Whorf solo se sostiene la versión débil (Winawer et al., 2007; Levinson, 2003). Los modelos que también ven imágenes u oyen audio intentan acortar la distancia: debate abierto. La quinta es la pragmática, en la siguiente.</aside>
+</section>
+
+<section data-part="1" data-chapter="Miedo 4 de 4 · Pragmática">
+  <p class="kicker"><b>Miedo 4/4</b> «Ya habla como nosotros» <i>· la quinta: la situación</i></p>
+  <h2>La misma frase, <span class="g">tres significados</span>.</h2>
+  <div class="prag-stage">
+    <div class="sc sc1"><span class="emo">🚗</span><span class="where2">En el coche, con la ventanilla abierta</span><span class="mean">→ «Sube la ventanilla, por favor.» (una petición)</span></div>
+    <div class="sc sc2"><span class="emo">🏠</span><span class="where2">Visitando un piso de alquiler</span><span class="mean">→ «Este piso no me convence.» (una crítica)</span></div>
+    <div class="sc sc3"><span class="emo">🏖️</span><span class="where2">En la playa, a 40 grados</span><span class="mean">→ «¡Qué calor!» (ironía)</span></div>
+    <div class="say">«Hace frío aquí.»</div>
+  </div>
+  <span class="fragment marker s1"></span><span class="fragment marker s2"></span><span class="fragment marker s3"></span>
+  <p class="lead fragment fade-up">La pragmática estudia lo que <b>hacemos</b> al hablar, más allá de lo que <b>decimos</b>. Un modelo solo tiene el texto; nosotros, <span class="h">la escena compartida</span>.</p>
+  <div class="chips fragment fade-up" style="margin-top:10px"><span>«¿Tienes hora?» → dime la hora</span><span>«Aprobaron algunos» → no todos</span><span>«Genial, otra vez lluvia» → ironía</span><span>«Déjalo ahí mañana» → ¿dónde?, ¿cuándo?</span></div>
+  <div class="balance fragment"><span class="bt">Balance · Miedo 4 · Hablar</span><div class="bal"><div class="bm"><b>🤖 La IA hoy</b>Ha aprendido el lenguaje de millones de textos y lo usa con una fluidez asombrosa.</div><div class="bh"><b>🧑 Dónde seguimos haciendo falta</b>Aportar lo que el texto no trae: el mundo, el cuerpo, el uso y la escena compartida que da sentido a «Hace frío aquí».</div></div></div>
+  <aside class="notes">Pulsa tres veces para cambiar de escena. Austin (1962): hablar es hacer cosas. Grice (1975): lo que se comunica va más allá de lo que se dice.</aside>
+</section>
+
+<section data-part="1" data-chapter="01 · Recapitulando">
+  <p class="kicker"><b>01</b> Lo que llevamos</p>
+  <h2>Los cuatro miedos, <span class="g">en una tabla</span>.</h2>
+  <div class="hard">
+    <div class="hd">Miedo</div><div class="hd">La pregunta</div><div class="hd">Qué hace la IA hoy</div><div class="hd">Dónde seguimos haciendo falta</div>
+    <div class="f fragment fade-up" data-fragment-index="1">1 · RAZONAR</div><div class="k fragment fade-up" data-fragment-index="1">¿Qué forma de pensar?</div><div class="fragment fade-up" data-fragment-index="1">Reglas y patrones a gran escala</div><div class="q fragment fade-up" data-fragment-index="1">Elegir la hipótesis y cambiar la pregunta</div>
+    <div class="f fragment fade-up" data-fragment-index="2">2 · CREAR</div><div class="k fragment fade-up" data-fragment-index="2">¿Sale de lo conocido?</div><div class="fragment fade-up" data-fragment-index="2">Recombina lo probable</div><div class="q fragment fade-up" data-fragment-index="2">Reconocer el hallazgo</div>
+    <div class="f fragment fade-up" data-fragment-index="3">3 · ENTENDER</div><div class="k fragment fade-up" data-fragment-index="3">¿Entiende o simula?</div><div class="fragment fade-up" data-fragment-index="3">Supera pruebas de conducta</div><div class="q fragment fade-up" data-fragment-index="3">Decidir qué es entender</div>
+    <div class="f fragment fade-up" data-fragment-index="4">4 · HABLAR</div><div class="k fragment fade-up" data-fragment-index="4">¿Basta el texto?</div><div class="fragment fade-up" data-fragment-index="4">Aprende las compañías de las palabras</div><div class="q fragment fade-up" data-fragment-index="4">Mundo, cuerpo, uso y situación</div>
+  </div>
+  <p class="lead fragment fade-up" data-fragment-index="5" style="margin-top:.8em">Para ver por qué, toca mirar de dónde vienen estas máquinas <span class="h">(02)</span> y qué hacen por dentro <span class="h">(03)</span>.</p>
+  <aside class="notes">Cierre de la parte 01. Cada pulsación muestra una fila completa. No son respuestas cerradas: son el estado actual de un debate.</aside>
+</section>
+
+<!-- ═══════════════ 02 · EVOLUCIÓN ═══════════════ -->
+<section class="divider" data-part="2" data-chapter="02 · Evolución">
+  <p class="num g" data-fx="scramble" data-chars="0123456789">02</p>
+  <h2>Evolución de la IA</h2>
+  <p class="guide">¿Cómo hemos llegado hasta aquí?</p>
+  <div class="pills"><span class="pill">Un manual en cuatro capítulos</span></div>
+</section>
+
+<section data-part="2" data-chapter="El manual">
+  <div class="bookwrap">
+    <div class="tbook">
+      <div class="page p3"></div><div class="page p2"></div><div class="page"><h4>Índice</h4><ol>
+        <li>La era de las reglas <span>1950</span></li>
+        <li>La era de la estadística <span>1990</span></li>
+        <li>La era del significado aprendido <span>2013</span></li>
+        <li>La era generativa <span>2017</span></li>
+      </ol><p style="font:italic .5em var(--serif);color:#5d564b;margin-top:2em">Cada capítulo termina con la pregunta que obligó a escribir el siguiente.</p></div>
+      <div class="coverb"><div><p style="letter-spacing:.2em;text-transform:uppercase">Manual de bolsillo</p><h3>Breve historia de las máquinas que aprendieron a hablar</h3></div><p>4 capítulos · 70 años</p></div>
+    </div>
+    <div>
+      <p class="kicker"><b>02</b> Evolución <i>· el manual</i></p>
+      <h2>Abramos el libro.</h2>
+      <p class="lead">Cuatro capítulos. Cada uno resuelve un problema… y deja otro abierto.</p>
+      <span class="fragment marker openbook"></span>
+    </div>
+  </div>
+  <aside class="notes">Pulsa para abrir el libro. El capítulo siguiente nace siempre del límite del anterior.</aside>
+</section>
+
+<section data-auto-animate data-part="2" data-chapter="Capítulo 1 · Reglas">
+  <div class="chap">
+    <div>
+      <span class="ribbon" data-id="rib">Capítulo 1 · 1950–1990</span>
+      <h2 data-id="ct">La era de <span class="g">las reglas</span></h2>
+      <p class="idea" data-id="idea"><b>Idea clave</b>Una persona escribe a mano el conocimiento: «si aparece X, responde Y».</p>
+      <p class="why fragment fade-up" data-id="why"><b>¿Por qué no bastó?</b>El lenguaje tiene infinitas formas. «Mi madre», «mi mamá», «la que me parió»… Nadie puede escribir todas las reglas.</p>
+    </div>
+    <div class="demo" data-id="demo"><div class="t">Ejemplo · ELIZA (Weizenbaum, 1966)</div>
+      <p class="dl u">Mi madre no me entiende.</p><p class="dl b">Háblame más de tu familia.</p>
+      <p class="dl u">Mi jefe tampoco.</p><p class="dl b">¿Por qué dices eso?</p>
+      <p class="note" style="margin-top:1em">Regla: si aparece «madre», preguntar por la familia. Si no hay regla, respuesta comodín.</p></div>
+  </div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:20%"></div></div>
+  <aside class="notes">ELIZA imitaba a un psicoterapeuta con reglas de palabras clave, y mucha gente le atribuía comprensión (el «efecto ELIZA»). Enlaza con Turing y Searle: es la línea de comandos del capítulo de interfaces.</aside>
+</section>
+
+<section data-auto-animate data-part="2" data-chapter="Capítulo 2 · Estadística">
+  <div class="chap">
+    <div>
+      <span class="ribbon" data-id="rib">Capítulo 2 · 1990–2013</span>
+      <h2 data-id="ct">La era de <span class="g">la estadística</span></h2>
+      <p class="idea" data-id="idea"><b>Idea clave</b>En lugar de escribir reglas, contamos: qué palabra suele venir después de otra en millones de textos.</p>
+      <p class="why fragment fade-up" data-id="why"><b>¿Por qué no bastó?</b>Solo mira dos o tres palabras atrás, y no sabe que «perro» y «can» se parecen: para ella son palabras distintas.</p>
+    </div>
+    <div class="demo" data-id="demo"><div class="t">Ejemplo · el teclado predictivo</div>
+      <p class="prompt">Buenos <u>&nbsp;</u></p>
+      <div class="bars"><div><span>días</span><i style="--p:100%"></i><small>63 %</small></div><div><span>aires</span><i style="--p:12%"></i><small>8 %</small></div><div><span>tiempos</span><i style="--p:9%"></i><small>6 %</small></div></div>
+      <p class="note" style="margin-top:1em">Cifras ilustrativas. También: traductores y correctores estadísticos.</p></div>
+  </div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:51%"></div></div>
+  <aside class="notes">Modelos de n-gramas. La idea de predecir la siguiente palabra no desaparece: vuelve en el capítulo 4 a escala gigantesca.</aside>
+</section>
+
+<section data-auto-animate data-part="2" data-chapter="Capítulo 3 · Significado aprendido">
+  <div class="chap">
+    <div>
+      <span class="ribbon" data-id="rib">Capítulo 3 · 2013–2017</span>
+      <h2 data-id="ct">La era del <span class="g">significado aprendido</span></h2>
+      <p class="idea" data-id="idea"><b>Idea clave</b>Cada palabra se convierte en un punto en un espacio: las que aparecen en contextos parecidos quedan cerca (<i>embeddings</i>).</p>
+      <p class="why fragment fade-up" data-id="why"><b>¿Por qué no bastó?</b>Cada palabra tiene un único punto. «Banco» para sentarse y «banco» para sacar dinero quedan mezclados.</p>
+    </div>
+    <div class="demo vec" data-id="demo"><div class="t">Ejemplo · word2vec (Mikolov et al., 2013)</div>
+      <svg viewBox="0 0 500 320" style="width:100%;height:320px">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#22d3ee"/></marker><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b69cff"/></marker></defs>
+        <circle cx="90" cy="250" r="7" fill="#22d3ee"/><text x="60" y="285">hombre</text>
+        <circle cx="200" cy="80" r="7" fill="#22d3ee"/><text x="180" y="62">rey</text>
+        <circle cx="300" cy="270" r="7" fill="#b69cff"/><text x="280" y="305">mujer</text>
+        <circle cx="410" cy="100" r="7" fill="#b69cff"/><text x="392" y="82">reina</text>
+        <path class="draw" d="M95 242 L196 90" stroke="#22d3ee" stroke-width="3" marker-end="url(#ah)"/>
+        <path class="draw" data-delay=".8" d="M305 262 L406 110" stroke="#b69cff" stroke-width="3" marker-end="url(#ah2)"/>
+      </svg>
+      <p class="note" style="text-align:center;font-family:var(--mono)!important">rey − hombre + mujer ≈ reina</p></div>
+  </div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:68%"></div></div>
+  <aside class="notes">Es la hipótesis distribucional del miedo 4 convertida en matemáticas. La analogía rey/reina es el ejemplo clásico y funciona solo de forma aproximada.</aside>
+</section>
+
+<section data-auto-animate data-part="2" data-chapter="Capítulo 4 · Generativa">
+  <div class="chap">
+    <div>
+      <span class="ribbon" data-id="rib">Capítulo 4 · 2017–hoy</span>
+      <h2 data-id="ct">La era <span class="g">generativa</span></h2>
+      <p class="idea" data-id="idea"><b>Idea clave</b>La atención: cada palabra mira a todas las demás de la frase y ajusta su significado según el contexto. Después se predice la siguiente.</p>
+      <p class="why fragment fade-up" data-id="why"><b>Pregunta abierta</b>Genera texto muy verosímil. Pero lo verosímil no siempre es verdadero.</p>
+    </div>
+    <div class="demo" data-id="demo"><div class="t">Ejemplo · Transformer (2017) → ChatGPT (2022)</div>
+      <p class="dl u">Me senté en el <b>banco</b> del parque.</p>
+      <p class="dl u">Saqué dinero del <b>banco</b>.</p>
+      <p class="note" style="margin-top:1em">Con atención, «banco» recibe una representación distinta en cada frase: el problema del capítulo 3 queda resuelto.</p></div>
+  </div>
+  <div class="era" data-id="era"><span style="left:6%">1950</span><span style="left:40%">1990</span><span style="left:63%">2013</span><span style="left:74%">2017</span><span style="left:96%">hoy</span><div class="mk" data-id="mk" style="left:86%"></div></div>
+  <aside class="notes">«Attention Is All You Need» (Vaswani et al., 2017). Sobre esa arquitectura se construyen GPT, Claude, Gemini, etc. Un LLM no borra los capítulos anteriores: los contiene todos, y lo veremos en la parte 03.</aside>
+</section>
+
+<!-- ═══════════════ 03 · CÓMO FUNCIONA ═══════════════ -->
+<section class="divider" data-part="3" data-chapter="03 · Cómo funciona">
+  <p class="num g" data-fx="scramble" data-chars="0123456789">03</p>
+  <h2>Cómo funciona un LLM</h2>
+  <p class="guide">¿Qué hace cuando le escribimos? ¿Y cómo aprendió a hacerlo? Por el camino, resolveremos el misterio de las erres.</p>
+  <div class="pills"><span class="pill">Responder: 4 pasos</span><span class="pill">Aprender: 3 etapas</span></div>
+</section>
+
+<section data-part="3" data-chapter="Dos preguntas">
+  <p class="kicker"><b>03</b> El mapa de esta parte</p>
+  <h2>Un LLM hace una sola cosa: <span class="g">continuar un texto</span>.</h2>
+  <p class="lead" style="margin-top:-.4em">LLM: <i>large language model</i>, un modelo grande de lenguaje. Para entenderlo, separemos dos momentos.</p>
+  <div class="lanes">
+    <div class="card machine lane fragment fade-up"><span class="when">Cada vez que le escribes · en segundos</span><h3>¿Cómo responde?</h3>
+      <div class="mini"><span><i>✂️</i>1 · Trocear</span><span><i>🧭</i>2 · Situar</span><span><i>👀</i>3 · Mirar el contexto</span><span><i>🎯</i>4 · Predecir y repetir</span></div></div>
+    <div class="card human lane fragment fade-up"><span class="when">Antes, una sola vez · durante meses</span><h3>¿Cómo aprendió?</h3>
+      <div class="mini"><span><i>📚</i>1 · Leer y adivinar</span><span><i>🧑‍🏫</i>2 · Imitar ejemplos</span><span><i>👍</i>3 · Aprender qué preferimos</span></div></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:1em">Seguiremos una sola frase de principio a fin: <span class="h">«Fui al banco a sacar…»</span></p>
+  <aside class="notes">Simplificación didáctica. Primero, lo que pasa cada vez que alguien escribe (4 pasos); después, cómo se fabricó el modelo (3 etapas). Los capítulos del manual reaparecen: trocear y predecir (cap. 2), el mapa de significado (cap. 3), la atención (cap. 4).</aside>
+</section>
+
+<section data-auto-animate data-part="3" data-chapter="Paso 1 · Trocear">
+  <p class="kicker"><b>Paso 1</b> Trocear <span class="didactic">cortes y números ilustrativos</span></p>
+  <div class="stepbar"><span class="on">1 · Trocear</span><span class="">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span></div>
+  <h2 data-id="t1">El texto se trocea en piezas, y cada pieza es <span class="m">un número</span>.</h2>
+  <p class="sent" data-id="sent">Fui al banco a sacar</p>
+  <div class="toks fragment fade-up">
+    <div class="tok"><span>Fui</span><code data-fx="scramble" data-chars="0123456789">37812</code></div>
+    <div class="tok"><span> al</span><code data-fx="scramble" data-chars="0123456789">453</code></div>
+    <div class="tok"><span> ban</span><code data-fx="scramble" data-chars="0123456789">8814</code></div>
+    <div class="tok"><span>co</span><code data-fx="scramble" data-chars="0123456789">1030</code></div>
+    <div class="tok"><span> a</span><code data-fx="scramble" data-chars="0123456789">264</code></div>
+    <div class="tok"><span> sacar</span><code data-fx="scramble" data-chars="0123456789">52210</code></div>
+  </div>
+  <p class="lead fragment fade-up">Las piezas se llaman <i>tokens</i>. No son palabras ni sílabas: son los trozos más frecuentes en los textos. Para el modelo, la frase es <span class="m">una lista de números</span>.</p>
+  <aside class="notes">Cada tokenizador corta a su manera. «Banco» podría partirse en «ban» + «co»: estadística, no gramática.</aside>
+</section>
+
+<section data-auto-animate data-part="3" data-chapter="Paso 1 · El misterio resuelto">
+  <p class="kicker"><b>Paso 1</b> ¿Os acordáis del misterio?</p>
+  <div class="stepbar"><span class="on">1 · Trocear</span><span class="">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span></div>
+  <h2 data-id="t1">Por eso no sabía <span class="g">contar las erres</span>.</h2>
+  <div class="grid2" style="align-items:center;margin-top:20px">
+    <div>
+      <p class="tag">Lo que vemos nosotros</p>
+      <div class="letters"><span>s</span><span>t</span><span class="r">r</span><span>a</span><span>w</span><span>b</span><span>e</span><span class="r">r</span><span class="r">r</span><span>y</span></div>
+      <p class="tag fragment fade-up" data-fragment-index="1" style="margin-top:30px">Lo que «ve» el modelo</p>
+      <div class="toks fragment fade-up" data-fragment-index="1"><div class="tok"><span>str</span><code data-fx="scramble" data-chars="0123456789">496</code></div><div class="tok"><span>aw</span><code data-fx="scramble" data-chars="0123456789">675</code></div><div class="tok"><span>berry</span><code data-fx="scramble" data-chars="0123456789">15717</code></div></div>
+    </div>
+    <div>
+      <p class="lead fragment fade-up">El modelo no recibe letras: recibe <span class="m">tres números</span>. Contar erres le obliga a recordar cómo se deletrea cada pieza.</p>
+      <p class="lead fragment fade-up">Lo que para nosotros es trivial depende de una unidad, la letra, que <span class="h" data-rn="underline">el modelo no ve directamente</span>.</p>
+    </div>
+  </div>
+  <aside class="notes">Es la explicación más citada, aunque no la única. Los modelos actuales suelen acertar, por mejor entrenamiento o porque usan herramientas, como escribir un pequeño programa que cuente. Números ilustrativos.</aside>
+</section>
+
+<section data-part="3" data-chapter="Paso 2 · Situar">
+  <p class="kicker"><b>Paso 2</b> Situar <span class="didactic">proyección simplificada a 2D</span></p>
+  <div class="stepbar"><span class="done">1 · Trocear</span><span class="on">2 · Situar</span><span class="">3 · Mirar el contexto</span><span class="">4 · Predecir</span></div>
+  <div class="emb">
+    <div class="plane">
+      <div class="cluster" style="left:3%;top:6%;width:330px;height:270px">dinero</div>
+      <div class="cluster" style="left:54%;top:44%;width:330px;height:260px">parque</div>
+      <div class="pt" style="--x:11%;--y:22%">cajero</div><div class="pt" style="--x:31%;--y:18%">sacar</div><div class="pt" style="--x:12%;--y:44%">cuenta</div><div class="pt" style="--x:34%;--y:46%">tarjeta</div>
+      <div class="pt" style="--x:64%;--y:60%">sentarse</div><div class="pt" style="--x:88%;--y:58%">árbol</div><div class="pt" style="--x:64%;--y:84%">plaza</div><div class="pt" style="--x:88%;--y:82%">madera</div>
+      <div class="pt" style="--x:80%;--y:16%">peces</div><div class="pt" style="--x:66%;--y:26%">mar</div>
+      <div class="marg">banco</div>
+    </div>
+    <div>
+      <h2>Cada pieza ocupa <span class="m">un lugar en un mapa</span>.</h2>
+      <p>Las palabras con compañías parecidas quedan cerca. Es la idea del café, convertida en números.</p>
+      <p>¿Y «banco»? Está entre dos barrios. Su sitio depende de la frase:</p>
+      <p class="ctx fragment ctx-a">«Fui al banco a sacar…»</p>
+      <p class="ctx fragment ctx-b">«Me senté en un banco de la plaza…»</p>
+      <p class="fragment fade-up">¿Cómo sabe adónde moverla? <span class="h">Mirando a las demás palabras</span>: paso 3.</p>
+    </div>
+  </div>
+  <aside class="notes">Un modelo real usa cientos o miles de dimensiones; este mapa no existe tal cual. «Banco» también tiene un sentido marino (banco de peces).</aside>
+</section>
+
+<section data-part="3" data-chapter="Paso 3 · Mirar el contexto">
+  <p class="kicker"><b>Paso 3</b> Mirar el contexto <span class="didactic">pesos ilustrativos</span></p>
+  <div class="stepbar"><span class="done">1 · Trocear</span><span class="done">2 · Situar</span><span class="on">3 · Mirar el contexto</span><span class="">4 · Predecir</span></div>
+  <h2>Para saber qué es «banco», <span class="g">mira a las demás palabras</span>.</h2>
+  <div class="attn">
+    <svg viewBox="0 0 1376 330" preserveAspectRatio="none" aria-hidden="true">
+      <path class="draw" data-delay=".3" d="M688 280 C 760 40, 1170 40, 1238 280" stroke="#b69cff" stroke-width="12" opacity=".95"/>
+      <path class="draw" data-delay=".55" d="M688 280 C 620 110, 210 110, 138 280" stroke="#22d3ee" stroke-width="3" opacity=".7"/>
+      <path class="draw" data-delay=".8" d="M688 280 C 640 180, 460 180, 413 280" stroke="#22d3ee" stroke-width="2" opacity=".6"/>
+      <path class="draw" data-delay="1.05" d="M688 280 C 740 180, 910 180, 963 280" stroke="#22d3ee" stroke-width="2" opacity=".5"/>
+    </svg>
+    <div class="row"><span>Fui</span><span>al</span><span class="focus">banco</span><span>a</span><span>sacar</span></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:34px">La línea más gruesa va a <span class="h">«sacar»</span>: esa pista inclina «banco» hacia el dinero. Cada palabra hace lo mismo con todas las demás. Se llama <b>atención</b>, y es el gran invento de 2017 (capítulo 4).</p>
+  <aside class="notes">Es la idea central del Transformer. Las líneas y sus grosores son ilustrativos: en un modelo real hay muchas «cabezas» de atención que miran a cosas distintas.</aside>
+</section>
+
+<section data-part="3" data-chapter="Paso 4 · Predecir">
+  <p class="kicker"><b>Paso 4</b> Predecir <span class="didactic">probabilidades ilustrativas</span></p>
+  <div class="stepbar"><span class="done">1 · Trocear</span><span class="done">2 · Situar</span><span class="done">3 · Mirar el contexto</span><span class="on">4 · Predecir</span></div>
+  <h2>Calcula <span class="g">qué pieza viene después</span>… y repite.</h2>
+  <div class="pred">
+    <div>
+      <p class="prompt">Fui al banco a sacar <u>&nbsp;</u></p>
+      <div class="bars"><div><span>dinero</span><i style="--p:100%"></i><small>61 %</small></div><div><span>efectivo</span><i style="--p:30%"></i><small>18 %</small></div><div><span>la tarjeta</span><i style="--p:12%"></i><small>7 %</small></div><div><span>fotos</span><i style="--p:3%"></i><small>1 %</small></div></div>
+    </div>
+    <div class="fragment fade-up">
+      <p class="prompt">Fui al banco del parque a sacar <u>&nbsp;</u></p>
+      <div class="bars fragment"><div><span>fotos</span><i style="--p:100%"></i><small>34 %</small></div><div><span>al perro</span><i style="--p:62%"></i><small>21 %</small></div><div><span>la merienda</span><i style="--p:38%"></i><small>13 %</small></div><div><span>dinero</span><i style="--p:12%"></i><small>4 %</small></div></div>
+    </div>
+  </div>
+  <p class="gen"><span class="base">Fui al banco a sacar</span><b class="fragment">dinero</b><b class="fragment">para</b><b class="fragment">pagar</b><b class="fragment">el</b><b class="fragment">alquiler.</b></p>
+  <p class="lead fragment fade-up">Así escribe: <b>una pieza cada vez</b>. No consulta hechos: <span class="m" data-rn="underline" data-rn-color="#22d3ee">calcula lo verosímil</span>. Por eso puede inventar con total seguridad.</p>
+  <aside class="notes">Cifras inventadas. Dos palabras más («del parque») cambian toda la distribución. Las piezas punteadas muestran el bucle: cada pieza elegida se añade a la frase y se vuelve a calcular. Lo verosímil no siempre es lo verdadero: de ahí las «alucinaciones».</aside>
+</section>
+
+<section data-part="3" data-chapter="Aprender · 3 etapas">
+  <p class="kicker"><b>03</b> ¿Cómo aprendió? <span class="didactic">respuestas ilustrativas</span></p>
+  <h2>Una pregunta, <span class="g">tres etapas de entrenamiento</span>.</h2>
+  <p class="task-line"><span>La pregunta</span> ¿Cuál es la capital de Francia?</p>
+  <div class="train">
+    <div class="card machine fragment fade-up"><span class="step">1</span><span class="tag m">Preentrenamiento · máquina</span><h3>📚 Leer y adivinar</h3><p>Lee billones de palabras tapando la siguiente e intentando adivinarla. Así aprende la lengua y mucho sobre el mundo.</p><div class="bub bad">¿Cuál es la capital de Alemania? ¿Y la de Italia?</div><p class="cap2">Sabe continuar textos, no conversar: cree que es una lista de preguntas de examen.</p></div>
+    <div class="card human fragment fade-up"><span class="step">2</span><span class="tag h">Ajuste con ejemplos · personas</span><h3>🧑‍🏫 Imitar ejemplos</h3><p>Personas escriben miles de conversaciones modelo: una pregunta y una buena respuesta.</p><div class="bub">La capital de Francia es París.</div><p class="cap2">Aprende a contestar y a seguir instrucciones.</p></div>
+    <div class="card human fragment fade-up"><span class="step">3</span><span class="tag h">Preferencias · personas</span><h3>👍 Aprender qué preferimos</h3><p>Personas comparan dos respuestas y eligen la mejor.</p><div class="bub">A · París. ¿Quieres saber algo más de la ciudad? 👍</div><div class="bub bad">B · Obviamente, París. Lo sabe todo el mundo. 👎</div><p class="cap2">Aprende tono, utilidad y prudencia.</p></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:.8em">En las etapas 2 y 3, personas deciden qué es una buena respuesta: <span class="h">decisiones sobre el lenguaje</span>.</p>
+  <aside class="notes">Etapa 1: el modelo «base» solo continúa textos; ante una pregunta puede seguir con más preguntas, porque en internet las preguntas suelen ir en listas. Etapa 2: ajuste supervisado con ejemplos escritos por personas. Etapa 3: aprendizaje por refuerzo a partir de preferencias humanas (RLHF; Ouyang et al., 2022). Las respuestas son ilustrativas. Aquí se ve por qué hacen falta los perfiles de la parte 04.</aside>
+</section>
+
+<section data-part="3" data-chapter="03 · En resumen">
+  <p class="kicker"><b>03</b> En resumen</p>
+  <h2>Aprendió leyendo a <span class="m">predecir la siguiente pieza</span>, y personas le enseñaron <span class="h">a conversar</span>.</h2>
+  <p class="lead">Eso explica sus aciertos… y también sus fallos:</p>
+  <div class="grid4 sumup">
+    <div class="card machine fragment fade-up"><span class="ico">🍓</span><h3>No ve letras</h3><p>Ve piezas con número. De ahí el misterio de las erres.</p><span class="tag m">Paso 1</span></div>
+    <div class="card machine fragment fade-up"><span class="ico">🎯</span><h3>Calcula lo verosímil</h3><p>No lo verdadero. Por eso a veces inventa con seguridad.</p><span class="tag m">Paso 4</span></div>
+    <div class="card human fragment fade-up"><span class="ico">📄</span><h3>Solo recibe texto</h3><p>Le falta el mundo, el cuerpo, el uso y la situación.</p><span class="tag h">Miedo 4</span></div>
+    <div class="card human fragment fade-up"><span class="ico">🧑‍🏫</span><h3>Depende de personas</h3><p>Alguien decide qué es una buena respuesta.</p><span class="tag h">Parte 04</span></div>
+  </div>
+  <aside class="notes">Resumen de toda la parte en una frase. Las cuatro tarjetas atan cabos: el misterio de la introducción, las alucinaciones, el miedo 4 y la parte siguiente.</aside>
+</section>
+
+<!-- ═══════════════ 04 · PERFILES ═══════════════ -->
+<section class="divider" data-part="4" data-chapter="04 · Perfiles">
+  <p class="num g" data-fx="scramble" data-chars="0123456789">04</p>
+  <h2>Perfiles: qué aporta quien sabe de lenguaje</h2>
+  <p class="guide">¿Y yo qué pinto aquí?</p>
+  <div class="pills"><span class="pill">Dónde entra</span><span class="pill">Tareas reales</span><span class="pill">Puestos</span><span class="pill">Cómo empezar</span></div>
+</section>
+
+<section data-part="4" data-chapter="Dónde entra">
+  <p class="kicker"><b>04</b> Dónde entra quien sabe de lenguaje</p>
+  <h2>Un sistema de lenguaje necesita personas <span class="g">en tres momentos</span>.</h2>
+  <div class="moments">
+    <div class="card human moment fragment fade-up"><span class="when">Antes · los datos</span><h3>📚 ¿Con qué aprende?</h3><ul><li>Elegir y revisar los textos de entrenamiento</li><li>Anotar ejemplos: intención, tono, ironía…</li><li>Ordenar el vocabulario de un dominio</li></ul><span class="link">→ etapas 1 y 2 del entrenamiento</span></div>
+    <div class="card human moment fragment fade-up"><span class="when">Durante · el diseño</span><h3>💬 ¿Cómo habla?</h3><ul><li>Diseñar conversaciones y mensajes de error</li><li>Escribir las instrucciones y la «voz» del asistente</li><li>Adaptarlo a cada lengua y cultura</li></ul><span class="link">→ lo que ve el usuario</span></div>
+    <div class="card human moment fragment fade-up"><span class="when">Después · la evaluación</span><h3>🔍 ¿Lo hace bien?</h3><ul><li>Comparar y puntuar respuestas con criterios</li><li>Buscar fallos, sesgos y riesgos</li><li>Definir normas de uso</li></ul><span class="link">→ etapa 3 del entrenamiento</span></div>
+  </div>
+  <p class="lead fragment fade-up" style="margin-top:1em">En los tres momentos, las preguntas son lingüísticas: <span class="h">¿qué significa esto?, ¿para quién?, ¿en qué situación?</span></p>
+  <aside class="notes">Conecta con la parte 03: los datos alimentan las etapas 1 y 2; la evaluación es la etapa 3; el diseño es lo que el usuario ve. Nada de esto exige ser ingeniero; casi todo exige saber de lenguaje.</aside>
+</section>
+
+<section data-part="4" data-chapter="Tareas reales">
+  <p class="kicker"><b>04</b> Cómo es el trabajo <i>· tres tareas reales</i></p>
+  <h2>Lo que haces <span class="g">un martes cualquiera</span>.</h2>
+  <div class="grid3 cases">
+    <div class="card human fragment fade-up"><span class="tag h">Datos · anotar</span><h3>🏷️ ¿Esto es positivo?</h3><span class="lbl2">El texto</span><div class="bub">«Genial, otra vez lluvia.»</div><span class="lbl2">Tu etiqueta</span><div class="bub good">Sentimiento: negativo · ironía: sí</div><em>Un sistema sin pragmática lo leería como positivo. Usas: pragmática.</em></div>
+    <div class="card human fragment fade-up"><span class="tag h">Diseño · reescribir</span><h3>💬 Un mensaje de error</h3><span class="lbl2">Antes</span><div class="bub bad">«Error: intención no reconocida.»</div><span class="lbl2">Después</span><div class="bub good">«No te he entendido bien. ¿Quieres cambiar la cita o anularla?»</div><em>Usas: registro, cortesía y cómo se repara un malentendido.</em></div>
+    <div class="card human fragment fade-up"><span class="tag h">Evaluación · detectar</span><h3>🔍 Una traducción</h3><span class="lbl2">El original</span><div class="bub">«The nurse told the doctor she was late.»</div><span class="lbl2">La traducción</span><div class="bub bad">«La enfermera le dijo al médico que llegaba tarde.»</div><em>El inglés no dice el género de ninguno: el sistema lo ha sacado de un estereotipo. Usas: análisis lingüístico.</em></div>
+  </div>
+  <aside class="notes">Tres tareas reales, una por momento. El sesgo de género en traducción automática está muy documentado (Stanovsky et al., 2019): «nurse» tiende a «enfermera» y «doctor» a «médico». Además, «she» es ambiguo: ¿quién llegaba tarde? Detectarlo y explicarlo es trabajo de lingüista.</aside>
+</section>
+
+<section data-part="4" data-chapter="Puestos">
+  <p class="kicker"><b>04</b> Cómo se llaman estos trabajos <i>· en las ofertas suelen ir en inglés</i></p>
+  <h2>Nueve puestos, <span class="g">agrupados por momento</span>.</h2>
+  <div class="roles">
+    <div class="col fragment fade-up"><b class="h">📚 Datos</b>
+      <div class="role"><b>Anotación y datos lingüísticos</b><i>Data annotator · AI trainer</i><span>Etiquetas y revisas los ejemplos con los que aprende el modelo.</span></div>
+      <div class="role"><b>Lingüística computacional</b><i>Computational linguist · NLP engineer</i><span>Construyes herramientas que procesan texto.</span><small class="code">requiere programar</small></div>
+      <div class="role"><b>Terminología y ontologías</b><i>Taxonomist · Knowledge engineer</i><span>Organizas los conceptos y el vocabulario de un dominio.</span></div></div>
+    <div class="col fragment fade-up"><b class="h">💬 Diseño</b>
+      <div class="role"><b>Diseño conversacional</b><i>Conversation designer</i><span>Diseñas cómo habla un asistente: flujos, tono y errores.</span></div>
+      <div class="role"><b>Instrucciones y contenido</b><i>Prompt engineer · UX writer</i><span>Escribes las instrucciones del modelo y los textos de la interfaz.</span></div>
+      <div class="role"><b>Localización</b><i>Localization specialist · MT post-editor</i><span>Adaptas y revisas el sistema en cada lengua y cultura.</span></div></div>
+    <div class="col fragment fade-up"><b class="h">🔍 Evaluación</b>
+      <div class="role"><b>Evaluación de modelos</b><i>LLM evaluator · Quality rater</i><span>Puntúas respuestas con criterios claros y justificados.</span></div>
+      <div class="role"><b>Pruebas de seguridad</b><i>Red teamer · Trust &amp; Safety</i><span>Intentas que el sistema falle para poder corregirlo.</span></div>
+      <div class="role"><b>Ética y gobernanza</b><i>AI policy · Responsible AI</i><span>Defines normas de uso, riesgos y responsabilidades.</span></div></div>
+  </div>
+  <aside class="notes">Los nombres cambian mucho entre empresas. Solo el perfil de ingeniería exige programar desde el principio; en el resto, programar ayuda pero no es la puerta de entrada. Otros caminos: tecnologías del habla (fonética), investigación y docencia.</aside>
+</section>
+
+<section data-part="4" data-chapter="Cómo empezar">
+  <p class="kicker"><b>04</b> Cómo empezar</p>
+  <h2>Lo que ya sabes hacer… <span class="g">y lo que conviene añadir</span>.</h2>
+  <div class="grid2 kit">
+    <div class="card human fragment fade-up"><span class="tag h">Lo que traes de humanidades</span><ul><li>Ver la ambigüedad y el doble sentido</li><li>Definir categorías y justificar criterios</li><li>Escribir con precisión para un público y un registro</li><li>Argumentar y detectar sesgos y supuestos</li><li>Conocer la variación: dialectos, registros, otras lenguas</li></ul></div>
+    <div class="card machine fragment fade-up"><span class="tag m">Lo que conviene añadir</span><ul><li>Usar y comparar modelos con método, no solo «chatear»</li><li>Hojas de cálculo y nociones de estadística</li><li>Inglés técnico</li><li>Python básico, si te atrae el perfil técnico</li><li>Un portafolio con trabajos concretos</li></ul></div>
+  </div>
+  <div class="project fragment fade-up"><b>Un primer proyecto:</b> elige un chatbot, hazle 30 preguntas con ironía, dobles sentidos y variedades del español, y documenta dónde falla y por qué. <span class="h">Eso ya es evaluación lingüística.</span></div>
+  <aside class="notes">El proyecto se puede hacer en una semana y sirve como muestra de trabajo para cualquiera de los puestos de evaluación o diseño.</aside>
+</section>
+
+<section data-part="4" data-chapter="Usarla con criterio">
+  <p class="kicker"><b>04</b> Y aunque no trabajes en IA <i>· usarla con criterio</i></p>
+  <h2>¿Cuánto delegar? <span class="g">Depende de la tarea</span>.</h2>
+  <div class="tasks">
+    <span class="up" style="--x:8%">resumir para orientarse</span><span class="dn" style="--x:22%">clasificar materiales</span><span class="up" style="--x:38%">reformular el tono</span>
+    <span class="dn" style="--x:56%">buscar objeciones</span><span class="up" style="--x:72%">interpretar un texto</span><span class="dn" style="--x:88%">decidir un diagnóstico</span>
+  </div>
+  <div class="ends"><span class="m">cerrada · repetible · textual<br>→ acelerar con IA</span><span class="h" style="text-align:right">abierta · situada · con consecuencias<br>→ la IA aporta un borrador</span></div>
+  <p class="lead fragment fade-up" style="margin-top:1.6em">Delegar la preparación, sí. <span class="h" data-rn="underline">Delegar el juicio, no.</span> Y saber dónde está esa frontera exige saber de lenguaje.</p>
+  <aside class="notes">Descargar tareas mecánicas libera atención. El mejor uso es generar fricción: puntos ciegos, la versión más fuerte de la postura contraria, contraejemplos que comprobar.</aside>
+</section>
+
+<!-- ═══════════════ CIERRE ═══════════════ -->
+<section class="end" data-part="5" data-chapter="Para cerrar">
+  <p class="kicker">Para cerrar</p>
+  <h2>Las máquinas ya hablan.<br><span class="g">El sentido sigue siendo <span data-rn="underline">una pregunta abierta</span>.</span></h2>
+  <p class="lead fragment fade-up">Y una tarea compartida: diseñar una IA consciente de sus límites, que tenga en cuenta cómo somos. Para eso hace falta gente que sepa de lenguaje.</p>
+  <aside class="notes">«Consciente de sus límites» en el sentido de saber representar y comunicar lo que no sabe, no de consciencia subjetiva. El título era una pregunta, y la dejamos abierta a propósito.</aside>
+</section>
+
+<section class="qa" data-part="5" data-chapter="Gracias" data-hero>
+  <p class="kicker">Gracias</p>
+  <h1 class="g">¿Preguntas?</h1>
+  <div class="who" style="margin-top:24px"><div class="avatar photo"></div><div style="text-align:left"><strong style="font-size:.78em">Adrián Gázquet</strong><p class="note" style="margin:.2em 0 0">Filólogo · lingüista computacional</p></div></div>
+  <aside class="notes">Añade aquí tu contacto o tu web si quieres compartirlos.</aside>
+</section>
+
+<section data-part="5" data-chapter="Referencias">
+  <p class="kicker">Apéndice</p>
+  <h2>Para seguir leyendo</h2>
+  <ul class="refs">
+    <li>Turing, A. (1950). Computing Machinery and Intelligence. <i>Mind</i>.</li>
+    <li>Searle, J. (1980). Minds, brains, and programs. <i>Behavioral and Brain Sciences</i>.</li>
+    <li>Legg, S. y Hutter, M. (2007). <i>Universal Intelligence: A Definition of Machine Intelligence</i>.</li>
+    <li>Peirce, C. S. (1878). Deduction, Induction, and Hypothesis. <i>Popular Science Monthly</i>.</li>
+    <li>De Bono, E. (1967). <i>The Use of Lateral Thinking</i>.</li>
+    <li>Snowden, D. y Boone, M. (2007). A Leader's Framework for Decision Making. <i>HBR</i>.</li>
+    <li>Winawer, J. et al. (2007). Russian blues reveal effects of language on color discrimination. <i>PNAS</i>.</li>
+    <li>Levinson, S. (2003). <i>Space in Language and Cognition</i>.</li>
+    <li>Fausey, C. y Boroditsky, L. (2011). Who dunnit? <i>Psychonomic Bulletin &amp; Review</i>.</li>
+    <li>Harris, Z. (1954). Distributional Structure. <i>Word</i>.</li>
+    <li>Wittgenstein, L. (1953). <i>Investigaciones filosóficas</i>.</li>
+    <li>Lakoff, G. y Johnson, M. (1980). <i>Metaphors We Live By</i>.</li>
+    <li>Harnad, S. (1990). The symbol grounding problem. <i>Physica D</i>.</li>
+    <li>Greenberg, C. (1939). Avant-garde and kitsch. <i>Partisan Review</i>.</li>
+    <li>Stanley, K. y Lehman, J. (2015). <i>Why Greatness Cannot Be Planned</i>.</li>
+    <li>Austin, J. L. (1962). <i>How to Do Things with Words</i>. · Grice, H. P. (1975). Logic and Conversation.</li>
+    <li>Sravanthi et al. (2024). PUB: A Pragmatics Understanding Benchmark. · Yu et al. (2026). The Pragmatic Mind of Machines.</li>
+    <li>Weizenbaum, J. (1966). ELIZA. <i>CACM</i>. · Mikolov, T. et al. (2013). word2vec.</li>
+    <li>Vaswani, A. et al. (2017). Attention Is All You Need.</li>
+    <li>Ouyang, L. et al. (2022). Training language models to follow instructions with human feedback.</li>
+    <li>Stanovsky, G. et al. (2019). Evaluating Gender Bias in Machine Translation. <i>ACL</i>.</li>
+  </ul>
+</section>
+
+</div></div>
+<script src="vendor/reveal.js/dist/reveal.js"></script><script src="vendor/reveal.js/dist/plugin/notes.js"></script><script src="vendor/reveal.js/dist/plugin/zoom.js"></script>
+<script src="vendor/gsap/gsap.min.js"></script><script src="vendor/gsap/ScrambleTextPlugin.min.js"></script><script src="vendor/gsap/DrawSVGPlugin.min.js"></script>
+<script src="vendor/rough-notation/rough-notation.iife.js"></script>
+<script>
+// ← vuelve a la diapositiva anterior completa; ↑ deshace un paso; ⇧→ salta pasos
+Reveal.initialize({width:1600,height:900,margin:.03,minScale:.2,maxScale:1.5,controlsTutorial:false,controlsBackArrows:'visible',progress:true,slideNumber:'c/t',hash:true,transition:'fade',backgroundTransition:'none',center:false,autoAnimateDuration:.9,
+  keyboard:{37:()=>Reveal.left({skipFragments:true}),38:()=>Reveal.prev(),40:()=>Reveal.next(),77:()=>toggleMenu(),27:()=>toggleMenu(false)},
+  plugins:[RevealNotes,RevealZoom]});
+const slides=[...document.querySelectorAll('.reveal .slides>section')];
+const motion=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── Navegación: partes clicables, índice y botón atrás ──
+const parts=[...document.querySelectorAll('#parts button')],chapter=document.querySelector('#chapter'),menu=document.querySelector('#menu');
+parts.forEach((b,i)=>b.onclick=()=>Reveal.slide(slides.findIndex(s=>+s.dataset.part===i)));
+document.querySelector('#btn-back').onclick=()=>Reveal.left({skipFragments:true});
+document.querySelector('#btn-menu').onclick=()=>toggleMenu();
+const names=['Inicio','01 Reflexión','02 Evolución','03 Cómo funciona','04 Perfiles','Cierre'];
+document.querySelector('#menu-cols').innerHTML=names.map((n,p)=>{let last='';const items=slides.map((s,i)=>{const c=s.dataset.chapter;if(+s.dataset.part!==p||c===last)return'';last=c;return`<button data-i="${i}">${c}</button>`}).join('');return`<div class="grp"><b>${n}</b>${items}</div>`}).join('');
+menu.addEventListener('click',e=>{const i=e.target.dataset.i;if(i!==undefined){Reveal.slide(+i);toggleMenu(false)}else if(e.target===menu)toggleMenu(false)});
+function toggleMenu(force){const open=force??!menu.classList.contains('open');menu.classList.toggle('open',open);if(open){const cur=Reveal.getIndices().h;menu.querySelectorAll('button').forEach(b=>b.classList.toggle('cur',+b.dataset.i<=cur&&slides[cur].dataset.chapter===b.textContent))}}
+const sync=({currentSlide:s})=>{const p=+s.dataset.part;chapter.textContent=s.dataset.chapter||'';parts.forEach((el,i)=>{el.classList.toggle('on',i===p);el.classList.toggle('done',i<p)});document.body.classList.toggle('hero','hero' in s.dataset)};
+
+// ── Efectos (GSAP + Rough Notation) ──
+gsap.registerPlugin(ScrambleTextPlugin,DrawSVGPlugin);
+const notes=new Map();
+function annotate(el){if(notes.has(el))return;const a=RoughNotation.annotate(el,{type:el.dataset.rn||'underline',color:el.dataset.rnColor||'#c084fc',strokeWidth:3,padding:6,multiline:true,animate:motion,animationDuration:900});notes.set(el,a);a.show();fixScale(a)}
+// Rough Notation mide en píxeles de pantalla; Reveal escala la diapositiva: compensamos.
+function fixScale(a){const svg=a._svg;if(svg){svg.style.transformOrigin='0 0';svg.style.transform=`scale(${1/Reveal.getScale()})`}}
+function clearNotes(scope){for(const[el,a]of notes)if(!scope||scope.contains(el)){a.remove();notes.delete(el)}}
+const pending=el=>{const f=el.closest('.fragment');return f&&!f.classList.contains('visible')};
+function scramble(el,delay=0){if(!motion)return;el.dataset.text??=el.textContent;gsap.fromTo(el,{scrambleText:{text:el.dataset.text.replace(/\S/g,'·')}},{duration:1.1,delay,scrambleText:{text:el.dataset.text,chars:el.dataset.chars||'lowerCase',speed:.5,revealDelay:.2}})}
+function enter(s){
+  s.querySelectorAll('[data-fx="scramble"]').forEach((el,i)=>{if(!pending(el))scramble(el,i*.06)});
+  if(motion)s.querySelectorAll('.draw').forEach(p=>gsap.fromTo(p,{drawSVG:'0%'},{drawSVG:'100%',duration:1.6,delay:+(p.dataset.delay||.2),ease:'power2.inOut'}));
+  if(motion){
+        s.querySelectorAll('.stagger>*:not(.fragment)').forEach((el,i)=>gsap.from(el,{y:40,opacity:0,filter:'blur(8px)',duration:.8,delay:.15+i*.08,ease:'power3.out'}));
+    if(s.querySelector('.divider .num')||s.classList.contains('divider'))gsap.from(s.querySelectorAll('h2,.guide,.pill'),{y:30,opacity:0,duration:.8,stagger:.08,delay:.3,ease:'power3.out'});
+  }
+  setTimeout(()=>{if(Reveal.getCurrentSlide()===s)s.querySelectorAll('[data-rn]').forEach(el=>{if(!pending(el))annotate(el)})},motion?900:0);
+}
+Reveal.on('ready',e=>{sync(e);enter(e.currentSlide);hero()});
+Reveal.on('slidechanged',e=>{sync(e);clearNotes();gsap.globalTimeline.getChildren().forEach(t=>t.progress(1).kill());enter(e.currentSlide);hero()});
+Reveal.on('fragmentshown',e=>e.fragments.forEach(f=>{f.querySelectorAll('[data-fx="scramble"]').forEach((el,i)=>scramble(el,i*.08));[f,...f.querySelectorAll('[data-rn]')].forEach(el=>el.dataset&&el.dataset.rn&&setTimeout(()=>annotate(el),400))}));
+Reveal.on('fragmentshown',e=>{if(motion&&e.fragment.classList.contains('openbook'))gsap.from('.tbook li',{x:-30,opacity:0,stagger:.15,delay:1,duration:.6})});
+Reveal.on('fragmenthidden',e=>e.fragments.forEach(f=>clearNotes(f)));
+Reveal.on('resize',()=>notes.forEach(fixScale));
+
+// ── Red de palabras de fondo (portada y despedida) ──
+const cv=document.getElementById('net'),cx=cv.getContext('2d');let W,H,run=false;
+const nodes=Array.from({length:70},()=>({x:Math.random(),y:Math.random(),vx:(Math.random()-.5)*.0006,vy:(Math.random()-.5)*.0006,c:Math.random()<.5?'34,211,238':'182,156,255'}));
+const size=()=>{W=cv.width=innerWidth*devicePixelRatio;H=cv.height=innerHeight*devicePixelRatio};size();addEventListener('resize',size);
+function tick(){if(!run)return;cx.clearRect(0,0,W,H);for(const n of nodes){n.x=(n.x+n.vx+1)%1;n.y=(n.y+n.vy+1)%1}
+  for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const a=nodes[i],b=nodes[j],dx=(a.x-b.x)*W,dy=(a.y-b.y)*H,d=Math.hypot(dx,dy),lim=180*devicePixelRatio;
+    if(d<lim){cx.strokeStyle=`rgba(${a.c},${(1-d/lim)*.35})`;cx.lineWidth=devicePixelRatio;cx.beginPath();cx.moveTo(a.x*W,a.y*H);cx.lineTo(b.x*W,b.y*H);cx.stroke()}}
+  for(const n of nodes){cx.fillStyle=`rgba(${n.c},.9)`;cx.beginPath();cx.arc(n.x*W,n.y*H,2.2*devicePixelRatio,0,7);cx.fill()}requestAnimationFrame(tick)}
+function hero(){const on=document.body.classList.contains('hero')&&motion;if(on&&!run){run=true;tick()}else if(!on)run=false}
+</script></body></html>
